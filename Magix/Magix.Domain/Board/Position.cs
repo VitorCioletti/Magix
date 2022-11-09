@@ -1,4 +1,4 @@
-﻿namespace Magix.Domain
+﻿namespace Magix.Domain.Board
 {
     public struct Position
     {
