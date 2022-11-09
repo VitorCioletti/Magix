@@ -1,36 +1,88 @@
 ﻿namespace Magix.Domain.Board
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using NatureElements;
 
     public class Board
     {
-        private Tile[,] _tiles;
+        public Tile[,] Tiles { get; private set; }
+
+        public Queue<Player> Players { get; private set; }
+
+        public Player CurrentPlayer { get; private set; }
+
+        private readonly Dictionary<Guid, Dictionary<Wizard, Position>> _wizardsPosition;
 
         private const int _size = 7;
 
-        public List<Wizard> WizardsPlayer1 { get; private set; }
-
-        public List<Wizard> WizardsPlayer2 { get; private set; }
-
-        public Board(List<Position> initialPositionWizardsPlayer1, List<Position> initialPositionWizardsPlayer2)
+        public Board(Dictionary<Player, List<Position>> players)
         {
-            WizardsPlayer1 = new List<Wizard>();
-            WizardsPlayer2 = new List<Wizard>();
+            _wizardsPosition = new Dictionary<Guid, Dictionary<Wizard, Position>>();
+            Players = new Queue<Player>(players.Keys.ToList());
 
-            _tiles = new Tile[_size, _size];
+            foreach (Player player in Players)
+                _wizardsPosition[player.Id] = _createWizardsPositions(players[player]);
 
-            _createWizards(WizardsPlayer1, initialPositionWizardsPlayer1);
-            _createWizards(WizardsPlayer2, initialPositionWizardsPlayer2);
+            Tiles = new Tile[_size, _size];
+
+             _setNextPlayerToPlay();
         }
 
-        private void _createWizards(List<Wizard> wizards, List<Position> initialPositions)
+        public void Move(Wizard wizard, List<Tile> tiles)
         {
+            _verifyWizardBelongsCurrentPlayer(wizard);
+
+            foreach (Tile tile in tiles)
+                tile.NatureElement.ApplyEffect(wizard);
+
+            wizard.RemoveRemainingActions(tiles.Count);
+
+            _wizardsPosition[CurrentPlayer.Id][wizard] = tiles.Last().Position;
+        }
+
+        public void ApplyNatureElement(Wizard wizard, BaseNatureElement natureElement, List<Tile> tiles)
+        {
+            _verifyWizardBelongsCurrentPlayer(wizard);
+
+            foreach (Tile tile in tiles)
+                tile.ApplyNatureElement(natureElement);
+
+            wizard.RemoveRemainingActions(tiles.Count);
+
+            if (!CurrentPlayer.HasRemainingActions)
+                _setNextPlayerToPlay();
+        }
+
+        private void _verifyWizardBelongsCurrentPlayer(Wizard wizard)
+        {
+            List<Wizard> wizards = _wizardsPosition[CurrentPlayer.Id].Keys.ToList();
+
+            if (!wizards.Contains(wizard))
+                throw new Exception();
+        }
+
+        private void _setNextPlayerToPlay()
+        {
+            Player nextPlayer = Players.Dequeue();
+            Players.Enqueue(nextPlayer);
+
+            CurrentPlayer = nextPlayer;
+        }
+
+        private Dictionary<Wizard, Position> _createWizardsPositions(List<Position> initialPositions)
+        {
+            var wizardsPosition = new Dictionary<Wizard, Position>();
+
             foreach (Position position in initialPositions)
             {
-                var newWizard = new Wizard(position);
+                var newWizard = new Wizard();
 
-                wizards.Add(newWizard);
+                wizardsPosition[newWizard] = position;
             }
+
+            return wizardsPosition;
         }
     }
 }
