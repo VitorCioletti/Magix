@@ -1,7 +1,6 @@
 ﻿namespace Magix.Domain.Board
 {
     using System.Collections.Generic;
-    using NatureElements;
 
     public class Board
     {
@@ -13,9 +12,7 @@
 
         public List<Wizard> WizardsPlayer2 { get; private set; }
 
-        public Board(
-            List<Position> initialPositionWizardsPlayer1,
-            List<Position> initialPositionWizardsPlayer2)
+        public Board(List<Position> initialPositionWizardsPlayer1, List<Position> initialPositionWizardsPlayer2)
         {
             WizardsPlayer1 = new List<Wizard>();
             WizardsPlayer2 = new List<Wizard>();
@@ -24,16 +21,6 @@
 
             _createWizards(WizardsPlayer1, initialPositionWizardsPlayer1);
             _createWizards(WizardsPlayer2, initialPositionWizardsPlayer2);
-        }
-
-        public void Move(Wizard wizard, List<Tile> tiles)
-        {
-            wizard.Move(tiles);
-        }
-
-        public void ApplyNatureElement(Wizard wizard, BaseNatureElement natureElement, List<Tile> tiles)
-        {
-            wizard.ApplyNatureElement(natureElement, tiles);
         }
 
         private void _createWizards(List<Wizard> wizards, List<Position> initialPositions)
