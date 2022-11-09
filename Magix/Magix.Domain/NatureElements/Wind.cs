@@ -4,6 +4,6 @@
     {
         protected override NatureElementEffect Effect => NatureElementEffect.Dry;
 
-        public override BaseNatureElement ApplyNatureElement(BaseNatureElement natureElement) => null;
+        public override BaseNatureElement ApplyNatureElement(BaseNatureElement natureElement) => new Natural();
     }
 }

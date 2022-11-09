@@ -7,5 +7,6 @@
         Wet,
         Dry,
         Blind,
+        Shocked,
     }
 }

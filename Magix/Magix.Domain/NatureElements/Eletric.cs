@@ -1,8 +1,8 @@
 ﻿namespace Magix.Domain.NatureElements
 {
-    public class Smoke : BaseNatureElement
+    public class Eletric : BaseNatureElement
     {
-        protected override NatureElementEffect Effect => NatureElementEffect.Blind;
+        protected override NatureElementEffect Effect => NatureElementEffect.Shocked;
 
         public override BaseNatureElement ApplyNatureElement(BaseNatureElement natureElement)
         {
@@ -10,8 +10,8 @@
 
             switch (natureElement)
             {
-                case Wind:
-                    resultantNatureElement = new Natural();
+                case Natural:
+                    resultantNatureElement = natureElement;
                     break;
             }
 
