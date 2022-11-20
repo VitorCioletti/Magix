@@ -1,18 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class BoardController : MonoBehaviour
+namespace Magix.Controller
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    using UnityEngine;
+    using UnityEngine.Tilemaps;
 
-    // Update is called once per frame
-    void Update()
+    public class BoardController : MonoBehaviour
     {
-        
+        [field: SerializeField]
+        private Tilemap _tilemap { get; set; } = default;
+
+        [field: SerializeField]
+        private TileController _tilePrefab { get; set; } = default;
+
+        [field: SerializeField]
+        private TileController[,] _tiles { get; set; }
+
+        private void Start()
+        {
+            Init(10);
+        }
+
+        public void Init(int size)
+        {
+            _tiles = new TileController[size, size];
+
+            var position = new Vector3Int(0, 0);
+
+            TileController tile = Instantiate(_tilePrefab);
+
+            _tiles[0, 0] = tile;
+
+            _tilemap.SetTile(position, tile);
+        }
     }
 }
