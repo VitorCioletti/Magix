@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <_gridController>k__BackingField: {fileID: 3928281474788251554}
+  <_wizardPrefab>k__BackingField: {fileID: 2301370875976950893, guid: 0a86cc5c05159ae4b96ab46be30993f4, type: 3}
 --- !u!1001 &1474229656233936022
 PrefabInstance:
   m_ObjectHideFlags: 0
