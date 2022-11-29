@@ -4,12 +4,18 @@
     {
         public void Initialize()
         {
-
         }
 
-        public void OnClickTile(TileController tileController)
+        public virtual void OnClickTile(TileController tileController)
         {
+        }
 
+        public virtual void OnMouseEntered(TileController tileController)
+        {
+        }
+
+        public virtual void OnMouseExited(TileController tileController)
+        {
         }
     }
 }

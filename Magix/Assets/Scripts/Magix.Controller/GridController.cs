@@ -1,5 +1,6 @@
 ﻿namespace Magix.Controller
 {
+    using System;
     using UnityEngine;
 
     public class GridController : MonoBehaviour
@@ -11,16 +12,20 @@
 
         private const int _size = 10;
 
-        public void Init()
+        public void Init(
+            Action<TileController> onMouseEntered,
+            Action<TileController> onMouseExited,
+            Action<TileController> onTileClicked)
         {
             _createTiles();
+            _initAllTiles(onMouseEntered, onMouseExited, onTileClicked);
         }
 
         private void _createTiles()
         {
             Tiles = new TileController[_size, _size];
 
-            float tileGap = 1f;
+            float tileSize = 1f;
 
             int tileOrderInLayer = _size;
 
@@ -28,12 +33,16 @@
             {
                 for (int y = 0; y < _size; y++)
                 {
-                    float positionX = (x * tileGap + y * tileGap) / 2f;
-                    float positionY = (x * tileGap - y * tileGap) / 4f;
+                    float positionX = (x * tileSize + y * tileSize) / 2f;
+                    float positionY = (x * tileSize - y * tileSize) / 4f;
 
                     var tilePosition = new Vector2(positionX, positionY);
 
-                    TileController tile = Instantiate(_tilePrefab, tilePosition, Quaternion.identity, transform);
+                    TileController tile = Instantiate(
+                        _tilePrefab,
+                        tilePosition,
+                        Quaternion.identity,
+                        transform);
 
                     tile.SpriteRenderer.sortingOrder = tileOrderInLayer;
                     tile.gameObject.name = $"Tile:{x},{y}";
@@ -50,6 +59,15 @@
             Vector3 gridCenter = firstTile.transform.position - lastTile.transform.position;
 
             transform.position = gridCenter;
+        }
+
+        private void _initAllTiles(
+            Action<TileController> onMouseEntered,
+            Action<TileController> onMouseExited,
+            Action<TileController> onTileClicked)
+        {
+            foreach (TileController tileController in Tiles)
+                tileController.Init(onMouseEntered, onMouseExited, onTileClicked);
         }
     }
 }
