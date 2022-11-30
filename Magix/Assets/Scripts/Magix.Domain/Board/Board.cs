@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using NatureElements;
+    using Result;
 
     public class Board
     {
@@ -27,10 +28,10 @@
 
             Tiles = new Tile[_size, _size];
 
-             _setNextPlayerToPlay();
+            _setNextPlayerToPlay();
         }
 
-        public void Move(Wizard wizard, List<Tile> tiles)
+        public MovementResult Move(Wizard wizard, List<Tile> tiles)
         {
             _verifyWizardBelongsCurrentPlayer(wizard);
 
@@ -40,6 +41,12 @@
             wizard.RemoveRemainingActions(tiles.Count);
 
             _wizardsPosition[CurrentPlayer.Id][wizard] = tiles.Last().Position;
+
+            return new MovementResult(
+                tiles,
+                wizard.Id.ToString(),
+                true,
+                string.Empty);
         }
 
         public void ApplyNatureElement(Wizard wizard, BaseNatureElement natureElement, List<Tile> tiles)

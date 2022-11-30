@@ -2,7 +2,7 @@
 {
     public class Eletric : BaseNatureElement
     {
-        protected override NatureElementEffect Effect => NatureElementEffect.Shocked;
+        public override NatureElementEffect Effect => NatureElementEffect.Shocked;
 
         public override BaseNatureElement ApplyNatureElement(BaseNatureElement natureElement)
         {

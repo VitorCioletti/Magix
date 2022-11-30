@@ -2,7 +2,7 @@
 {
     public class Water : BaseNatureElement
     {
-        protected override NatureElementEffect Effect => NatureElementEffect.Wet;
+        public override NatureElementEffect Effect => NatureElementEffect.Wet;
 
         public override BaseNatureElement ApplyNatureElement(BaseNatureElement natureElement)
         {

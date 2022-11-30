@@ -2,7 +2,7 @@
 {
     public class Fire : BaseNatureElement
     {
-        protected override NatureElementEffect Effect => NatureElementEffect.OnFire;
+        public override NatureElementEffect Effect => NatureElementEffect.OnFire;
 
         public override BaseNatureElement ApplyNatureElement(BaseNatureElement natureElement)
         {
