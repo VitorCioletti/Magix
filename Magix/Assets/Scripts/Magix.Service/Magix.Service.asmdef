@@ -1,0 +1,16 @@
+{
+    "name": "Magix_Service",
+    "rootNamespace": "",
+    "references": [
+        "GUID:b56ea529b681e8e4ea0755fa67859d68"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
