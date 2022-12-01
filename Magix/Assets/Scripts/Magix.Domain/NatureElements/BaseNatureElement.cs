@@ -1,11 +1,14 @@
 ﻿namespace Magix.Domain.NatureElements
 {
-    public abstract class BaseNatureElement
+    using Interface;
+    using Interface.NatureElements;
+
+    public abstract class BaseNatureElement : INatureElement
     {
         public abstract NatureElementEffect Effect { get; }
 
-        public void ApplyEffect(Wizard wizard) => wizard.ChangeNatureElementEffect(Effect);
+        public void ApplyEffect(IWizard wizard) => wizard.ChangeNatureElementEffect(Effect);
 
-        public abstract BaseNatureElement ApplyNatureElement(BaseNatureElement natureElement);
+        public abstract INatureElement ApplyNatureElement(INatureElement natureElement);
     }
 }

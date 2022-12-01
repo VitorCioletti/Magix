@@ -1,9 +1,10 @@
 ﻿namespace Magix.Domain
 {
     using System;
-    using NatureElements;
+    using Interface;
+    using Interface.NatureElements;
 
-    public class Wizard
+    public class Wizard : IWizard
     {
         public Guid Id { get; private set; }
 

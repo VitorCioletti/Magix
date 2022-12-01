@@ -1,21 +1,23 @@
 ﻿namespace Magix.Domain.NatureElements
 {
+    using Interface.NatureElements;
+
     public class Fire : BaseNatureElement
     {
         public override NatureElementEffect Effect => NatureElementEffect.OnFire;
 
-        public override BaseNatureElement ApplyNatureElement(BaseNatureElement natureElement)
+        public override INatureElement ApplyNatureElement(INatureElement natureElement)
         {
-            BaseNatureElement resultantNatureElement = null;
+            INatureElement resultantBaseNatureElement = null;
 
             switch (natureElement)
             {
                 case Water:
-                    resultantNatureElement = new Smoke();
+                    resultantBaseNatureElement = new Smoke();
                     break;
             }
 
-            return resultantNatureElement;
+            return resultantBaseNatureElement;
         }
     }
 }

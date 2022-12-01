@@ -3,40 +3,43 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using NatureElements;
+    using Interface;
+    using Interface.Board;
+    using Interface.Board.Result;
+    using Interface.NatureElements;
     using Result;
 
-    public class Board
+    public class Board : IBoard
     {
-        public Tile[,] Tiles { get; private set; }
+        public ITile[,] Tiles { get; private set; }
 
-        public Queue<Player> Players { get; private set; }
+        public Queue<IPlayer> Players { get; private set; }
 
-        public Player CurrentPlayer { get; private set; }
+        public IPlayer CurrentPlayer { get; private set; }
 
-        private readonly Dictionary<Guid, Dictionary<Wizard, Position>> _wizardsPosition;
+        private readonly Dictionary<Guid, Dictionary<IWizard, IPosition>> _wizardsPosition;
 
         private const int _size = 7;
 
-        public Board(Dictionary<Player, List<Position>> players)
+        public Board(Dictionary<IPlayer, List<IPosition>> players)
         {
-            _wizardsPosition = new Dictionary<Guid, Dictionary<Wizard, Position>>();
-            Players = new Queue<Player>(players.Keys.ToList());
+            _wizardsPosition = new Dictionary<Guid, Dictionary<IWizard, IPosition>>();
+            Players = new Queue<IPlayer>(players.Keys.ToList());
 
-            foreach (Player player in Players)
+            foreach (IPlayer player in Players)
                 _wizardsPosition[player.Id] = _createWizardsPositions(players[player]);
 
-            Tiles = new Tile[_size, _size];
+            Tiles = new ITile[_size, _size];
 
             _setNextPlayerToPlay();
         }
 
-        public MovementResult Move(Wizard wizard, List<Tile> tiles)
+        public IMovementResult Move(IWizard wizard, List<ITile> tiles)
         {
             _verifyWizardBelongsCurrentPlayer(wizard);
 
-            foreach (Tile tile in tiles)
-                tile.NatureElement.ApplyEffect(wizard);
+            foreach (ITile tile in tiles)
+                tile.BaseNatureElement.ApplyEffect(wizard);
 
             wizard.RemoveRemainingActions(tiles.Count);
 
@@ -49,11 +52,11 @@
                 string.Empty);
         }
 
-        public void ApplyNatureElement(Wizard wizard, BaseNatureElement natureElement, List<Tile> tiles)
+        public void ApplyNatureElement(IWizard wizard, INatureElement natureElement, List<ITile> tiles)
         {
             _verifyWizardBelongsCurrentPlayer(wizard);
 
-            foreach (Tile tile in tiles)
+            foreach (ITile tile in tiles)
                 tile.ApplyNatureElement(natureElement);
 
             wizard.RemoveRemainingActions(tiles.Count);
@@ -62,9 +65,9 @@
                 _setNextPlayerToPlay();
         }
 
-        private void _verifyWizardBelongsCurrentPlayer(Wizard wizard)
+        private void _verifyWizardBelongsCurrentPlayer(IWizard wizard)
         {
-            List<Wizard> wizards = _wizardsPosition[CurrentPlayer.Id].Keys.ToList();
+            List<IWizard> wizards = _wizardsPosition[CurrentPlayer.Id].Keys.ToList();
 
             if (!wizards.Contains(wizard))
                 throw new Exception();
@@ -72,17 +75,17 @@
 
         private void _setNextPlayerToPlay()
         {
-            Player nextPlayer = Players.Dequeue();
+            IPlayer nextPlayer = Players.Dequeue();
             Players.Enqueue(nextPlayer);
 
             CurrentPlayer = nextPlayer;
         }
 
-        private Dictionary<Wizard, Position> _createWizardsPositions(List<Position> initialPositions)
+        private Dictionary<IWizard, IPosition> _createWizardsPositions(List<IPosition> initialPositions)
         {
-            var wizardsPosition = new Dictionary<Wizard, Position>();
+            var wizardsPosition = new Dictionary<IWizard, IPosition>();
 
-            foreach (Position position in initialPositions)
+            foreach (IPosition position in initialPositions)
             {
                 var newWizard = new Wizard();
 

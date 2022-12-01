@@ -1,6 +1,8 @@
 ﻿namespace Magix.Domain.Board.Result
 {
-    public class BaseResult
+    using Interface.Board.Result;
+
+    public class BaseResult : IResult
     {
         public bool Success { get; private set; }
 

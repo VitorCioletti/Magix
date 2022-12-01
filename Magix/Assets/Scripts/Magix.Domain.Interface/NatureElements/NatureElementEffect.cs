@@ -1,4 +1,4 @@
-﻿namespace Magix.Domain.NatureElements
+﻿namespace Magix.Domain.Interface.NatureElements
 {
     public enum NatureElementEffect
     {

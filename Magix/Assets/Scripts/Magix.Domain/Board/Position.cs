@@ -1,6 +1,8 @@
 ﻿namespace Magix.Domain.Board
 {
-    public struct Position
+    using Interface.Board;
+
+    public struct Position : IPosition
     {
         public int X { get; private set; }
 

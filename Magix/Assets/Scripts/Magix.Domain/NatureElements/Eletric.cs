@@ -1,21 +1,23 @@
 ﻿namespace Magix.Domain.NatureElements
 {
+    using Interface.NatureElements;
+
     public class Eletric : BaseNatureElement
     {
         public override NatureElementEffect Effect => NatureElementEffect.Shocked;
 
-        public override BaseNatureElement ApplyNatureElement(BaseNatureElement natureElement)
+        public override INatureElement ApplyNatureElement(INatureElement natureElement)
         {
-            BaseNatureElement resultantNatureElement = null;
+            INatureElement resultantBaseNatureElement = null;
 
             switch (natureElement)
             {
                 case Natural:
-                    resultantNatureElement = natureElement;
+                    resultantBaseNatureElement = natureElement;
                     break;
             }
 
-            return resultantNatureElement;
+            return resultantBaseNatureElement;
         }
     }
 }

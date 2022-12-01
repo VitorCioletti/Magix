@@ -1,9 +1,11 @@
 ﻿namespace Magix.Domain.NatureElements
 {
+    using Interface.NatureElements;
+
     public class Wind : BaseNatureElement
     {
         public override NatureElementEffect Effect => NatureElementEffect.Dry;
 
-        public override BaseNatureElement ApplyNatureElement(BaseNatureElement natureElement) => new Natural();
+        public override INatureElement ApplyNatureElement(INatureElement _) => new Natural();
     }
 }

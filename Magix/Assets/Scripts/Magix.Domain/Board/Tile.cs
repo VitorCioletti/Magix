@@ -1,28 +1,30 @@
 ﻿namespace Magix.Domain.Board
 {
+    using Interface.Board;
+    using Interface.NatureElements;
     using NatureElements;
 
-    public class Tile
+    public class Tile : ITile
     {
-        public Position Position { get; private set; }
+        public IPosition Position { get; private set; }
 
-        public BaseNatureElement NatureElement { get; private set; }
+        public INatureElement BaseNatureElement { get; private set; }
 
-        public Tile(BaseNatureElement natureElement, Position position)
+        public Tile(BaseNatureElement baseNatureElement, Position position)
         {
-            NatureElement = natureElement;
+            BaseNatureElement = baseNatureElement;
             Position = position;
         }
 
-        public void ApplyNatureElement(BaseNatureElement natureElement)
+        public void ApplyNatureElement(INatureElement natureElement)
         {
-            if (NatureElement == null)
+            if (BaseNatureElement == null)
             {
-                NatureElement = natureElement;
-                NatureElement.ApplyNatureElement(null);
+                BaseNatureElement = natureElement;
+                BaseNatureElement.ApplyNatureElement(null);
             }
             else
-                NatureElement.ApplyNatureElement(natureElement);
+                BaseNatureElement.ApplyNatureElement(natureElement);
         }
     }
 }

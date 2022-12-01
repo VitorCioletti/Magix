@@ -4,32 +4,33 @@
     using System.Collections.Generic;
     using Domain;
     using Domain.Board;
+    using Domain.Interface;
+    using Domain.Interface.Board;
 
     public class MatchService
     {
-        public Board Board { get; private set; }
+        public IBoard Board { get; private set; }
 
-
-        public Player StartNew()
+        public IPlayer StartNew()
         {
             if (Board != null)
                 throw new Exception("Already started a match.");
 
-            var player1Wizards = new List<Wizard> {new(), new(),};
-            var player1WizardsInitialPositions = new List<Position>
+            var player1Wizards = new List<IWizard> {new Wizard(), new Wizard(),};
+            var player1WizardsInitialPositions = new List<IPosition>
             {
-                new (0, 1),
-                new (0, 2),
+                new Position(0, 1),
+                new Position(0, 2),
             };
 
-            var player2Wizards = new List<Wizard> {new(), new(),};
-            var player2WizardsInitialPositions = new List<Position>
+            var player2Wizards = new List<IWizard> {new Wizard(), new Wizard(),};
+            var player2WizardsInitialPositions = new List<IPosition>
             {
-                new (1, 0),
-                new (2, 0),
+                new Position(1, 0),
+                new Position(2, 0),
             };
 
-            var players = new Dictionary<Player, List<Position>>
+            var players = new Dictionary<IPlayer, List<IPosition>>
             {
                 {
                     new Player(player1Wizards),
