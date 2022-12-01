@@ -4,6 +4,7 @@ namespace Magix.Controller.Match
 
     public class WizardController : MonoBehaviour
     {
-        [field: SerializeField] public SpriteRenderer SpriteRenderer { get; private set; } = default;
+        [field: SerializeField]
+        public SpriteRenderer SpriteRenderer { get; private set; } = default;
     }
 }

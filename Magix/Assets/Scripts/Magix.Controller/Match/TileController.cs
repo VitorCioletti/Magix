@@ -9,7 +9,7 @@
         public SpriteRenderer SpriteRenderer { get; private set; } = default;
 
         [field: SerializeField]
-        private Collider2D  _collider2D { get; set; } = default;
+        private Collider2D _collider2D { get; set; } = default;
 
         [field: SerializeField]
         private float _highlightAlpha { get; set; } = default;
