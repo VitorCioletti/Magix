@@ -8,14 +8,11 @@ namespace Magix.Controller
 
     public class BoardController : MonoBehaviour
     {
-        [field: SerializeField]
-        private GridController _gridController { get; set; } = default;
+        [field: SerializeField] private GridController _gridController { get; set; } = default;
 
-        [field: SerializeField]
-        private WizardController _wizardPrefab { get; set; } = default;
+        [field: SerializeField] private WizardController _wizardPrefab { get; set; } = default;
 
-        [field: SerializeField]
-        private TextMeshProUGUI _currentStateText { get; set; } = default;
+        [field: SerializeField] private TextMeshProUGUI _currentStateText { get; set; } = default;
 
         private StateMachineManager _stateMachine;
 
@@ -80,6 +77,5 @@ namespace Magix.Controller
         {
             _stateMachine.GetCurrentState().OnMouseExited(tileController);
         }
-
     }
 }
