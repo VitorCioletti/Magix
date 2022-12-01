@@ -1,4 +1,4 @@
-﻿namespace Magix.Controller.StateMachine.States
+﻿namespace Magix.Controller.Match.StateMachine.States
 {
     using UnityEngine;
 

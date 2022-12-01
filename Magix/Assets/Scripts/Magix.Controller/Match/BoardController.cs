@@ -1,4 +1,4 @@
-namespace Magix.Controller
+namespace Magix.Controller.Match
 {
     using System.Collections.Generic;
     using StateMachine;
