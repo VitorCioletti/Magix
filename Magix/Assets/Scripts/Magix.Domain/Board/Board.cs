@@ -39,7 +39,7 @@
             _verifyWizardBelongsCurrentPlayer(wizard);
 
             foreach (ITile tile in tiles)
-                tile.BaseNatureElement.ApplyEffect(wizard);
+                tile.NatureElement.ApplyEffect(wizard);
 
             wizard.RemoveRemainingActions(tiles.Count);
 

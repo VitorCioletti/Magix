@@ -8,16 +8,16 @@
 
         public override INatureElement ApplyNatureElement(INatureElement natureElement)
         {
-            INatureElement resultantBaseNatureElement = null;
+            INatureElement resultantNatureElement = null;
 
             switch (natureElement)
             {
                 case Wind:
-                    resultantBaseNatureElement = new Natural();
+                    resultantNatureElement = new Natural();
                     break;
             }
 
-            return resultantBaseNatureElement;
+            return resultantNatureElement;
         }
     }
 }

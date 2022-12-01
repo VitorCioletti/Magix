@@ -1,0 +1,17 @@
+{
+    "name": "Magix.DependencyInjection",
+    "rootNamespace": "",
+    "references": [
+        "GUID:ba703485307c475fb00e4e2507c65441",
+        "GUID:a7de3dcc6e394f0ba23d6f057743d802"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

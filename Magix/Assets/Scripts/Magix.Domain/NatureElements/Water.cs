@@ -8,16 +8,16 @@
 
         public override INatureElement ApplyNatureElement(INatureElement natureElement)
         {
-            BaseNatureElement resultantBaseNatureElement = null;
+            INatureElement resultantNatureElement = null;
 
             switch (natureElement)
             {
                 case Fire:
-                    resultantBaseNatureElement = new Smoke();
+                    resultantNatureElement = new Smoke();
                     break;
             }
 
-            return resultantBaseNatureElement;
+            return resultantNatureElement;
         }
     }
 }

@@ -6,7 +6,7 @@
     {
         IPosition Position { get; }
 
-        INatureElement BaseNatureElement { get; }
+        INatureElement NatureElement { get; }
 
         void ApplyNatureElement(INatureElement natureElement);
     }

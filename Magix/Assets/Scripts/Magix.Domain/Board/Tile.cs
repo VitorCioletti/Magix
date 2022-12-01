@@ -2,29 +2,28 @@
 {
     using Interface.Board;
     using Interface.NatureElements;
-    using NatureElements;
 
     public class Tile : ITile
     {
         public IPosition Position { get; private set; }
 
-        public INatureElement BaseNatureElement { get; private set; }
+        public INatureElement NatureElement { get; private set; }
 
-        public Tile(BaseNatureElement baseNatureElement, Position position)
+        public Tile(INatureElement natureElement, Position position)
         {
-            BaseNatureElement = baseNatureElement;
+            NatureElement = natureElement;
             Position = position;
         }
 
         public void ApplyNatureElement(INatureElement natureElement)
         {
-            if (BaseNatureElement == null)
+            if (NatureElement == null)
             {
-                BaseNatureElement = natureElement;
-                BaseNatureElement.ApplyNatureElement(null);
+                NatureElement = natureElement;
+                NatureElement.ApplyNatureElement(null);
             }
             else
-                BaseNatureElement.ApplyNatureElement(natureElement);
+                NatureElement.ApplyNatureElement(natureElement);
         }
     }
 }
