@@ -6,8 +6,9 @@
     using Domain.Board;
     using Domain.Interface;
     using Domain.Interface.Board;
+    using Interface;
 
-    public class MatchService
+    public class MatchService : IMatchService
     {
         public IBoard Board { get; private set; }
 
