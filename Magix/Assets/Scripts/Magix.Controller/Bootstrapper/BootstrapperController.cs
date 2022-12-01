@@ -2,12 +2,20 @@
 {
     using Bootstrapper;
     using UnityEngine;
+    using UnityEngine.SceneManagement;
 
     public class BootstrapperController : MonoBehaviour
     {
-        public void Boot()
+        private void Start()
+        {
+            _boot();
+        }
+
+        private void _boot()
         {
             Bootstrapper.Boot();
+
+            SceneManager.LoadScene("Match");
         }
     }
 }
