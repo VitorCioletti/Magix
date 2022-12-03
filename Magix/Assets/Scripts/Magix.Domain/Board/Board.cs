@@ -53,7 +53,7 @@
 
         public List<ITile> GetAreaToMove(IWizard wizard)
         {
-            return null;
+            return new List<ITile>();
         }
 
         public List<IPosition> GetPreviewPositionMoves(IWizard wizard, ITile objectiveTile)
@@ -113,6 +113,8 @@
                     moves.Add(nextTile.Position);
                 }
             }
+
+            moves = moves.Take(wizard.RemainingActions).ToList();
 
             return moves;
         }

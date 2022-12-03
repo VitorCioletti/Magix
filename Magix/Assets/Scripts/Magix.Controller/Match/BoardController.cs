@@ -112,12 +112,12 @@ namespace Magix.Controller.Match
 
         private void _onMouseEntered(TileController tileController)
         {
-            _stateMachine.GetCurrentState().OnMouseEntered(tileController);
+            _stateMachine.GetCurrentState().OnEnterMouse(tileController);
         }
 
         private void _onMouseExited(TileController tileController)
         {
-            _stateMachine.GetCurrentState().OnMouseExited(tileController);
+            _stateMachine.GetCurrentState().OnExitMouse(tileController);
         }
     }
 }

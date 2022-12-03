@@ -19,6 +19,8 @@
 
         void ApplyNatureElement(IWizard wizard, INatureElement natureElement, List<ITile> tiles);
 
+        List<ITile> GetAreaToMove(IWizard wizard);
+
         List<IPosition> GetPreviewPositionMoves(IWizard wizard, ITile objectiveTile);
 
         IWizard GetWizard(ITile tile);

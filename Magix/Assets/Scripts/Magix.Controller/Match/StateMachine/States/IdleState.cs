@@ -27,12 +27,12 @@
             }
         }
 
-        public override void OnMouseEntered(TileController tileController)
+        public override void OnEnterMouse(TileController tileController)
         {
             tileController.Select();
         }
 
-        public override void OnMouseExited(TileController tileController)
+        public override void OnExitMouse(TileController tileController)
         {
             tileController.Deselect();
         }

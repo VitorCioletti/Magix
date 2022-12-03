@@ -29,6 +29,11 @@
             Push(state);
         }
 
-        public void Pop() => _stateStack.Pop();
+        public void Pop()
+        {
+            GetCurrentState().Cleanup();
+
+            _stateStack.Pop();
+        }
     }
 }

@@ -4,20 +4,24 @@
     {
         protected StateMachineManager StateMachineManager { get; set; }
 
-        public void Initialize(StateMachineManager stateMachineManager)
+        public virtual void Initialize(StateMachineManager stateMachineManager)
         {
             StateMachineManager = stateMachineManager;
+        }
+
+        public virtual void Cleanup()
+        {
         }
 
         public virtual void OnClickTile(TileController tileController)
         {
         }
 
-        public virtual void OnMouseEntered(TileController tileController)
+        public virtual void OnEnterMouse(TileController tileController)
         {
         }
 
-        public virtual void OnMouseExited(TileController tileController)
+        public virtual void OnExitMouse(TileController tileController)
         {
         }
     }
