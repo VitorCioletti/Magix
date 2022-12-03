@@ -2,8 +2,11 @@
 {
     public abstract class BaseState
     {
-        public void Initialize()
+        protected StateMachineManager StateMachineManager { get; set; }
+
+        public void Initialize(StateMachineManager stateMachineManager)
         {
+            StateMachineManager = stateMachineManager;
         }
 
         public virtual void OnClickTile(TileController tileController)

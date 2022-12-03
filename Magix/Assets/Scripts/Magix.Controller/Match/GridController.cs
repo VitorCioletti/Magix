@@ -1,6 +1,7 @@
 ﻿namespace Magix.Controller.Match
 {
     using System;
+    using Domain.Interface.Board;
     using UnityEngine;
 
     public class GridController : MonoBehaviour
@@ -10,64 +11,68 @@
 
         public TileController[,] Tiles { get; private set; }
 
-        private const int _size = 10;
-
         public void Init(
+            ITile[,] tiles,
             Action<TileController> onMouseEntered,
             Action<TileController> onMouseExited,
             Action<TileController> onTileClicked)
         {
-            _createTiles();
-            _initAllTiles(onMouseEntered, onMouseExited, onTileClicked);
+            _createTiles(
+                tiles,
+                onMouseEntered,
+                onMouseExited,
+                onTileClicked);
         }
 
-        private void _createTiles()
+        private void _createTiles(
+            ITile[,] tiles,
+            Action<TileController> onMouseEntered,
+            Action<TileController> onMouseExited,
+            Action<TileController> onTileClicked)
         {
-            Tiles = new TileController[_size, _size];
+            int gridLines = tiles.GetUpperBound(0) + 1;
+            int gridColumns = tiles.GetUpperBound(1) + 1;
+
+            Tiles = new TileController[gridLines, gridColumns];
 
             float tileSize = 1f;
 
-            int tileOrderInLayer = _size;
+            int tileSortingLayer = gridColumns;
 
-            for (int x = 0; x < _size; x++)
+            for (int line = 0; line < gridLines; line++)
             {
-                for (int y = 0; y < _size; y++)
+                for (int column = 0; column < gridColumns; column++)
                 {
-                    float positionX = (x * tileSize + y * tileSize) / 2f;
-                    float positionY = (x * tileSize - y * tileSize) / 4f;
+                    ITile tile = tiles[line, column];
+
+                    int tileX = tile.Position.X;
+                    int tileY = tile.Position.Y;
+
+                    float positionX = (tileX * tileSize + tileY * tileSize) / 2f;
+                    float positionY = (tileX * tileSize - tileY * tileSize) / 4f;
 
                     var tilePosition = new Vector2(positionX, positionY);
 
-                    TileController tile = Instantiate(
+                    TileController tileController = Instantiate(
                         _tilePrefab,
                         tilePosition,
                         Quaternion.identity,
                         transform);
 
-                    tile.SpriteRenderer.sortingOrder = tileOrderInLayer;
-                    tile.gameObject.name = $"Tile:{x},{y}";
+                    tileController.Init(
+                        tile,
+                        onMouseEntered,
+                        onMouseExited,
+                        onTileClicked);
 
-                    Tiles[x, y] = tile;
+                    tileController.SpriteRenderer.sortingOrder = tileSortingLayer;
+                    tileController.gameObject.name = $"Tile:{tileX},{tileY}";
+
+                    Tiles[tileX, tileY] = tileController;
                 }
 
-                tileOrderInLayer--;
+                tileSortingLayer--;
             }
-
-            TileController firstTile = Tiles[0, 0];
-            TileController lastTile = Tiles[_size - 1, _size - 1];
-
-            Vector3 gridCenter = firstTile.transform.position - lastTile.transform.position;
-
-            transform.position = gridCenter;
-        }
-
-        private void _initAllTiles(
-            Action<TileController> onMouseEntered,
-            Action<TileController> onMouseExited,
-            Action<TileController> onTileClicked)
-        {
-            foreach (TileController tileController in Tiles)
-                tileController.Init(onMouseEntered, onMouseExited, onTileClicked);
         }
     }
 }

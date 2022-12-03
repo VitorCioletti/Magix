@@ -12,6 +12,7 @@
     {
         public IBoard Board { get; private set; }
 
+        // TODO: Move to constructor and make service transient.
         public IPlayer StartNew()
         {
             if (Board != null)
@@ -20,15 +21,15 @@
             var player1Wizards = new List<IWizard> {new Wizard(), new Wizard(),};
             var player1WizardsInitialPositions = new List<IPosition>
             {
-                new Position(0, 1),
-                new Position(0, 2),
+                new Position(0, 7),
+                new Position(2, 9),
             };
 
             var player2Wizards = new List<IWizard> {new Wizard(), new Wizard(),};
             var player2WizardsInitialPositions = new List<IPosition>
             {
-                new Position(1, 0),
-                new Position(2, 0),
+                new Position(7, 0),
+                new Position(9, 2),
             };
 
             var players = new Dictionary<IPlayer, List<IPosition>>

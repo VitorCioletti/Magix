@@ -1,6 +1,11 @@
 namespace Magix.Controller.Match
 {
     using System.Collections.Generic;
+    using System.Linq;
+    using DependencyInjection;
+    using Domain.Interface;
+    using Domain.Interface.Board;
+    using Service.Interface;
     using StateMachine;
     using StateMachine.States;
     using TMPro;
@@ -19,9 +24,14 @@ namespace Magix.Controller.Match
 
         private StateMachineManager _stateMachine;
 
+        private IMatchService _matchService;
+
         private void Update()
         {
-            _currentStateText.text = _stateMachine.GetCurrentState().GetType().Name;
+            // TODO: Remove from update and add it to the state machine.
+            BaseState currentState = _stateMachine.GetCurrentState();
+
+            _currentStateText.text = currentState?.GetType().Name;
         }
 
         private void Start()
@@ -31,23 +41,35 @@ namespace Magix.Controller.Match
 
         private void _init()
         {
-            _gridController.Init(_onMouseEntered, _onMouseExited, _onTileClicked);
+            _matchService = Resolver.GetService<IMatchService>();
+            _matchService.StartNew();
 
-            // TODO: Get positions from domain.
-            var wizardsPositions = new List<Vector2> {new(0, 7), new(2, 9),};
-            _createWizards(wizardsPositions);
+            _gridController.Init(
+                _matchService.Board.Tiles,
+                _onMouseEntered,
+                _onMouseExited,
+                _onTileClicked);
+
+            foreach (Dictionary<IWizard, IPosition> wizardsPositions in _matchService.Board.WizardsPositions.Values)
+            {
+                IEnumerable<Vector2> positions = wizardsPositions.Values.Select(p => new Vector2(p.X, p.Y));
+
+                _createWizards(positions);
+            }
 
             _initializeStateMachine();
+
+            _fixPosition();
         }
 
         private void _initializeStateMachine()
         {
             _stateMachine = new StateMachineManager();
 
-            _stateMachine.Push(new IdleState());
+            _stateMachine.Push(new IdleState(_gridController));
         }
 
-        private void _createWizards(List<Vector2> wizardsPositions)
+        private void _createWizards(IEnumerable<Vector2> wizardsPositions)
         {
             foreach (Vector2 wizardsPosition in wizardsPositions)
             {
@@ -64,6 +86,23 @@ namespace Magix.Controller.Match
                 // TODO: Get highest sorting order from grid
                 wizardController.SpriteRenderer.sortingOrder = 20;
             }
+        }
+
+        private void _fixPosition()
+        {
+            TileController[,] tiles = _gridController.Tiles;
+
+            int lastTileIndex = tiles.GetUpperBound(0);
+
+            TileController firstTile = tiles[0, 0];
+            TileController lastTile = tiles[lastTileIndex, lastTileIndex];
+
+            float firstTileXPosition = firstTile.transform.position.x;
+            float lastTileTileXPosition = lastTile.transform.position.x;
+
+            float newX = (firstTileXPosition - lastTileTileXPosition) / 2;
+
+            gameObject.transform.position = new Vector3(newX, 0, 0);
         }
 
         private void _onTileClicked(TileController tileController)

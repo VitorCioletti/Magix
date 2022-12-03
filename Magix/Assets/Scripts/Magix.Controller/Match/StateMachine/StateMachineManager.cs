@@ -20,7 +20,7 @@
         {
             _stateStack.Push(state);
 
-            state.Initialize();
+            state.Initialize(this);
         }
 
         public void Swap(BaseState state)

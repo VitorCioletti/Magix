@@ -17,20 +17,19 @@
 
         public IPlayer CurrentPlayer { get; private set; }
 
-        private readonly Dictionary<Guid, Dictionary<IWizard, IPosition>> _wizardsPosition;
+        public Dictionary<Guid, Dictionary<IWizard, IPosition>> WizardsPositions { get; private set; }
 
-        private const int _size = 7;
+        private const int _size = 10;
 
         public Board(Dictionary<IPlayer, List<IPosition>> players)
         {
-            _wizardsPosition = new Dictionary<Guid, Dictionary<IWizard, IPosition>>();
+            WizardsPositions = new Dictionary<Guid, Dictionary<IWizard, IPosition>>();
             Players = new Queue<IPlayer>(players.Keys.ToList());
 
             foreach (IPlayer player in Players)
-                _wizardsPosition[player.Id] = _createWizardsPositions(players[player]);
+                WizardsPositions[player.Id] = _createWizardsPositions(players[player]);
 
-            Tiles = new ITile[_size, _size];
-
+            _createTiles();
             _setNextPlayerToPlay();
         }
 
@@ -43,13 +42,91 @@
 
             wizard.RemoveRemainingActions(tiles.Count);
 
-            _wizardsPosition[CurrentPlayer.Id][wizard] = tiles.Last().Position;
+            WizardsPositions[CurrentPlayer.Id][wizard] = tiles.Last().Position;
 
             return new MovementResult(
                 tiles,
                 wizard.Id.ToString(),
                 true,
                 string.Empty);
+        }
+
+        public List<ITile> GetAreaToMove(IWizard wizard)
+        {
+            return null;
+        }
+
+        public List<IPosition> GetPreviewPositionMoves(IWizard wizard, ITile objectiveTile)
+        {
+            var moves = new List<IPosition>();
+
+            IPosition wizardPosition = WizardsPositions[CurrentPlayer.Id][wizard];
+
+            int wizardPositionX = wizardPosition.X;
+            int wizardPositionY = wizardPosition.Y;
+
+            int objectivePositionX = objectiveTile.Position.X;
+            int objectivePositionY = objectiveTile.Position.Y;
+
+            if (wizardPositionX > objectivePositionX)
+            {
+                while (wizardPositionX > objectivePositionX)
+                {
+                    wizardPositionX--;
+
+                    ITile nextTile = Tiles[wizardPositionX, wizardPositionY];
+
+                    moves.Add(nextTile.Position);
+                }
+            }
+            else
+            {
+                while (wizardPositionX < objectivePositionX)
+                {
+                    wizardPositionX++;
+
+                    ITile nextTile = Tiles[wizardPositionX, wizardPositionY];
+
+                    moves.Add(nextTile.Position);
+                }
+            }
+
+            if (wizardPositionY > objectivePositionY)
+            {
+                while (wizardPositionY > objectivePositionY)
+                {
+                    wizardPositionY--;
+
+                    ITile nextTile = Tiles[wizardPositionX, wizardPositionY];
+
+                    moves.Add(nextTile.Position);
+                }
+            }
+            else
+            {
+                while (wizardPositionY < objectivePositionY)
+                {
+                    wizardPositionY++;
+
+                    ITile nextTile = Tiles[wizardPositionX, wizardPositionY];
+
+                    moves.Add(nextTile.Position);
+                }
+            }
+
+            return moves;
+        }
+
+        public IWizard GetWizard(ITile tile)
+        {
+            Dictionary<IWizard, IPosition> wizardsPositions = WizardsPositions[CurrentPlayer.Id];
+
+            KeyValuePair<IWizard, IPosition> wizardPosition =
+                wizardsPositions.FirstOrDefault(p => ((Position)p.Value) == (Position)tile.Position);
+
+            IWizard wizard = wizardPosition.Key;
+
+            return wizard;
         }
 
         public void ApplyNatureElement(IWizard wizard, INatureElement natureElement, List<ITile> tiles)
@@ -67,10 +144,25 @@
 
         private void _verifyWizardBelongsCurrentPlayer(IWizard wizard)
         {
-            List<IWizard> wizards = _wizardsPosition[CurrentPlayer.Id].Keys.ToList();
+            List<IWizard> wizards = WizardsPositions[CurrentPlayer.Id].Keys.ToList();
 
             if (!wizards.Contains(wizard))
                 throw new Exception();
+        }
+
+        private void _createTiles()
+        {
+            Tiles = new ITile[_size, _size];
+
+            for (int line = 0; line < _size; line++)
+            {
+                for (int column = 0; column < _size; column++)
+                {
+                    var position = new Position(line, column);
+
+                    Tiles[line, column] = new Tile(position);
+                }
+            }
         }
 
         private void _setNextPlayerToPlay()

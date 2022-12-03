@@ -2,6 +2,7 @@
 {
     using Interface.Board;
     using Interface.NatureElements;
+    using NatureElements;
 
     public class Tile : ITile
     {
@@ -9,9 +10,9 @@
 
         public INatureElement NatureElement { get; private set; }
 
-        public Tile(INatureElement natureElement, Position position)
+        public Tile(Position position)
         {
-            NatureElement = natureElement;
+            NatureElement = new Natural();
             Position = position;
         }
 

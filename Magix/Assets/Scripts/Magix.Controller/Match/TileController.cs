@@ -1,10 +1,13 @@
 ﻿namespace Magix.Controller.Match
 {
     using System;
+    using Domain.Interface.Board;
     using UnityEngine;
 
     public class TileController : MonoBehaviour
     {
+        public ITile Tile { get; private set; }
+
         [field: SerializeField]
         public SpriteRenderer SpriteRenderer { get; private set; } = default;
 
@@ -21,10 +24,13 @@
         private Action<TileController> _onTileClicked;
 
         public void Init(
+            ITile tile,
             Action<TileController> onMouseEntered,
             Action<TileController> onMouseExited,
             Action<TileController> onTileClicked)
         {
+            Tile = tile;
+
             _onTileClicked = onTileClicked;
             _onMouseEntered = onMouseEntered;
             _onMouseExited = onMouseExited;
