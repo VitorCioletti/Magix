@@ -81,8 +81,6 @@ namespace Magix.Controller.Match
                 Vector3 wizardPosition = tileToSpawnWizard.transform.position + wizardOffset;
 
                 wizardController.transform.position = wizardPosition;
-
-                wizardController.SpriteRenderer.sortingOrder = 20;
             }
         }
 
