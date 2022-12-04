@@ -1,8 +1,6 @@
 ﻿namespace Magix.Controller.Match.StateMachine.States
 {
-    using DependencyInjection;
     using Domain.Interface;
-    using Service.Interface;
 
     public class IdleState : BaseState
     {
@@ -15,16 +13,14 @@
 
         public override void OnClickTile(TileController tileController)
         {
-            var matchService = Resolver.GetService<IMatchService>();
+            IWizard wizard = MatchService.Board.GetWizard(tileController.Tile);
 
-            IWizard wizard = matchService.Board.GetWizard(tileController.Tile);
+            if (wizard == null)
+                return;
 
-            if (wizard != null)
-            {
-                var selectingTargetToMoveWizardState = new SelectingTargetToMoveWizardState(wizard, _gridController);
+            var selectingTargetToMoveWizardState = new SelectingTargetToMoveWizardState(wizard, _gridController);
 
-                StateMachineManager.Push(selectingTargetToMoveWizardState);
-            }
+            StateMachineManager.Push(selectingTargetToMoveWizardState);
         }
 
         public override void OnEnterMouse(TileController tileController)

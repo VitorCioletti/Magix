@@ -1,14 +1,19 @@
 ﻿namespace Magix.Controller.Match.StateMachine
 {
     using System.Collections.Generic;
+    using Service.Interface;
     using States;
 
     public class StateMachineManager
     {
         private Stack<BaseState> _stateStack { get; set; }
 
-        public StateMachineManager()
+        private readonly IMatchService _matchService;
+
+        public StateMachineManager(IMatchService matchService)
         {
+            _matchService = matchService;
+
             _stateStack = new Stack<BaseState>();
 
             _stateStack.Push(new EmptyState());
@@ -20,7 +25,7 @@
         {
             _stateStack.Push(state);
 
-            state.Initialize(this);
+            state.Initialize(this, _matchService);
         }
 
         public void Swap(BaseState state)

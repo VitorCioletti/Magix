@@ -1,12 +1,17 @@
 ﻿namespace Magix.Controller.Match.StateMachine.States
 {
+    using Service.Interface;
+
     public abstract class BaseState
     {
         protected StateMachineManager StateMachineManager { get; set; }
 
-        public virtual void Initialize(StateMachineManager stateMachineManager)
+        protected IMatchService MatchService { get; set; }
+
+        public virtual void Initialize(StateMachineManager stateMachineManager, IMatchService matchService)
         {
             StateMachineManager = stateMachineManager;
+            MatchService = matchService;
         }
 
         public virtual void Cleanup()

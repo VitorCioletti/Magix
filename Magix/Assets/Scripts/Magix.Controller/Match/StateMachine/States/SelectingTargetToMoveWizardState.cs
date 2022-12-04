@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using DependencyInjection;
     using Domain.Interface;
     using Domain.Interface.Board;
     using Service.Interface;
@@ -13,20 +12,17 @@
 
         private readonly GridController _gridController;
 
-        private readonly IMatchService _matchService;
-
         public SelectingTargetToMoveWizardState(IWizard wizard, GridController gridController)
         {
             _wizard = wizard;
             _gridController = gridController;
-            _matchService = Resolver.GetService<IMatchService>();
         }
 
-        public override void Initialize(StateMachineManager stateMachineManager)
+        public override void Initialize(StateMachineManager stateMachineManager, IMatchService matchService)
         {
-            base.Initialize(stateMachineManager);
+            base.Initialize(stateMachineManager, matchService);
 
-            List<ITile> tilesToMove = _matchService.Board.GetAreaToMove(_wizard);
+            List<ITile> tilesToMove = MatchService.Board.GetAreaToMove(_wizard);
             List<IPosition> positionsToMove = tilesToMove.Select(t => t.Position).ToList();
 
             _selectTiles(positionsToMove);
@@ -44,7 +40,7 @@
             _deselectAllTiles();
 
             List<IPosition> previewPositionMoves =
-                _matchService.Board.GetPreviewPositionMoves(_wizard, tileController.Tile);
+                MatchService.Board.GetPreviewPositionMoves(_wizard, tileController.Tile);
 
             _selectTiles(previewPositionMoves);
         }

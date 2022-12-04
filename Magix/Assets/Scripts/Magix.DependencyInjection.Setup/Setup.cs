@@ -11,7 +11,7 @@
         {
             var serviceCollection = new ServiceCollection();
 
-            serviceCollection.AddSingleton<IMatchService>(new MatchService());
+            serviceCollection.AddTransient<IMatchService, MatchService>();
 
             return serviceCollection.BuildServiceProvider();
         }

@@ -12,8 +12,7 @@
     {
         public IBoard Board { get; private set; }
 
-        // TODO: Move to constructor and make service transient.
-        public IPlayer StartNew()
+        public MatchService()
         {
             if (Board != null)
                 throw new Exception("Already started a match.");
@@ -45,8 +44,6 @@
             };
 
             Board = new Board(players);
-
-            return Board.CurrentPlayer;
         }
     }
 }

@@ -42,7 +42,6 @@ namespace Magix.Controller.Match
         private void _init()
         {
             _matchService = Resolver.GetService<IMatchService>();
-            _matchService.StartNew();
 
             _gridController.Init(
                 _matchService.Board.Tiles,
@@ -64,7 +63,7 @@ namespace Magix.Controller.Match
 
         private void _initializeStateMachine()
         {
-            _stateMachine = new StateMachineManager();
+            _stateMachine = new StateMachineManager(_matchService);
 
             _stateMachine.Push(new IdleState(_gridController));
         }
@@ -83,7 +82,6 @@ namespace Magix.Controller.Match
 
                 wizardController.transform.position = wizardPosition;
 
-                // TODO: Get highest sorting order from grid
                 wizardController.SpriteRenderer.sortingOrder = 20;
             }
         }
