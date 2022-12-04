@@ -8,8 +8,14 @@
 
         protected IMatchService MatchService { get; set; }
 
-        public virtual void Initialize(StateMachineManager stateMachineManager, IMatchService matchService)
+        protected BoardController BoardController { get; set; }
+
+        public virtual void Initialize(
+            StateMachineManager stateMachineManager,
+            BoardController boardController,
+            IMatchService matchService)
         {
+            BoardController = boardController;
             StateMachineManager = stateMachineManager;
             MatchService = matchService;
         }

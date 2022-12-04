@@ -56,9 +56,9 @@
             return new List<ITile>();
         }
 
-        public List<IPosition> GetPreviewPositionMoves(IWizard wizard, ITile objectiveTile)
+        public List<ITile> GetPreviewPositionMoves(IWizard wizard, ITile objectiveTile)
         {
-            var moves = new List<IPosition>();
+            var moves = new List<ITile>();
 
             IPosition wizardPosition = WizardsPositions[CurrentPlayer.Id][wizard];
 
@@ -76,7 +76,7 @@
 
                     ITile nextTile = Tiles[wizardPositionX, wizardPositionY];
 
-                    moves.Add(nextTile.Position);
+                    moves.Add(nextTile);
                 }
             }
             else
@@ -87,7 +87,7 @@
 
                     ITile nextTile = Tiles[wizardPositionX, wizardPositionY];
 
-                    moves.Add(nextTile.Position);
+                    moves.Add(nextTile);
                 }
             }
 
@@ -99,7 +99,7 @@
 
                     ITile nextTile = Tiles[wizardPositionX, wizardPositionY];
 
-                    moves.Add(nextTile.Position);
+                    moves.Add(nextTile);
                 }
             }
             else
@@ -110,13 +110,20 @@
 
                     ITile nextTile = Tiles[wizardPositionX, wizardPositionY];
 
-                    moves.Add(nextTile.Position);
+                    moves.Add(nextTile);
                 }
             }
 
             moves = moves.Take(wizard.RemainingActions).ToList();
 
             return moves;
+        }
+
+        public bool HasWizard(ITile tile)
+        {
+            IWizard wizard = GetWizard(tile);
+
+            return wizard != null;
         }
 
         public IWizard GetWizard(ITile tile)

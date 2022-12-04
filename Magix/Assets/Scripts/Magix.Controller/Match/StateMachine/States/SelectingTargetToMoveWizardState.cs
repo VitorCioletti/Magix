@@ -12,15 +12,20 @@
 
         private readonly GridController _gridController;
 
+        private List<ITile> _previewTilesMoves;
+
         public SelectingTargetToMoveWizardState(IWizard wizard, GridController gridController)
         {
             _wizard = wizard;
             _gridController = gridController;
         }
 
-        public override void Initialize(StateMachineManager stateMachineManager, IMatchService matchService)
+        public override void Initialize(
+            StateMachineManager stateMachineManager,
+            BoardController boardController,
+            IMatchService matchService)
         {
-            base.Initialize(stateMachineManager, matchService);
+            base.Initialize(stateMachineManager, boardController, matchService);
 
             List<ITile> tilesToMove = MatchService.Board.GetAreaToMove(_wizard);
             List<IPosition> positionsToMove = tilesToMove.Select(t => t.Position).ToList();
@@ -32,15 +37,22 @@
 
         public override void OnClickTile(TileController tileController)
         {
-            StateMachineManager.Pop();
+            ITile tile = tileController.Tile;
+
+            if (MatchService.Board.HasWizard(tile))
+                return;
+
+            StateMachineManager.Swap(new MovingWizardToTargetState(_wizard, _previewTilesMoves));
         }
 
         public override void OnEnterMouse(TileController tileController)
         {
             _deselectAllTiles();
 
-            List<IPosition> previewPositionMoves =
+            _previewTilesMoves =
                 MatchService.Board.GetPreviewPositionMoves(_wizard, tileController.Tile);
+
+            List<IPosition> previewPositionMoves = _previewTilesMoves.Select(t => t.Position).ToList();
 
             _selectTiles(previewPositionMoves);
         }

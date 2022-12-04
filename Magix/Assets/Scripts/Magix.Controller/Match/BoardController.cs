@@ -22,9 +22,23 @@ namespace Magix.Controller.Match
         [field: SerializeField]
         private TextMeshProUGUI _currentStateText { get; set; } = default;
 
+        private List<WizardController> _wizards;
+
         private StateMachineManager _stateMachine;
 
         private IMatchService _matchService;
+
+        public void Move(IWizard wizard, List<ITile> tiles)
+        {
+            WizardController wizardController = _wizards.First(w => w.Wizard == wizard);
+
+            foreach (ITile tile in tiles)
+            {
+                TileController tileController = _gridController.Tiles[tile.Position.X, tile.Position.Y];
+
+                wizardController.Move(tileController);
+            }
+        }
 
         private void Update()
         {
@@ -42,6 +56,7 @@ namespace Magix.Controller.Match
         private void _init()
         {
             _matchService = Resolver.GetService<IMatchService>();
+            _wizards = new List<WizardController>();
 
             _gridController.Init(
                 _matchService.Board.Tiles,
@@ -50,11 +65,7 @@ namespace Magix.Controller.Match
                 _onTileClicked);
 
             foreach (Dictionary<IWizard, IPosition> wizardsPositions in _matchService.Board.WizardsPositions.Values)
-            {
-                IEnumerable<Vector2> positions = wizardsPositions.Values.Select(p => new Vector2(p.X, p.Y));
-
-                _createWizards(positions);
-            }
+                _createWizards(wizardsPositions);
 
             _initializeStateMachine();
 
@@ -63,24 +74,24 @@ namespace Magix.Controller.Match
 
         private void _initializeStateMachine()
         {
-            _stateMachine = new StateMachineManager(_matchService);
+            _stateMachine = new StateMachineManager(this, _matchService);
 
             _stateMachine.Push(new IdleState(_gridController));
         }
 
-        private void _createWizards(IEnumerable<Vector2> wizardsPositions)
+        private void _createWizards(Dictionary<IWizard, IPosition> wizardsPositions)
         {
-            foreach (Vector2 wizardsPosition in wizardsPositions)
+            foreach (KeyValuePair<IWizard, IPosition> wizardsPosition in wizardsPositions)
             {
-                TileController tileToSpawnWizard =
-                    _gridController.Tiles[(int)wizardsPosition.x, (int)wizardsPosition.y];
+                IWizard wizard = wizardsPosition.Key;
+                IPosition position = wizardsPosition.Value;
 
+                TileController tileToSpawnWizard = _gridController.Tiles[position.X, position.Y];
                 WizardController wizardController = Instantiate(_wizardPrefab, transform);
 
-                var wizardOffset = new Vector3(0, 0.30f, 0);
-                Vector3 wizardPosition = tileToSpawnWizard.transform.position + wizardOffset;
+                wizardController.Init(wizard, tileToSpawnWizard);
 
-                wizardController.transform.position = wizardPosition;
+                _wizards.Add(wizardController);
             }
         }
 

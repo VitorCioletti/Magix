@@ -18,6 +18,9 @@
             if (wizard == null)
                 return;
 
+            if (wizard.RemainingActions == 0)
+                return;
+
             var selectingTargetToMoveWizardState = new SelectingTargetToMoveWizardState(wizard, _gridController);
 
             StateMachineManager.Push(selectingTargetToMoveWizardState);

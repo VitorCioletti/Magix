@@ -10,8 +10,11 @@
 
         private readonly IMatchService _matchService;
 
-        public StateMachineManager(IMatchService matchService)
+        private readonly BoardController _boardController;
+
+        public StateMachineManager(BoardController boardController, IMatchService matchService)
         {
+            _boardController = boardController;
             _matchService = matchService;
 
             _stateStack = new Stack<BaseState>();
@@ -25,7 +28,7 @@
         {
             _stateStack.Push(state);
 
-            state.Initialize(this, _matchService);
+            state.Initialize(this, _boardController, _matchService);
         }
 
         public void Swap(BaseState state)

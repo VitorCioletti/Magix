@@ -19,9 +19,11 @@
 
         void ApplyNatureElement(IWizard wizard, INatureElement natureElement, List<ITile> tiles);
 
+        bool HasWizard(ITile tile);
+
         List<ITile> GetAreaToMove(IWizard wizard);
 
-        List<IPosition> GetPreviewPositionMoves(IWizard wizard, ITile objectiveTile);
+        List<ITile> GetPreviewPositionMoves(IWizard wizard, ITile objectiveTile);
 
         IWizard GetWizard(ITile tile);
     }
