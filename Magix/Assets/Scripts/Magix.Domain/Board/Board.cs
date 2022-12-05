@@ -13,24 +13,33 @@
     {
         public ITile[,] Tiles { get; private set; }
 
-        public Queue<IPlayer> Players { get; private set; }
+        public List<IPlayer> Players { get; private set; }
 
         public IPlayer CurrentPlayer { get; private set; }
 
-        public Dictionary<Guid, Dictionary<IWizard, IPosition>> WizardsPositions { get; private set; }
+        private Queue<IPlayer> _orderToPlay;
 
         private const int _size = 10;
 
-        public Board(Dictionary<IPlayer, List<IPosition>> players)
+        public Board(List<IPlayer> players)
         {
-            WizardsPositions = new Dictionary<Guid, Dictionary<IWizard, IPosition>>();
-            Players = new Queue<IPlayer>(players.Keys.ToList());
-
-            foreach (IPlayer player in Players)
-                WizardsPositions[player.Id] = _createWizardsPositions(players[player]);
+            Players = players;
+            _orderToPlay = new Queue<IPlayer>(players);
 
             _createTiles();
             _setNextPlayerToPlay();
+        }
+
+        public void ApplyNatureElement(IWizard wizard, INatureElement natureElement, List<ITile> tiles)
+        {
+            _verifyWizardBelongsCurrentPlayer(wizard);
+
+            foreach (ITile tile in tiles)
+                tile.ApplyNatureElement(natureElement);
+
+            wizard.RemoveRemainingActions(tiles.Count);
+
+            _tryChangeCurrentPlayer();
         }
 
         public IMovementResult Move(IWizard wizard, List<ITile> tiles)
@@ -42,7 +51,9 @@
 
             wizard.RemoveRemainingActions(tiles.Count);
 
-            WizardsPositions[CurrentPlayer.Id][wizard] = tiles.Last().Position;
+            wizard.Position = tiles.Last().Position;
+
+            _tryChangeCurrentPlayer();
 
             return new MovementResult(
                 tiles,
@@ -56,11 +67,12 @@
             return new List<ITile>();
         }
 
+        // TODO: Review this algorithm.
         public List<ITile> GetPreviewPositionMoves(IWizard wizard, ITile objectiveTile)
         {
             var moves = new List<ITile>();
 
-            IPosition wizardPosition = WizardsPositions[CurrentPlayer.Id][wizard];
+            IPosition wizardPosition = wizard.Position;
 
             int wizardPositionX = wizardPosition.X;
             int wizardPositionY = wizardPosition.Y;
@@ -128,35 +140,26 @@
 
         public IWizard GetWizard(ITile tile)
         {
-            Dictionary<IWizard, IPosition> wizardsPositions = WizardsPositions[CurrentPlayer.Id];
+            IWizard wizardInTile = null;
 
-            KeyValuePair<IWizard, IPosition> wizardPosition =
-                wizardsPositions.FirstOrDefault(p => ((Position)p.Value) == (Position)tile.Position);
+            foreach (IPlayer player in Players)
+            {
+                foreach (IWizard wizard in player.Wizards)
+                {
+                    if (wizard.Position.Equals(tile.Position))
+                        wizardInTile = wizard;
+                }
+            }
 
-            IWizard wizard = wizardPosition.Key;
-
-            return wizard;
-        }
-
-        public void ApplyNatureElement(IWizard wizard, INatureElement natureElement, List<ITile> tiles)
-        {
-            _verifyWizardBelongsCurrentPlayer(wizard);
-
-            foreach (ITile tile in tiles)
-                tile.ApplyNatureElement(natureElement);
-
-            wizard.RemoveRemainingActions(tiles.Count);
-
-            if (!CurrentPlayer.HasRemainingActions)
-                _setNextPlayerToPlay();
+            return wizardInTile;
         }
 
         private void _verifyWizardBelongsCurrentPlayer(IWizard wizard)
         {
-            List<IWizard> wizards = WizardsPositions[CurrentPlayer.Id].Keys.ToList();
+            List<IWizard> wizards = CurrentPlayer.Wizards;
 
             if (!wizards.Contains(wizard))
-                throw new Exception();
+                throw new InvalidOperationException("Wizard does not belong to current player.");
         }
 
         private void _createTiles()
@@ -174,26 +177,21 @@
             }
         }
 
-        private void _setNextPlayerToPlay()
+        private void _tryChangeCurrentPlayer()
         {
-            IPlayer nextPlayer = Players.Dequeue();
-            Players.Enqueue(nextPlayer);
-
-            CurrentPlayer = nextPlayer;
+            if (!CurrentPlayer.HasRemainingActions)
+                _setNextPlayerToPlay();
         }
 
-        private Dictionary<IWizard, IPosition> _createWizardsPositions(List<IPosition> initialPositions)
+        private void _setNextPlayerToPlay()
         {
-            var wizardsPosition = new Dictionary<IWizard, IPosition>();
+            IPlayer nextPlayer = _orderToPlay.Dequeue();
+            _orderToPlay.Enqueue(nextPlayer);
 
-            foreach (IPosition position in initialPositions)
-            {
-                var newWizard = new Wizard();
+            CurrentPlayer = nextPlayer;
 
-                wizardsPosition[newWizard] = position;
-            }
-
-            return wizardsPosition;
+            foreach (IWizard wizard in CurrentPlayer.Wizards)
+                wizard.ResetRemainingActions();
         }
     }
 }

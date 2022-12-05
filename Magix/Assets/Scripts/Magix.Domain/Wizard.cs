@@ -2,11 +2,14 @@
 {
     using System;
     using Interface;
+    using Interface.Board;
     using Interface.NatureElements;
 
     public class Wizard : IWizard
     {
         public Guid Id { get; private set; }
+
+        public IPosition Position { get; set; }
 
         public int LifePoints { get; private set; }
 
@@ -14,17 +17,25 @@
 
         public NatureElementEffect NatureElementEffect { get; private set; }
 
-        public Wizard()
+        private const int _totalActionsPerTurn = 4;
+
+        public Wizard(IPosition position)
         {
             Id = Guid.NewGuid();
             NatureElementEffect = NatureElementEffect.None;
             LifePoints = 5;
-            RemainingActions = 4;
+            RemainingActions = _totalActionsPerTurn;
+            Position = position;
         }
 
-        public void RemoveRemainingActions(int actionsRemoved)
+        public void ResetRemainingActions()
         {
-            RemainingActions -= actionsRemoved;
+            RemainingActions = _totalActionsPerTurn;
+        }
+
+        public void RemoveRemainingActions(int actions)
+        {
+            RemainingActions -= actions;
         }
 
         public void ChangeNatureElementEffect(NatureElementEffect natureElementEffect)

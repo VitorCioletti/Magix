@@ -64,8 +64,8 @@ namespace Magix.Controller.Match
                 _onMouseExited,
                 _onTileClicked);
 
-            foreach (Dictionary<IWizard, IPosition> wizardsPositions in _matchService.Board.WizardsPositions.Values)
-                _createWizards(wizardsPositions);
+            foreach (IPlayer player in _matchService.Board.Players)
+                _createWizards(player.Wizards);
 
             _initializeStateMachine();
 
@@ -79,12 +79,11 @@ namespace Magix.Controller.Match
             _stateMachine.Push(new IdleState(_gridController));
         }
 
-        private void _createWizards(Dictionary<IWizard, IPosition> wizardsPositions)
+        private void _createWizards(List<IWizard> wizardsPositions)
         {
-            foreach (KeyValuePair<IWizard, IPosition> wizardsPosition in wizardsPositions)
+            foreach (IWizard wizard in wizardsPositions)
             {
-                IWizard wizard = wizardsPosition.Key;
-                IPosition position = wizardsPosition.Value;
+                IPosition position = wizard.Position;
 
                 TileController tileToSpawnWizard = _gridController.Tiles[position.X, position.Y];
                 WizardController wizardController = Instantiate(_wizardPrefab, transform);

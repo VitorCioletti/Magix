@@ -1,6 +1,7 @@
 ﻿namespace Magix.Domain.Interface
 {
     using System;
+    using Board;
     using NatureElements;
 
     public interface IWizard
@@ -9,11 +10,15 @@
 
         int LifePoints { get; }
 
+        IPosition Position { get; set; }
+
         int RemainingActions { get; }
 
         NatureElementEffect NatureElementEffect { get; }
 
-        void RemoveRemainingActions(int actionsRemoved);
+        void ResetRemainingActions();
+
+        void RemoveRemainingActions(int actions);
 
         void ChangeNatureElementEffect(NatureElementEffect natureElementEffect);
     }

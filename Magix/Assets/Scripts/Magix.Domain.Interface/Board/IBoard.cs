@@ -1,6 +1,5 @@
 ﻿namespace Magix.Domain.Interface.Board
 {
-    using System;
     using System.Collections.Generic;
     using NatureElements;
     using Result;
@@ -9,11 +8,9 @@
     {
         ITile[,] Tiles { get; }
 
-        Queue<IPlayer> Players { get; }
+        List<IPlayer> Players { get; }
 
         IPlayer CurrentPlayer { get; }
-
-        Dictionary<Guid, Dictionary<IWizard, IPosition>> WizardsPositions { get; }
 
         IMovementResult Move(IWizard wizard, List<ITile> tiles);
 

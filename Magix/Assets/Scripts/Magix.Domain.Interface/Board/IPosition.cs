@@ -2,8 +2,10 @@
 {
     public interface IPosition
     {
-         int X { get; }
+        int X { get; }
 
-         int Y { get; }
+        int Y { get; }
+
+        bool Equals(IPosition position);
     }
 }
