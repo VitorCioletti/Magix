@@ -20,6 +20,8 @@
 
         void RemoveRemainingActions(int actions);
 
+        bool HasRemainingActions();
+
         void ChangeNatureElementEffect(NatureElementEffect natureElementEffect);
     }
 }

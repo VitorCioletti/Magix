@@ -14,7 +14,7 @@
 
         IMovementResult Move(IWizard wizard, List<ITile> tiles);
 
-        void ApplyNatureElement(IWizard wizard, INatureElement natureElement, List<ITile> tiles);
+        IApplyNatureElementResult ApplyNatureElement(IWizard wizard, INatureElement natureElement, List<ITile> tiles);
 
         bool HasWizard(ITile tile);
 

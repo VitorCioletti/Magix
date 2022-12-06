@@ -2,6 +2,8 @@
 {
     using System;
     using Domain.Interface.Board;
+    using Domain.Interface.NatureElements;
+    using TMPro;
     using UnityEngine;
 
     public class TileController : MonoBehaviour
@@ -16,6 +18,9 @@
 
         [field: SerializeField]
         private float _highlightAlpha { get; set; } = default;
+
+        [field: SerializeField]
+        private TextMeshProUGUI _natureElementText { get; set; } = default;
 
         private Action<TileController> _onMouseEntered;
 
@@ -48,6 +53,39 @@
             Color color = SpriteRenderer.color;
 
             SpriteRenderer.color = new Color(color.r, color.g, color.b, 1);
+        }
+
+        public void ApplyNatureElement(INatureElement natureElement)
+        {
+            switch (natureElement)
+            {
+                case IEletric eletric:
+                    _natureElementText.text = "Eletric";
+                    break;
+
+                case IFire fire:
+                    _natureElementText.text = "Fire";
+                    break;
+
+                case INatural natural:
+                    _natureElementText.text = "Natural";
+                    break;
+
+                case ISmoke smoke:
+                    _natureElementText.text = "Smoke";
+                    break;
+
+                case IWater water:
+                    _natureElementText.text = "Water";
+                    break;
+
+                case IWind wind:
+                    _natureElementText.text = "Wind";
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(natureElement));
+            }
         }
 
         private void Update()

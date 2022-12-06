@@ -2,7 +2,7 @@
 {
     using Interface.NatureElements;
 
-    public class Fire : BaseNatureElement
+    public class Fire : BaseNatureElement, IFire
     {
         public override NatureElementEffect Effect => NatureElementEffect.OnFire;
 

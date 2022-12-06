@@ -10,14 +10,11 @@
     {
         private readonly IWizard _wizard;
 
-        private readonly GridController _gridController;
-
         private List<ITile> _previewTilesMoves;
 
-        public SelectingTargetToMoveWizardState(IWizard wizard, GridController gridController)
+        public SelectingTargetToMoveWizardState(IWizard wizard)
         {
             _wizard = wizard;
-            _gridController = gridController;
         }
 
         public override void Initialize(
@@ -60,12 +57,12 @@
         private void _selectTiles(List<IPosition> previewPositionMoves)
         {
             foreach (IPosition position in previewPositionMoves)
-                _gridController.Tiles[position.X, position.Y].Select();
+                BoardController.GridController.Tiles[position.X, position.Y].Select();
         }
 
         private void _deselectAllTiles()
         {
-            foreach (TileController tileController in _gridController.Tiles)
+            foreach (TileController tileController in BoardController.GridController.Tiles)
                 tileController.Deselect();
         }
     }

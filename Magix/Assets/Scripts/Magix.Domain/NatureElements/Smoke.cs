@@ -2,7 +2,7 @@
 {
     using Interface.NatureElements;
 
-    public class Smoke : BaseNatureElement
+    public class Smoke : BaseNatureElement, ISmoke
     {
         public override NatureElementEffect Effect => NatureElementEffect.Blind;
 

@@ -12,7 +12,7 @@ namespace Magix.Controller.Match
 
         private Vector3 _offsetPosition;
 
-        public void Init(IWizard wizard, TileController tileToSpawnWizard)
+        public void Initialize(IWizard wizard, TileController tileToSpawnWizard)
         {
             _offsetPosition = new Vector3(0, 0.30f, 0);
 

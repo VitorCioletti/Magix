@@ -5,6 +5,7 @@ namespace Magix.Controller.Match
     using DependencyInjection;
     using Domain.Interface;
     using Domain.Interface.Board;
+    using Domain.Interface.NatureElements;
     using Service.Interface;
     using StateMachine;
     using StateMachine.States;
@@ -14,13 +15,16 @@ namespace Magix.Controller.Match
     public class BoardController : MonoBehaviour
     {
         [field: SerializeField]
-        private GridController _gridController { get; set; } = default;
+        public GridController GridController { get; set; } = default;
 
         [field: SerializeField]
         private WizardController _wizardPrefab { get; set; } = default;
 
         [field: SerializeField]
         private TextMeshProUGUI _currentStateText { get; set; } = default;
+
+        [field: SerializeField]
+        private WizardActionsMenuBarController _wizardActionsMenuBarMenuBar { get; set; } = default;
 
         private List<WizardController> _wizards;
 
@@ -34,10 +38,25 @@ namespace Magix.Controller.Match
 
             foreach (ITile tile in tiles)
             {
-                TileController tileController = _gridController.Tiles[tile.Position.X, tile.Position.Y];
+                TileController tileController = _getTileController(tile);
 
                 wizardController.Move(tileController);
             }
+        }
+
+        public void ApplyNatureElement(IWizard _, INatureElement natureElement, List<ITile> tiles)
+        {
+            foreach (ITile tile in tiles)
+            {
+                TileController tileController = _getTileController(tile);
+
+                tileController.ApplyNatureElement(natureElement);
+            }
+        }
+
+        public void EnableActionSelectionButtons(bool enable)
+        {
+            _wizardActionsMenuBarMenuBar.gameObject.SetActive(enable);
         }
 
         private void Update()
@@ -50,15 +69,20 @@ namespace Magix.Controller.Match
 
         private void Start()
         {
-            _init();
+            _initialize();
         }
 
-        private void _init()
+        private TileController _getTileController(ITile tile)
+        {
+            return GridController.Tiles[tile.Position.X, tile.Position.Y];
+        }
+
+        private void _initialize()
         {
             _matchService = Resolver.GetService<IMatchService>();
             _wizards = new List<WizardController>();
 
-            _gridController.Init(
+            GridController.Init(
                 _matchService.Board.Tiles,
                 _onMouseEntered,
                 _onMouseExited,
@@ -68,6 +92,9 @@ namespace Magix.Controller.Match
                 _createWizards(player.Wizards);
 
             _initializeStateMachine();
+            _wizardActionsMenuBarMenuBar.Initialize(_onClickMoveAction, _onClickApplyNatureElementAction);
+
+            EnableActionSelectionButtons(false);
 
             _fixPosition();
         }
@@ -76,7 +103,7 @@ namespace Magix.Controller.Match
         {
             _stateMachine = new StateMachineManager(this, _matchService);
 
-            _stateMachine.Push(new IdleState(_gridController));
+            _stateMachine.Push(new IdleState());
         }
 
         private void _createWizards(List<IWizard> wizardsPositions)
@@ -85,10 +112,10 @@ namespace Magix.Controller.Match
             {
                 IPosition position = wizard.Position;
 
-                TileController tileToSpawnWizard = _gridController.Tiles[position.X, position.Y];
+                TileController tileToSpawnWizard = GridController.Tiles[position.X, position.Y];
                 WizardController wizardController = Instantiate(_wizardPrefab, transform);
 
-                wizardController.Init(wizard, tileToSpawnWizard);
+                wizardController.Initialize(wizard, tileToSpawnWizard);
 
                 _wizards.Add(wizardController);
             }
@@ -96,7 +123,7 @@ namespace Magix.Controller.Match
 
         private void _fixPosition()
         {
-            TileController[,] tiles = _gridController.Tiles;
+            TileController[,] tiles = GridController.Tiles;
 
             int lastTileIndex = tiles.GetUpperBound(0);
 
@@ -124,6 +151,16 @@ namespace Magix.Controller.Match
         private void _onMouseExited(TileController tileController)
         {
             _stateMachine.GetCurrentState().OnExitMouse(tileController);
+        }
+
+        private void _onClickMoveAction()
+        {
+            _stateMachine.GetCurrentState().OnClickActionMove();
+        }
+
+        private void _onClickApplyNatureElementAction()
+        {
+            _stateMachine.GetCurrentState().OnClickActionApplyNatureElement();
         }
     }
 }

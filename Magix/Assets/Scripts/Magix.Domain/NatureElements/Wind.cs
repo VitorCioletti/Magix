@@ -2,7 +2,7 @@
 {
     using Interface.NatureElements;
 
-    public class Wind : BaseNatureElement
+    public class Wind : BaseNatureElement, IWind
     {
         public override NatureElementEffect Effect => NatureElementEffect.Dry;
 

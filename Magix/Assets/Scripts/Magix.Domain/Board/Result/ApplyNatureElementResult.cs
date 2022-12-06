@@ -5,18 +5,18 @@
     using Interface.Board;
     using Interface.Board.Result;
 
-    public class MovementResult : BaseResult, IMovementResult
+    public class ApplyNatureElementResult : BaseResult, IApplyNatureElementResult
     {
-        public List<ITile> Moves { get; private set; }
+        public List<ITile> Tiles { get; private set; }
 
-        public MovementResult(
-            List<ITile> moves,
+        public ApplyNatureElementResult(
+            List<ITile> tiles,
             IWizard wizard,
             bool success,
             string errorId)
             : base(wizard, success, errorId)
         {
-            Moves = moves;
+            Tiles = tiles;
         }
     }
 }

@@ -2,10 +2,10 @@
 {
     using System.Collections.Generic;
 
-    public interface IMovementResult : IResult
+    public interface IApplyNatureElementResult : IResult
     {
         IWizard Wizard { get; }
 
-        List<ITile> Moves { get; }
+        List<ITile> Tiles { get; }
     }
 }

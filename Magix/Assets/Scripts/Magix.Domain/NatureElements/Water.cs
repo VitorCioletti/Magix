@@ -2,7 +2,7 @@
 {
     using Interface.NatureElements;
 
-    public class Water : BaseNatureElement
+    public class Water : BaseNatureElement, IWater
     {
         public override NatureElementEffect Effect => NatureElementEffect.Wet;
 

@@ -38,6 +38,8 @@
             RemainingActions -= actions;
         }
 
+        public bool HasRemainingActions() => RemainingActions > 0;
+
         public void ChangeNatureElementEffect(NatureElementEffect natureElementEffect)
         {
             switch (natureElementEffect)

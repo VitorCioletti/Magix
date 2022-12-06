@@ -35,5 +35,13 @@
         public virtual void OnExitMouse(TileController tileController)
         {
         }
+
+        public virtual void OnClickActionMove()
+        {
+        }
+
+        public virtual void OnClickActionApplyNatureElement()
+        {
+        }
     }
 }

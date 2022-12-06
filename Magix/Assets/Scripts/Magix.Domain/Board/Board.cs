@@ -17,7 +17,7 @@
 
         public IPlayer CurrentPlayer { get; private set; }
 
-        private Queue<IPlayer> _orderToPlay;
+        private readonly Queue<IPlayer> _orderToPlay;
 
         private const int _size = 10;
 
@@ -30,7 +30,10 @@
             _setNextPlayerToPlay();
         }
 
-        public void ApplyNatureElement(IWizard wizard, INatureElement natureElement, List<ITile> tiles)
+        public IApplyNatureElementResult ApplyNatureElement(
+            IWizard wizard,
+            INatureElement natureElement,
+            List<ITile> tiles)
         {
             _verifyWizardBelongsCurrentPlayer(wizard);
 
@@ -40,6 +43,12 @@
             wizard.RemoveRemainingActions(tiles.Count);
 
             _tryChangeCurrentPlayer();
+
+            return new ApplyNatureElementResult(
+                tiles,
+                wizard,
+                true,
+                string.Empty);
         }
 
         public IMovementResult Move(IWizard wizard, List<ITile> tiles)
@@ -57,7 +66,7 @@
 
             return new MovementResult(
                 tiles,
-                wizard.Id.ToString(),
+                wizard,
                 true,
                 string.Empty);
         }

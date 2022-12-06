@@ -2,7 +2,7 @@
 {
     using Interface.NatureElements;
 
-    public class Natural : BaseNatureElement
+    public class Natural : BaseNatureElement, INatural
     {
         public override NatureElementEffect Effect => NatureElementEffect.None;
 

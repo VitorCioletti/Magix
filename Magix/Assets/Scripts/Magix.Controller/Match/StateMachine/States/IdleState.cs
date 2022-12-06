@@ -4,13 +4,6 @@
 
     public class IdleState : BaseState
     {
-        private readonly GridController _gridController;
-
-        public IdleState(GridController gridController)
-        {
-            _gridController = gridController;
-        }
-
         public override void OnClickTile(TileController tileController)
         {
             IWizard wizard = MatchService.Board.GetWizard(tileController.Tile);
@@ -21,12 +14,10 @@
             if (wizard == null)
                 return;
 
-            if (wizard.RemainingActions == 0)
+            if (!wizard.HasRemainingActions())
                 return;
 
-            var selectingTargetToMoveWizardState = new SelectingTargetToMoveWizardState(wizard, _gridController);
-
-            StateMachineManager.Push(selectingTargetToMoveWizardState);
+            StateMachineManager.Push(new SelectingActionToWizardPerformState(wizard));
         }
 
         public override void OnEnterMouse(TileController tileController)

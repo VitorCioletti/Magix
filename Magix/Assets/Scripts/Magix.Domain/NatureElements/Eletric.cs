@@ -2,7 +2,7 @@
 {
     using Interface.NatureElements;
 
-    public class Eletric : BaseNatureElement
+    public class Eletric : BaseNatureElement, IEletric
     {
         public override NatureElementEffect Effect => NatureElementEffect.Shocked;
 
