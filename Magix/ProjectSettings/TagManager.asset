@@ -44,6 +44,9 @@ TagManager:
   - name: Tile
     uniqueID: 853609911
     locked: 0
+  - name: NatureElement
+    uniqueID: 1170997455
+    locked: 0
   - name: Wizard
     uniqueID: 55737929
     locked: 0
