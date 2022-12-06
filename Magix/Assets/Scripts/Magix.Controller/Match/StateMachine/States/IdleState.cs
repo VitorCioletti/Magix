@@ -15,6 +15,9 @@
         {
             IWizard wizard = MatchService.Board.GetWizard(tileController.Tile);
 
+            if (!MatchService.Board.BelongsToCurrentPlayer(wizard))
+                return;
+
             if (wizard == null)
                 return;
 

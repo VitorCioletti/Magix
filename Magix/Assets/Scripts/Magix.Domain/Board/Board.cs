@@ -154,11 +154,16 @@
             return wizardInTile;
         }
 
-        private void _verifyWizardBelongsCurrentPlayer(IWizard wizard)
+        public bool BelongsToCurrentPlayer(IWizard wizard)
         {
             List<IWizard> wizards = CurrentPlayer.Wizards;
 
-            if (!wizards.Contains(wizard))
+            return wizards.Contains(wizard);
+        }
+
+        private void _verifyWizardBelongsCurrentPlayer(IWizard wizard)
+        {
+            if (!BelongsToCurrentPlayer(wizard))
                 throw new InvalidOperationException("Wizard does not belong to current player.");
         }
 

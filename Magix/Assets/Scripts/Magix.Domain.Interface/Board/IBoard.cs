@@ -18,6 +18,8 @@
 
         bool HasWizard(ITile tile);
 
+        bool BelongsToCurrentPlayer(IWizard wizard);
+
         List<ITile> GetAreaToMove(IWizard wizard);
 
         List<ITile> GetPreviewPositionMoves(IWizard wizard, ITile objectiveTile);
