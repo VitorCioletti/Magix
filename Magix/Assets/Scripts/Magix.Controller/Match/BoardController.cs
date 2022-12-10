@@ -15,16 +15,16 @@ namespace Magix.Controller.Match
     public class BoardController : MonoBehaviour
     {
         [field: SerializeField]
-        public GridController GridController { get; set; } = default;
+        public GridController GridController { get; set; }
 
         [field: SerializeField]
-        private WizardController _wizardPrefab { get; set; } = default;
+        private WizardController _wizardPrefab { get; set; }
 
         [field: SerializeField]
-        private TextMeshProUGUI _currentStateText { get; set; } = default;
+        private TextMeshProUGUI _currentStateText { get; set; }
 
         [field: SerializeField]
-        private WizardActionsMenuBarController _wizardActionsMenuBarMenuBar { get; set; } = default;
+        private WizardActionsMenuBarController _wizardActionsMenuBarMenuBar { get; set; }
 
         private List<WizardController> _wizards;
 

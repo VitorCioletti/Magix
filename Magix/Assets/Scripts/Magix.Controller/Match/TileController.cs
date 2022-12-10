@@ -11,22 +11,24 @@
         public ITile Tile { get; private set; }
 
         [field: SerializeField]
-        public SpriteRenderer SpriteRenderer { get; private set; } = default;
+        public SpriteRenderer SpriteRenderer { get; private set; }
 
         [field: SerializeField]
-        private Collider2D _collider2D { get; set; } = default;
+        private Collider2D _collider2D { get; set; }
 
         [field: SerializeField]
-        private float _highlightAlpha { get; set; } = default;
+        private float _highlightAlpha { get; set; }
 
         [field: SerializeField]
-        private TextMeshProUGUI _natureElementText { get; set; } = default;
+        private TextMeshProUGUI _natureElementText { get; set; }
 
         private Action<TileController> _onMouseEntered;
 
         private Action<TileController> _onMouseExited;
 
         private Action<TileController> _onTileClicked;
+
+        private Camera _mainCamera;
 
         public void Init(
             ITile tile,
@@ -35,6 +37,8 @@
             Action<TileController> onTileClicked)
         {
             Tile = tile;
+
+            _mainCamera = Camera.main;
 
             _onTileClicked = onTileClicked;
             _onMouseEntered = onMouseEntered;
@@ -59,27 +63,27 @@
         {
             switch (natureElement)
             {
-                case IEletric eletric:
+                case IEletric:
                     _natureElementText.text = "Eletric";
                     break;
 
-                case IFire fire:
+                case IFire:
                     _natureElementText.text = "Fire";
                     break;
 
-                case INatural natural:
+                case INatural:
                     _natureElementText.text = "Natural";
                     break;
 
-                case ISmoke smoke:
+                case ISmoke:
                     _natureElementText.text = "Smoke";
                     break;
 
-                case IWater water:
+                case IWater:
                     _natureElementText.text = "Water";
                     break;
 
-                case IWind wind:
+                case IWind:
                     _natureElementText.text = "Wind";
                     break;
 
@@ -90,9 +94,9 @@
 
         private void Update()
         {
-            if (Input.GetMouseButtonDown(0) && Camera.main is not null)
+            if (Input.GetMouseButtonDown(0) && _mainCamera is not null)
             {
-                Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Vector3 mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
 
                 if (_collider2D.OverlapPoint(mousePosition))
                     _onTileClicked?.Invoke(this);

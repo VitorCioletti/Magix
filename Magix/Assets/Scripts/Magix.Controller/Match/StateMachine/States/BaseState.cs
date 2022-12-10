@@ -4,11 +4,11 @@
 
     public abstract class BaseState
     {
-        protected StateMachineManager StateMachineManager { get; set; }
+        protected StateMachineManager StateMachineManager { get; private set; }
 
-        protected IMatchService MatchService { get; set; }
+        protected IMatchService MatchService { get; private set; }
 
-        protected BoardController BoardController { get; set; }
+        protected BoardController BoardController { get; private set; }
 
         public virtual void Initialize(
             StateMachineManager stateMachineManager,

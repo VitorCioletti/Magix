@@ -7,10 +7,10 @@
     public class WizardActionsMenuBarController : MonoBehaviour
     {
         [field: SerializeField]
-        private Button _moveButton { get; set; } = default;
+        private Button _moveButton { get; set; }
 
         [field: SerializeField]
-        private Button _applyNatureElementButton { get; set; } = default;
+        private Button _applyNatureElementButton { get; set; }
 
         public void Initialize(UnityAction onClickMoveButton, UnityAction onClickApplyNatureElementButton)
         {

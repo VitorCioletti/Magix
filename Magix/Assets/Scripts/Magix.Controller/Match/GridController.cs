@@ -7,7 +7,7 @@
     public class GridController : MonoBehaviour
     {
         [field: SerializeField]
-        private TileController _tilePrefab { get; set; } = default;
+        private TileController _tilePrefab { get; set; }
 
         public TileController[,] Tiles { get; private set; }
 
