@@ -106,16 +106,22 @@ namespace Magix.Controller.Match
             _stateMachine.Push(new IdleState());
         }
 
-        private void _createWizards(List<IWizard> wizardsPositions)
+        private void _createWizards(List<IWizard> wizards)
         {
-            foreach (IWizard wizard in wizardsPositions)
+            var color = new Color(
+                Random.Range(0f, 1f),
+                Random.Range(0f, 1f),
+                Random.Range(0f, 1f)
+            );
+
+            foreach (IWizard wizard in wizards)
             {
                 IPosition position = wizard.Position;
 
                 TileController tileToSpawnWizard = GridController.Tiles[position.X, position.Y];
                 WizardController wizardController = Instantiate(_wizardPrefab, transform);
 
-                wizardController.Initialize(wizard, tileToSpawnWizard);
+                wizardController.Initialize(wizard, tileToSpawnWizard, color);
 
                 _wizards.Add(wizardController);
             }
