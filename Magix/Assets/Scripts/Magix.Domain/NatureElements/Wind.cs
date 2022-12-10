@@ -6,6 +6,6 @@
     {
         public override NatureElementEffect Effect => NatureElementEffect.Dry;
 
-        public override INatureElement ApplyNatureElement(INatureElement _) => new Natural();
+        public override INatureElement CastNatureElement(INatureElement _) => new Natural();
     }
 }

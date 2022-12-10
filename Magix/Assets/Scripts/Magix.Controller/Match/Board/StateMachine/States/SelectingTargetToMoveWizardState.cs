@@ -1,4 +1,4 @@
-﻿namespace Magix.Controller.Match.StateMachine.States
+﻿namespace Magix.Controller.Match.Board.StateMachine.States
 {
     using System.Collections.Generic;
     using System.Linq;

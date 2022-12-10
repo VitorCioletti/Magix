@@ -6,7 +6,7 @@
     {
         public override NatureElementEffect Effect => NatureElementEffect.Shocked;
 
-        public override INatureElement ApplyNatureElement(INatureElement natureElement)
+        public override INatureElement CastNatureElement(INatureElement natureElement)
         {
             INatureElement resultantNatureElement = null;
 

@@ -1,16 +1,21 @@
-namespace Magix.Controller.Match
+namespace Magix.Controller.Match.Board
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using DependencyInjection;
     using Domain.Interface;
     using Domain.Interface.Board;
+    using Domain.Interface.Board.Result;
     using Domain.Interface.NatureElements;
+    using NatureElements;
     using Service.Interface;
     using StateMachine;
     using StateMachine.States;
     using TMPro;
     using UnityEngine;
+    using Wizard;
+    using Random = UnityEngine.Random;
 
     public class BoardController : MonoBehaviour
     {
@@ -25,6 +30,12 @@ namespace Magix.Controller.Match
 
         [field: SerializeField]
         private WizardActionsMenuBarController _wizardActionsMenuBarMenuBar { get; set; }
+
+        [field: SerializeField]
+        private NatureElementsMenuBarController _natureElementsMenuBarController { get; set; }
+
+        [field: SerializeField]
+        private CastNatureElementButtonController _castNatureElementButtonController { get; set; }
 
         private List<WizardController> _wizards;
 
@@ -44,19 +55,38 @@ namespace Magix.Controller.Match
             }
         }
 
-        public void ApplyNatureElement(IWizard _, INatureElement natureElement, List<ITile> tiles)
+        public void ApplyNatureElement(IWizard wizard, INatureElement natureElement, List<ITile> tiles)
         {
-            foreach (ITile tile in tiles)
-            {
-                TileController tileController = _getTileController(tile);
+            IApplyNatureElementResult applyNatureElementResult =
+                _matchService.Board.ApplyNatureElement(wizard, natureElement, tiles);
 
-                tileController.ApplyNatureElement(natureElement);
+            if (applyNatureElementResult.Success)
+            {
+                foreach (ITile tile in applyNatureElementResult.Tiles)
+                {
+                    TileController tileController = _getTileController(tile);
+                    tileController.Tile = tile;
+
+                    tileController.UpdateNatureElement();
+                }
             }
+            else
+                throw new InvalidOperationException($"\"{applyNatureElementResult.ErrorId}\".");
         }
 
         public void EnableActionSelectionButtons(bool enable)
         {
             _wizardActionsMenuBarMenuBar.gameObject.SetActive(enable);
+        }
+
+        public void EnableCastNatureElementButton(bool enable)
+        {
+            _castNatureElementButtonController.gameObject.SetActive(enable);
+        }
+
+        public void EnableNatureElementsMenuBar(bool enable)
+        {
+            _natureElementsMenuBarController.gameObject.SetActive(enable);
         }
 
         private void Update()
@@ -82,7 +112,7 @@ namespace Magix.Controller.Match
             _matchService = Resolver.GetService<IMatchService>();
             _wizards = new List<WizardController>();
 
-            GridController.Init(
+            GridController.Initialize(
                 _matchService.Board.Tiles,
                 _onMouseEntered,
                 _onMouseExited,
@@ -92,9 +122,16 @@ namespace Magix.Controller.Match
                 _createWizards(player.Wizards);
 
             _initializeStateMachine();
+
+            List<INatureElement> natureElementsToCast = _matchService.Board.GetNatureElementsToCast();
+
             _wizardActionsMenuBarMenuBar.Initialize(_onClickMoveAction, _onClickApplyNatureElementAction);
+            _castNatureElementButtonController.Initialize(_onClickCastNatureElement);
+            _natureElementsMenuBarController.Initialize(natureElementsToCast, _onClickNatureElementButton);
 
             EnableActionSelectionButtons(false);
+            EnableCastNatureElementButton(false);
+            EnableNatureElementsMenuBar(false);
 
             _fixPosition();
         }
@@ -167,6 +204,16 @@ namespace Magix.Controller.Match
         private void _onClickApplyNatureElementAction()
         {
             _stateMachine.GetCurrentState().OnClickActionApplyNatureElement();
+        }
+
+        private void _onClickCastNatureElement()
+        {
+            _stateMachine.GetCurrentState().OnClickCastNatureElement();
+        }
+
+        private void _onClickNatureElementButton(NatureElementButtonController natureElementButtonController)
+        {
+            _stateMachine.GetCurrentState().OnClickNatureElementButton(natureElementButtonController);
         }
     }
 }

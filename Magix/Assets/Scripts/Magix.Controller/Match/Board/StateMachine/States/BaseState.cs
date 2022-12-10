@@ -1,5 +1,6 @@
-﻿namespace Magix.Controller.Match.StateMachine.States
+﻿namespace Magix.Controller.Match.Board.StateMachine.States
 {
+    using NatureElements;
     using Service.Interface;
 
     public abstract class BaseState
@@ -41,6 +42,14 @@
         }
 
         public virtual void OnClickActionApplyNatureElement()
+        {
+        }
+
+        public virtual void OnClickCastNatureElement()
+        {
+        }
+
+        public virtual void OnClickNatureElementButton(NatureElementButtonController natureElementButtonController)
         {
         }
 

@@ -16,15 +16,15 @@
             Position = position;
         }
 
-        public void ApplyNatureElement(INatureElement natureElement)
+        public void CastNatureElement(INatureElement natureElement)
         {
             if (NatureElement == null)
             {
                 NatureElement = natureElement;
-                NatureElement.ApplyNatureElement(null);
+                NatureElement.CastNatureElement(null);
             }
             else
-                NatureElement = NatureElement.ApplyNatureElement(natureElement);
+                NatureElement = NatureElement.CastNatureElement(natureElement);
         }
     }
 }

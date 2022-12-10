@@ -7,6 +7,7 @@
     using Interface.Board;
     using Interface.Board.Result;
     using Interface.NatureElements;
+    using NatureElements;
     using Result;
 
     public class Board : IBoard
@@ -38,7 +39,7 @@
             _verifyWizardBelongsCurrentPlayer(wizard);
 
             foreach (ITile tile in tiles)
-                tile.ApplyNatureElement(natureElement);
+                tile.CastNatureElement(natureElement);
 
             wizard.RemoveRemainingActions(tiles.Count);
 
@@ -69,6 +70,16 @@
                 wizard,
                 true,
                 string.Empty);
+        }
+
+        public List<INatureElement> GetNatureElementsToCast()
+        {
+            return new List<INatureElement>
+            {
+                new Fire(),
+                new Water(),
+                new Wind(),
+            };
         }
 
         public List<ITile> GetAreaToMove(IWizard wizard)

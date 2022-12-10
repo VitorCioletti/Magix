@@ -214,13 +214,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1198217528206181310, guid: d8ab1f24a2eaee149b03255266641a0a, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1198217528206181310, guid: d8ab1f24a2eaee149b03255266641a0a, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -558.3
+    - target: {fileID: 945058472167858161, guid: d8ab1f24a2eaee149b03255266641a0a, type: 3}
+      propertyPath: m_Name
+      value: CastNatureElementButton
       objectReference: {fileID: 0}
     - target: {fileID: 1974593960601778143, guid: d8ab1f24a2eaee149b03255266641a0a, type: 3}
       propertyPath: m_text

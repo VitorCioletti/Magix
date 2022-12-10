@@ -1,5 +1,6 @@
-namespace Magix.Controller.Match
+namespace Magix.Controller.Match.Wizard
 {
+    using Board;
     using Domain.Interface;
     using UnityEngine;
 

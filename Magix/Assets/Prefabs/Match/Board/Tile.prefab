@@ -280,6 +280,7 @@ MonoBehaviour:
   <SpriteRenderer>k__BackingField: {fileID: 5914570540961214843}
   <_collider2D>k__BackingField: {fileID: 7410473973500176763}
   <_highlightAlpha>k__BackingField: 0.5
+  <_natureElementText>k__BackingField: {fileID: 3919896646291168102}
 --- !u!60 &7410473973500176763
 PolygonCollider2D:
   m_ObjectHideFlags: 0

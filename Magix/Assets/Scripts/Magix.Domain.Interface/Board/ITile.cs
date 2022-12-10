@@ -8,6 +8,6 @@
 
         INatureElement NatureElement { get; }
 
-        void ApplyNatureElement(INatureElement natureElement);
+        void CastNatureElement(INatureElement natureElement);
     }
 }

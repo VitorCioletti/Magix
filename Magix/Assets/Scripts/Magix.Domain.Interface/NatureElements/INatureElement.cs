@@ -6,6 +6,6 @@
 
         void ApplyEffect(IWizard wizard);
 
-        INatureElement ApplyNatureElement(INatureElement natureElement);
+        INatureElement CastNatureElement(INatureElement natureElement);
     }
 }

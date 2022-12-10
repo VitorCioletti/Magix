@@ -9,6 +9,6 @@
 
         public void ApplyEffect(IWizard wizard) => wizard.ChangeNatureElementEffect(Effect);
 
-        public abstract INatureElement ApplyNatureElement(INatureElement natureElement);
+        public abstract INatureElement CastNatureElement(INatureElement natureElement);
     }
 }

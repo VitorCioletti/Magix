@@ -6,6 +6,6 @@
     {
         public override NatureElementEffect Effect => NatureElementEffect.None;
 
-        public override INatureElement ApplyNatureElement(INatureElement natureElement) => natureElement;
+        public override INatureElement CastNatureElement(INatureElement natureElement) => natureElement;
     }
 }

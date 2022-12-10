@@ -1,11 +1,11 @@
-﻿namespace Magix.Controller.Match.StateMachine.States
+﻿namespace Magix.Controller.Match.Board.StateMachine.States
 {
     using Domain.Interface;
     using Service.Interface;
 
     public class SelectingActionToWizardPerformState : BaseState
     {
-        private IWizard _wizard;
+        private readonly IWizard _wizard;
 
         public SelectingActionToWizardPerformState(IWizard wizard)
         {
@@ -31,7 +31,7 @@
 
         public override void OnClickActionApplyNatureElement()
         {
-            StateMachineManager.Swap(new SelectingNatureElementState(_wizard));
+            StateMachineManager.Swap(new SelectingNatureElementToCastState(_wizard));
         }
     }
 }

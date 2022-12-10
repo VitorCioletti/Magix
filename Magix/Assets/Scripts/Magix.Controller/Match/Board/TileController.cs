@@ -1,4 +1,4 @@
-﻿namespace Magix.Controller.Match
+﻿namespace Magix.Controller.Match.Board
 {
     using System;
     using Domain.Interface.Board;
@@ -8,7 +8,7 @@
 
     public class TileController : MonoBehaviour
     {
-        public ITile Tile { get; private set; }
+        public ITile Tile { get; set; }
 
         [field: SerializeField]
         public SpriteRenderer SpriteRenderer { get; private set; }
@@ -20,7 +20,7 @@
         private float _highlightAlpha { get; set; }
 
         [field: SerializeField]
-        private TextMeshProUGUI _natureElementText { get; set; }
+        private TextMeshPro _natureElementText { get; set; }
 
         private Action<TileController> _onMouseEntered;
 
@@ -59,8 +59,10 @@
             SpriteRenderer.color = new Color(color.r, color.g, color.b, 1);
         }
 
-        public void ApplyNatureElement(INatureElement natureElement)
+        public void UpdateNatureElement()
         {
+            INatureElement natureElement = Tile.NatureElement;
+
             switch (natureElement)
             {
                 case IEletric:

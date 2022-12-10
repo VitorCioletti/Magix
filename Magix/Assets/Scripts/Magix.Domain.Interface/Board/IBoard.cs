@@ -12,6 +12,8 @@
 
         IPlayer CurrentPlayer { get; }
 
+        List<INatureElement> GetNatureElementsToCast();
+
         IMovementResult Move(IWizard wizard, List<ITile> tiles);
 
         IApplyNatureElementResult ApplyNatureElement(IWizard wizard, INatureElement natureElement, List<ITile> tiles);

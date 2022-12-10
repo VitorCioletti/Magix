@@ -1,4 +1,4 @@
-﻿namespace Magix.Controller.Match
+﻿namespace Magix.Controller.Match.Wizard
 {
     using UnityEngine;
     using UnityEngine.Events;

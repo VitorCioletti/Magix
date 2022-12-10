@@ -1,4 +1,4 @@
-﻿namespace Magix.Controller.Match.StateMachine
+﻿namespace Magix.Controller.Match.Board.StateMachine
 {
     using System;
     using System.Collections.Generic;

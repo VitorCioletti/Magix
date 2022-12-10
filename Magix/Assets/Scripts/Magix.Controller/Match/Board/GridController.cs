@@ -1,4 +1,4 @@
-﻿namespace Magix.Controller.Match
+﻿namespace Magix.Controller.Match.Board
 {
     using System;
     using Domain.Interface.Board;
@@ -11,7 +11,7 @@
 
         public TileController[,] Tiles { get; private set; }
 
-        public void Init(
+        public void Initialize(
             ITile[,] tiles,
             Action<TileController> onMouseEntered,
             Action<TileController> onMouseExited,

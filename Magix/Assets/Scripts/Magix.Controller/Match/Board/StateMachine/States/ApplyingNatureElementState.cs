@@ -1,4 +1,4 @@
-﻿namespace Magix.Controller.Match.StateMachine.States
+﻿namespace Magix.Controller.Match.Board.StateMachine.States
 {
     using System.Collections.Generic;
     using Domain.Interface;
@@ -30,14 +30,9 @@
         {
             base.Initialize(stateMachineManager, boardController, matchService);
 
-            IApplyNatureElementResult applyNatureElementResult =
-                matchService.Board.ApplyNatureElement(_wizard, _natureElement, _tiles);
+            BoardController.ApplyNatureElement(_wizard, _natureElement, _tiles);
 
-            if (applyNatureElementResult.Success)
-                BoardController.Move(_wizard, applyNatureElementResult.Tiles);
-
-            else
-                Debug.LogError($"\"{applyNatureElementResult.ErrorId}\".");
+            Pop();
         }
     }
 }
