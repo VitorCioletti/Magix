@@ -34,7 +34,7 @@
             else
                 Debug.LogError($"\"{movementResult.ErrorId}\".");
 
-            StateMachineManager.Pop();
+            Pop();
         }
     }
 }

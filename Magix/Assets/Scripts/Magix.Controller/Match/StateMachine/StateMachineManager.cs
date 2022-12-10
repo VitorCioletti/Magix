@@ -1,5 +1,6 @@
 ﻿namespace Magix.Controller.Match.StateMachine
 {
+    using System;
     using System.Collections.Generic;
     using Service.Interface;
     using States;
@@ -33,13 +34,21 @@
 
         public void Swap(BaseState state)
         {
-            Pop();
+            Pop(GetCurrentState());
             Push(state);
         }
 
-        public void Pop()
+        public void Pop(BaseState state)
         {
-            GetCurrentState().Cleanup();
+            BaseState currentState = GetCurrentState();
+
+            if (currentState != state)
+            {
+                throw new InvalidOperationException(
+                    $"Current state \"{currentState}\" is different than state popping \"{state}\".");
+            }
+
+            currentState.Cleanup();
 
             _stateStack.Pop();
         }

@@ -24,7 +24,7 @@
                 NatureElement.ApplyNatureElement(null);
             }
             else
-                NatureElement.ApplyNatureElement(natureElement);
+                NatureElement = NatureElement.ApplyNatureElement(natureElement);
         }
     }
 }

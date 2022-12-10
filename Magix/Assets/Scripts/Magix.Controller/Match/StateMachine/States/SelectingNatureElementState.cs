@@ -19,7 +19,7 @@
         {
             base.Initialize(stateMachineManager, boardController, matchService);
 
-            StateMachineManager.Pop();
+            StateMachineManager.Swap(new SelectingTargetToApplyNatureElementState(_wizard));
         }
     }
 }

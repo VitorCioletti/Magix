@@ -43,5 +43,10 @@
         public virtual void OnClickActionApplyNatureElement()
         {
         }
+
+        protected void Pop()
+        {
+            StateMachineManager.Pop(this);
+        }
     }
 }
