@@ -45,14 +45,21 @@ namespace Magix.Controller.Match.Board
 
         public void Move(IWizard wizard, List<ITile> tiles)
         {
-            WizardController wizardController = _wizards.First(w => w.Wizard == wizard);
+            IMovementResult movementResult = _matchService.Board.Move(wizard, tiles);
 
-            foreach (ITile tile in tiles)
+            if (movementResult.Success)
             {
-                TileController tileController = _getTileController(tile);
+                WizardController wizardController = _wizards.First(w => w.Wizard == wizard);
 
-                wizardController.Move(tileController);
+                foreach (ITile tile in tiles)
+                {
+                    TileController tileController = _getTileController(tile);
+
+                    wizardController.Move(tileController);
+                }
             }
+            else
+                throw new InvalidOperationException($"\"{movementResult.ErrorId}\".");
         }
 
         public void ApplyNatureElement(IWizard wizard, INatureElement natureElement, List<ITile> tiles)

@@ -3,9 +3,7 @@
     using System.Collections.Generic;
     using Domain.Interface;
     using Domain.Interface.Board;
-    using Domain.Interface.Board.Result;
     using Service.Interface;
-    using UnityEngine;
 
     public class MovingWizardToTargetState : BaseState
     {
@@ -26,13 +24,7 @@
         {
             base.Initialize(stateMachineManager, boardController, matchService);
 
-            IMovementResult movementResult = MatchService.Board.Move(_wizard, _tiles);
-
-            if (movementResult.Success)
-                BoardController.Move(_wizard, movementResult.Moves);
-
-            else
-                Debug.LogError($"\"{movementResult.ErrorId}\".");
+            BoardController.Move(_wizard, _tiles);
 
             Pop();
         }
