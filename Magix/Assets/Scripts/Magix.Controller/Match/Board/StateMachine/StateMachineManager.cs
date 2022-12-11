@@ -13,8 +13,15 @@
 
         private readonly BoardController _boardController;
 
-        public StateMachineManager(BoardController boardController, IMatchService matchService)
+        private readonly Action<BaseState> _onChangeState;
+
+        public StateMachineManager(
+            BoardController boardController,
+            IMatchService matchService,
+            Action<BaseState> onChangeState)
         {
+            _onChangeState = onChangeState;
+
             _boardController = boardController;
             _matchService = matchService;
 
@@ -30,6 +37,8 @@
             _stateStack.Push(state);
 
             state.Initialize(this, _boardController, _matchService);
+
+            _onChangeState?.Invoke(state);
         }
 
         public void Swap(BaseState state)
@@ -51,6 +60,8 @@
             currentState.Cleanup();
 
             _stateStack.Pop();
+
+            _onChangeState?.Invoke(GetCurrentState());
         }
     }
 }

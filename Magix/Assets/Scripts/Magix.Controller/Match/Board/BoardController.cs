@@ -98,13 +98,6 @@ namespace Magix.Controller.Match.Board
             _natureElementsMenuBarController.gameObject.SetActive(enable);
         }
 
-        private void Update()
-        {
-            // TODO: Remove from update and add it to the state machine.
-            BaseState currentState = _stateMachine.GetCurrentState();
-
-            _currentStateText.text = currentState?.GetType().Name;
-        }
 
         private void Start()
         {
@@ -152,7 +145,7 @@ namespace Magix.Controller.Match.Board
 
         private void _initializeStateMachine()
         {
-            _stateMachine = new StateMachineManager(this, _matchService);
+            _stateMachine = new StateMachineManager(this, _matchService, _onChangeState);
 
             _stateMachine.Push(new IdleState());
         }
@@ -187,6 +180,11 @@ namespace Magix.Controller.Match.Board
             float newX = (firstTileXPosition - lastTileTileXPosition) / 2;
 
             gameObject.transform.position = new Vector3(newX, 0, 0);
+        }
+
+        private void _onChangeState(BaseState currentState)
+        {
+            _currentStateText.text = currentState?.GetType().Name;
         }
 
         private void _onTileClicked(TileController tileController)
