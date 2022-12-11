@@ -49,14 +49,22 @@
         {
             Color color = SpriteRenderer.color;
 
-            SpriteRenderer.color = new Color(color.r, color.g, color.b, _highlightAlpha);
+            SpriteRenderer.color = new Color(
+                color.r,
+                color.g,
+                color.b,
+                _highlightAlpha);
         }
 
         public void Deselect()
         {
             Color color = SpriteRenderer.color;
 
-            SpriteRenderer.color = new Color(color.r, color.g, color.b, 1);
+            SpriteRenderer.color = new Color(
+                color.r,
+                color.g,
+                color.b,
+                1);
         }
 
         public void UpdateNatureElement()

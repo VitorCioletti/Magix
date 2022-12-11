@@ -1,34 +1,33 @@
 namespace Magix.Controller.Match.Wizard
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
     using Board;
     using Domain.Interface;
     using UnityEngine;
+    using View.Match.Wizard;
 
     public class WizardController : MonoBehaviour
     {
         [field: SerializeField]
-        public SpriteRenderer SpriteRenderer { get; private set; }
+        private WizardView _view { get; set; }
 
         public IWizard Wizard { get; private set; }
 
-        private Vector3 _offsetPosition;
-
-        public void Initialize(IWizard wizard, TileController tileToSpawnWizard, Color color)
+        public void Initialize(IWizard wizard, TileController tileToSpawnWizard)
         {
-            _offsetPosition = new Vector3(0, 0.30f, 0);
-
-            SpriteRenderer.color = color;
-
             Wizard = wizard;
 
-            Move(tileToSpawnWizard);
+            _view.Initialize(tileToSpawnWizard.transform);
+            _view.AnimateIdle();
         }
 
-        public void Move(TileController tileController)
+        public async Task MoveAsync(List<TileController> tilesController)
         {
-            Vector3 wizardPosition = tileController.transform.position + _offsetPosition;
+            List<Transform> tilesTransforms = tilesController.Select(t => t.transform).ToList();
 
-            transform.position = wizardPosition;
+            await _view.AnimateMoveAsync(tilesTransforms);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace Magix.Controller.Match.Board.StateMachine.States
 {
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Domain.Interface;
     using Domain.Interface.Board;
     using Service.Interface;
@@ -17,14 +18,14 @@
             _tiles = tiles;
         }
 
-        public override void Initialize(
+        public override async void Initialize(
             StateMachineManager stateMachineManager,
             BoardController boardController,
             IMatchService matchService)
         {
             base.Initialize(stateMachineManager, boardController, matchService);
 
-            BoardController.Move(_wizard, _tiles);
+            await BoardController.MoveAsync(_wizard, _tiles);
 
             Pop();
         }

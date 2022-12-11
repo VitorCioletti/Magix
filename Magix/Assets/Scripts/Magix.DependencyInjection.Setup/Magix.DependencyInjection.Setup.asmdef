@@ -1,5 +1,5 @@
 {
-    "name": "Magix_DependencyInjection_Setup",
+    "name": "Magix.DependencyInjection.Setup",
     "rootNamespace": "",
     "references": [
         "GUID:ba703485307c475fb00e4e2507c65441",

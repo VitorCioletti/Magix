@@ -3,6 +3,7 @@ namespace Magix.Controller.Match.Board
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using DependencyInjection;
     using Domain.Interface;
     using Domain.Interface.Board;
@@ -43,7 +44,7 @@ namespace Magix.Controller.Match.Board
 
         private IMatchService _matchService;
 
-        public void Move(IWizard wizard, List<ITile> tiles)
+        public async Task MoveAsync(IWizard wizard, List<ITile> tiles)
         {
             IMovementResult movementResult = _matchService.Board.Move(wizard, tiles);
 
@@ -51,12 +52,9 @@ namespace Magix.Controller.Match.Board
             {
                 WizardController wizardController = _wizards.First(w => w.Wizard == wizard);
 
-                foreach (ITile tile in tiles)
-                {
-                    TileController tileController = _getTileController(tile);
+                List<TileController> tilesController = tiles.Select(_getTileController).ToList();
 
-                    wizardController.Move(tileController);
-                }
+                await wizardController.MoveAsync(tilesController);
             }
             else
                 throw new InvalidOperationException($"\"{movementResult.ErrorId}\".");
@@ -152,12 +150,6 @@ namespace Magix.Controller.Match.Board
 
         private void _createWizards(List<IWizard> wizards)
         {
-            var color = new Color(
-                Random.Range(0f, 1f),
-                Random.Range(0f, 1f),
-                Random.Range(0f, 1f)
-            );
-
             foreach (IWizard wizard in wizards)
             {
                 IPosition position = wizard.Position;
@@ -165,7 +157,7 @@ namespace Magix.Controller.Match.Board
                 TileController tileToSpawnWizard = GridController.Tiles[position.X, position.Y];
                 WizardController wizardController = Instantiate(_wizardPrefab, transform);
 
-                wizardController.Initialize(wizard, tileToSpawnWizard, color);
+                wizardController.Initialize(wizard, tileToSpawnWizard);
 
                 _wizards.Add(wizardController);
             }

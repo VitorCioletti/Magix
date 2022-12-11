@@ -1,5 +1,5 @@
 {
-    "name": "Magix_DependencyInjection_Resolver",
+    "name": "Magix.DependencyInjection.Resolver",
     "rootNamespace": "",
     "references": [],
     "includePlatforms": [],
