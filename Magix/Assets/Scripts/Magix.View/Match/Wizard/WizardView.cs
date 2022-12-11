@@ -1,6 +1,7 @@
 ﻿namespace Magix.View.Match.Wizard
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using DG.Tweening;
     using UnityEngine;
@@ -26,8 +27,11 @@
         {
             Sequence sequence = DOTween.Sequence();
 
-            // TODO: Get animator Casting time.
-            sequence.SetDelay(1f);
+            string animationName = "Casting";
+
+            float castingTime = _getAnimationTime(animationName);
+
+            sequence.SetDelay(castingTime);
 
             sequence.OnStart(OnSequenceStart);
             sequence.OnComplete(AnimateIdle);
@@ -38,7 +42,7 @@
 
             void OnSequenceStart()
             {
-                _animator.Play("Casting");
+                _animator.Play(animationName);
             }
         }
 
@@ -65,6 +69,13 @@
             {
                 _animator.Play("Running");
             }
+        }
+
+        private float _getAnimationTime(string animation)
+        {
+            AnimationClip[] animations = _animator.runtimeAnimatorController.animationClips;
+
+            return animations.First(a => a.name == animation).length;
         }
     }
 }
