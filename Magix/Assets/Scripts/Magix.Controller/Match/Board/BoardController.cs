@@ -60,13 +60,17 @@ namespace Magix.Controller.Match.Board
                 throw new InvalidOperationException($"\"{movementResult.ErrorId}\".");
         }
 
-        public void ApplyNatureElement(IWizard wizard, INatureElement natureElement, List<ITile> tiles)
+        public async Task CastNatureElementAsync(IWizard wizard, INatureElement natureElement, List<ITile> tiles)
         {
             IApplyNatureElementResult applyNatureElementResult =
                 _matchService.Board.ApplyNatureElement(wizard, natureElement, tiles);
 
             if (applyNatureElementResult.Success)
             {
+                WizardController wizardController = _getWizardController(wizard);
+
+                await wizardController.CastAsync();
+
                 foreach (ITile tile in applyNatureElementResult.Tiles)
                 {
                     TileController tileController = _getTileController(tile);
@@ -110,6 +114,11 @@ namespace Magix.Controller.Match.Board
         private TileController _getTileController(ITile tile)
         {
             return GridController.Tiles[tile.Position.X, tile.Position.Y];
+        }
+
+        private WizardController _getWizardController(IWizard wizard)
+        {
+            return _wizards.FirstOrDefault(w => w.Wizard == wizard);
         }
 
         private void _initialize()

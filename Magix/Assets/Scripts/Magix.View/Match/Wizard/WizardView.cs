@@ -22,28 +22,49 @@
             _animator.Play("Idle");
         }
 
+        public async Task AnimateCastAsync()
+        {
+            Sequence sequence = DOTween.Sequence();
+
+            // TODO: Get animator Casting time.
+            sequence.SetDelay(1f);
+
+            sequence.OnStart(OnSequenceStart);
+            sequence.OnComplete(AnimateIdle);
+
+            sequence.Play();
+
+            await sequence.AsyncWaitForCompletion();
+
+            void OnSequenceStart()
+            {
+                _animator.Play("Casting");
+            }
+        }
+
         public async Task AnimateMoveAsync(List<Transform> transformsToMove)
         {
             Sequence sequence = DOTween.Sequence();
 
-            float moveSpeed = 0.2f;
+            const float moveSpeed = 0.2f;
 
             foreach (Transform transformToMove in transformsToMove)
             {
                 Vector3 transformToMovePosition = transformToMove.position;
 
+                // TODO: Add Flip.
                 sequence.Append(transform.DOMove(transformToMovePosition + _positionOffset, moveSpeed));
             }
 
-            sequence.OnStart(_animateMove);
+            sequence.OnStart(OnSequeceStart);
             sequence.OnComplete(AnimateIdle);
 
             await sequence.Play().AsyncWaitForCompletion();
-        }
 
-        private void _animateMove()
-        {
-            _animator.Play("Run");
+            void OnSequeceStart()
+            {
+                _animator.Play("Running");
+            }
         }
     }
 }

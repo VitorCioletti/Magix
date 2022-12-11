@@ -64,7 +64,7 @@
 
             List<ITile> selectedTiles = _selectedTilesController.Select(t => t.Tile).ToList();
 
-            StateMachineManager.Swap(new ApplyingNatureElementState(_wizard, _natureElement, selectedTiles));
+            StateMachineManager.Swap(new CastingNatureElementState(_wizard, _natureElement, selectedTiles));
         }
     }
 }

@@ -29,5 +29,10 @@ namespace Magix.Controller.Match.Wizard
 
             await _view.AnimateMoveAsync(tilesTransforms);
         }
+
+        public async Task CastAsync()
+        {
+            await _view.AnimateCastAsync();
+        }
     }
 }
