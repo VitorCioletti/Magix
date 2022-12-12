@@ -11,6 +11,9 @@
         [field: SerializeField]
         private Animator _animator { get; set; }
 
+        [field: SerializeField]
+        private SpriteRenderer _spriteRenderer { get; set; }
+
         private readonly Vector3 _positionOffset = new(0.15f, 0.7f, 0);
 
         public void Initialize(Transform transformToSpawn)
@@ -56,7 +59,7 @@
             {
                 Vector3 transformToMovePosition = transformToMove.position;
 
-                // TODO: Add Flip.
+                sequence.AppendCallback(() => CalculateFlip(transformToMove));
                 sequence.Append(transform.DOMove(transformToMovePosition + _positionOffset, moveSpeed));
             }
 
@@ -64,6 +67,14 @@
             sequence.OnComplete(AnimateIdle);
 
             await sequence.Play().AsyncWaitForCompletion();
+
+            void CalculateFlip(Transform target)
+            {
+                Vector3 targetPosition = target.position;
+                Vector3 wizardPosition = transform.position;
+
+                _spriteRenderer.flipX = targetPosition.x < wizardPosition.x;
+            }
 
             void OnSequeceStart()
             {

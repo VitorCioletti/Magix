@@ -61,6 +61,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <_animator>k__BackingField: {fileID: 4867192532165875789}
+  <_spriteRenderer>k__BackingField: {fileID: 8326356434697538575}
 --- !u!95 &6846746183781894519
 Animator:
   serializedVersion: 4
@@ -71,7 +72,7 @@ Animator:
   m_GameObject: {fileID: 1332661592666015093}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 3812fe94ba022634a986476b344ed90d, type: 2}
+  m_Controller: {fileID: 9100000, guid: 9c619dc5d56cb264a931533ffd810a35, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
