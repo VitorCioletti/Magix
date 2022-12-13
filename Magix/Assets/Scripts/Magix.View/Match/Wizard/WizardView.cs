@@ -14,7 +14,7 @@
         [field: SerializeField]
         private SpriteRenderer _spriteRenderer { get; set; }
 
-        private readonly Vector3 _positionOffset = new(0.15f, 0.7f, 0);
+        private readonly Vector3 _positionOffset = new(0.05f, 0.6f, 0);
 
         public void Initialize(Transform transformToSpawn)
         {
