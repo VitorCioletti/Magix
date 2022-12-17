@@ -9,14 +9,18 @@
     {
         public Guid Id { get; private set; }
 
+        public int Number { get; private set; }
+
         public List<IWizard> Wizards { get; private set; }
 
         public bool HasRemainingActions => Wizards.Any(w => w.RemainingActions > 0);
 
-        public Player(List<IWizard> wizards)
+        public Player(List<IWizard> wizards, int number)
         {
             Id = Guid.NewGuid();
+
             Wizards = wizards;
+            Number = number;
         }
     }
 }

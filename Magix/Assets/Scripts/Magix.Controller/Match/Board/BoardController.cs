@@ -126,7 +126,7 @@ namespace Magix.Controller.Match.Board
                 _onTileClicked);
 
             foreach (IPlayer player in _matchService.Board.Players)
-                _createWizards(player.Wizards);
+                _createWizards(player);
 
             _initializeStateMachine();
 
@@ -150,16 +150,16 @@ namespace Magix.Controller.Match.Board
             _stateMachine.Push(new IdleState());
         }
 
-        private void _createWizards(List<IWizard> wizards)
+        private void _createWizards(IPlayer player)
         {
-            foreach (IWizard wizard in wizards)
+            foreach (IWizard wizard in player.Wizards)
             {
                 IPosition position = wizard.Position;
 
                 TileController tileToSpawnWizard = GridController.Tiles[position.X, position.Y];
                 WizardController wizardController = Instantiate(_wizardPrefab, transform);
 
-                wizardController.Initialize(wizard, tileToSpawnWizard);
+                wizardController.Initialize(wizard, tileToSpawnWizard, player.Number);
 
                 _wizards.Add(wizardController);
             }

@@ -9,6 +9,9 @@
     public class WizardView : MonoBehaviour
     {
         [field: SerializeField]
+        private List<RuntimeAnimatorController> _animators { get; set; }
+
+        [field: SerializeField]
         private Animator _animator { get; set; }
 
         [field: SerializeField]
@@ -16,8 +19,10 @@
 
         private readonly Vector3 _positionOffset = new(0.05f, 0.6f, 0);
 
-        public void Initialize(Transform transformToSpawn)
+        public void Initialize(Transform transformToSpawn, int playerNumber)
         {
+            _animator.runtimeAnimatorController = _animators[playerNumber - 1];
+
             transform.position = transformToSpawn.position + _positionOffset;
         }
 

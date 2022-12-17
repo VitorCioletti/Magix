@@ -15,11 +15,11 @@ namespace Magix.Controller.Match.Wizard
 
         public IWizard Wizard { get; private set; }
 
-        public void Initialize(IWizard wizard, TileController tileToSpawnWizard)
+        public void Initialize(IWizard wizard, TileController tileToSpawnWizard, int player)
         {
             Wizard = wizard;
 
-            _view.Initialize(tileToSpawnWizard.transform);
+            _view.Initialize(tileToSpawnWizard.transform, player);
             _view.AnimateIdle();
         }
 

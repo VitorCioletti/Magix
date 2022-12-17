@@ -7,6 +7,8 @@
     {
         Guid Id { get; }
 
+        int Number { get; }
+
         List<IWizard> Wizards { get; }
 
         bool HasRemainingActions { get; }
