@@ -60,6 +60,7 @@
                 Vector3 transformToMovePosition = transformToMove.position;
 
                 sequence.AppendCallback(() => CalculateFlip(transformToMove));
+                // TODO: Fix move when movimentation is downwards
                 sequence.Append(transform.DOMove(transformToMovePosition + _positionOffset, moveSpeed));
             }
 

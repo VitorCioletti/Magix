@@ -37,8 +37,6 @@
 
             float tileSize = 1f;
 
-            int tileSortingLayer = gridColumns;
-
             for (int line = 0; line < gridLines; line++)
             {
                 for (int column = 0; column < gridColumns; column++)
@@ -59,19 +57,16 @@
                         Quaternion.identity,
                         transform);
 
-                    tileController.Init(
+                    tileController.Initialize(
                         tile,
                         onMouseEntered,
                         onMouseExited,
                         onTileClicked);
 
-                    tileController.SpriteRenderer.sortingOrder = tileSortingLayer;
                     tileController.gameObject.name = $"Tile:{tileX},{tileY}";
 
                     Tiles[tileX, tileY] = tileController;
                 }
-
-                tileSortingLayer--;
             }
         }
     }

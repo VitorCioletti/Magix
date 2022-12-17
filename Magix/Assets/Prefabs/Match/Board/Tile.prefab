@@ -182,9 +182,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4069325553327845649}
   - component: {fileID: 5914570540961214843}
-  - component: {fileID: 5914570540961214836}
   - component: {fileID: 7410473973500176763}
   - component: {fileID: 1369175462581792950}
+  - component: {fileID: 5914570540961214836}
+  - component: {fileID: 4458854686930472095}
   m_Layer: 0
   m_Name: Tile
   m_TagString: Untagged
@@ -254,28 +255,12 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.32, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
---- !u!114 &5914570540961214836
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5914570540961214841}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28bc5123ea2a4bfa90244b44df036abe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <SpriteRenderer>k__BackingField: {fileID: 5914570540961214843}
-  <_collider2D>k__BackingField: {fileID: 7410473973500176763}
-  <_highlightAlpha>k__BackingField: 0.5
-  <_natureElementText>k__BackingField: {fileID: 3919896646291168102}
+  m_SpriteSortPoint: 1
 --- !u!60 &7410473973500176763
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -294,7 +279,7 @@ PolygonCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
+    newSize: {x: 0.32, y: 0.32}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -318,3 +303,38 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5914570540961214841}
   m_CullTransparentMesh: 1
+--- !u!114 &5914570540961214836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5914570540961214841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28bc5123ea2a4bfa90244b44df036abe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <_collider2D>k__BackingField: {fileID: 7410473973500176763}
+  <_view>k__BackingField: {fileID: 4458854686930472095}
+  <_natureElementText>k__BackingField: {fileID: 3919896646291168102}
+--- !u!114 &4458854686930472095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5914570540961214841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2de4a7572e37416eb58077fd6466dca8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <_spriteRenderer>k__BackingField: {fileID: 5914570540961214843}
+  <_sprites>k__BackingField:
+  - {fileID: 21300000, guid: 890bb07be2d5d0f428e1f1bf81a5d71d, type: 3}
+  - {fileID: 21300000, guid: 8792a65593bee7d4ba76a4f7f2880ac4, type: 3}
+  - {fileID: 21300000, guid: 98b441e8f36ac0f47a61507fedf906e9, type: 3}
+  - {fileID: 21300000, guid: 1d39c206d06a3c441a2c2ff8b9d680e3, type: 3}
+  - {fileID: 21300000, guid: 0f59a95e5f8f6554397362f1698c3c2c, type: 3}
+  <_highlightAlpha>k__BackingField: 0.5

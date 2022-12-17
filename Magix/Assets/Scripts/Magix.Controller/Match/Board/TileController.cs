@@ -5,19 +5,17 @@
     using Domain.Interface.NatureElements;
     using TMPro;
     using UnityEngine;
+    using View.Match.Board;
 
     public class TileController : MonoBehaviour
     {
         public ITile Tile { get; set; }
 
         [field: SerializeField]
-        public SpriteRenderer SpriteRenderer { get; private set; }
-
-        [field: SerializeField]
         private Collider2D _collider2D { get; set; }
 
         [field: SerializeField]
-        private float _highlightAlpha { get; set; }
+        private TileView _view { get; set; }
 
         [field: SerializeField]
         private TextMeshPro _natureElementText { get; set; }
@@ -30,7 +28,7 @@
 
         private Camera _mainCamera;
 
-        public void Init(
+        public void Initialize(
             ITile tile,
             Action<TileController> onMouseEntered,
             Action<TileController> onMouseExited,
@@ -43,28 +41,18 @@
             _onTileClicked = onTileClicked;
             _onMouseEntered = onMouseEntered;
             _onMouseExited = onMouseExited;
+
+            _view.Initialize();
         }
 
         public void Select()
         {
-            Color color = SpriteRenderer.color;
-
-            SpriteRenderer.color = new Color(
-                color.r,
-                color.g,
-                color.b,
-                _highlightAlpha);
+            _view.Select();
         }
 
         public void Deselect()
         {
-            Color color = SpriteRenderer.color;
-
-            SpriteRenderer.color = new Color(
-                color.r,
-                color.g,
-                color.b,
-                1);
+            _view.Deselect();
         }
 
         public void UpdateNatureElement()
