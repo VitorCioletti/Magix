@@ -12,6 +12,9 @@ namespace Magix.Controller.Match.Board
         private RuntimeAnimatorController _fireRuntimeAnimator { get; set; }
 
         [field: SerializeField]
+        private RuntimeAnimatorController _waterRuntimeAnimator { get; set; }
+
+        [field: SerializeField]
         private NatureElementView _view { get; set; }
 
         public void Initialize()
@@ -42,7 +45,7 @@ namespace Magix.Controller.Match.Board
                     break;
 
                 case IWater:
-                    _view.UpdateNatureElement(null);
+                    _view.UpdateNatureElement(_waterRuntimeAnimator);
                     break;
 
                 case IWind:
