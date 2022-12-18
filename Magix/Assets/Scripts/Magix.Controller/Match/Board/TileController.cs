@@ -2,8 +2,6 @@
 {
     using System;
     using Domain.Interface.Board;
-    using Domain.Interface.NatureElements;
-    using TMPro;
     using UnityEngine;
     using View.Match.Board;
 
@@ -15,10 +13,10 @@
         private Collider2D _collider2D { get; set; }
 
         [field: SerializeField]
-        private TileView _view { get; set; }
+        private NatureElementController _natureElementController { get; set; }
 
         [field: SerializeField]
-        private TextMeshPro _natureElementText { get; set; }
+        private TileView _view { get; set; }
 
         private Action<TileController> _onMouseEntered;
 
@@ -43,6 +41,7 @@
             _onMouseExited = onMouseExited;
 
             _view.Initialize();
+            _natureElementController.Initialize();
         }
 
         public void Select()
@@ -57,37 +56,7 @@
 
         public void UpdateNatureElement()
         {
-            INatureElement natureElement = Tile.NatureElement;
-
-            switch (natureElement)
-            {
-                case IEletric:
-                    _natureElementText.text = "Eletric";
-                    break;
-
-                case IFire:
-                    _natureElementText.text = "Fire";
-                    break;
-
-                case INatural:
-                    _natureElementText.text = "Natural";
-                    break;
-
-                case ISmoke:
-                    _natureElementText.text = "Smoke";
-                    break;
-
-                case IWater:
-                    _natureElementText.text = "Water";
-                    break;
-
-                case IWind:
-                    _natureElementText.text = "Wind";
-                    break;
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(natureElement));
-            }
+            _natureElementController.UpdateNatureElement(Tile);
         }
 
         private void Update()

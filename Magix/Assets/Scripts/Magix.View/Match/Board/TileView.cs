@@ -6,28 +6,28 @@ namespace Magix.View.Match.Board
     public class TileView : MonoBehaviour
     {
         [field: SerializeField]
-        private SpriteRenderer _spriteRenderer { get; set; }
+        private SpriteRenderer _tileSpriteRenderer { get; set; }
 
         [field: SerializeField]
-        private List<Sprite> _sprites { get; set; }
+        private List<Sprite> _tileSprites { get; set; }
 
         [field: SerializeField]
         private float _highlightAlpha { get; set; }
 
         public void Initialize()
         {
-            int spriteIndex = Random.Range(0, _sprites.Count);
+            int spriteIndex = Random.Range(0, _tileSprites.Count);
 
-            Sprite sprite = _sprites[spriteIndex];
+            Sprite sprite = _tileSprites[spriteIndex];
 
-            _spriteRenderer.sprite = sprite;
+            _tileSpriteRenderer.sprite = sprite;
         }
 
         public void Select()
         {
-            Color color = _spriteRenderer.color;
+            Color color = _tileSpriteRenderer.color;
 
-            _spriteRenderer.color = new Color(
+            _tileSpriteRenderer.color = new Color(
                 color.r,
                 color.g,
                 color.b,
@@ -36,9 +36,9 @@ namespace Magix.View.Match.Board
 
         public void Deselect()
         {
-            Color color = _spriteRenderer.color;
+            Color color = _tileSpriteRenderer.color;
 
-            _spriteRenderer.color = new Color(
+            _tileSpriteRenderer.color = new Color(
                 color.r,
                 color.g,
                 color.b,
