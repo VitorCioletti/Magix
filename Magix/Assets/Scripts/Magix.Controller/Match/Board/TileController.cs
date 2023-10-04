@@ -2,6 +2,7 @@
 {
     using System;
     using Domain.Interface.Board;
+    using TMPro;
     using UnityEngine;
     using View.Match.Board;
 
@@ -41,7 +42,7 @@
             _onMouseExited = onMouseExited;
 
             _view.Initialize();
-            _natureElementController.Initialize();
+            // _natureElementController.Initialize(Tile.NatureElement);
         }
 
         public void Select()

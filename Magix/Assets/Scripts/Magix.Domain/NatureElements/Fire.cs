@@ -6,16 +6,13 @@
     {
         public override NatureElementEffect Effect => NatureElementEffect.OnFire;
 
-        public override INatureElement CastNatureElement(INatureElement natureElement)
+        public override INatureElement GetMixedElement(INatureElement natureElement)
         {
-            INatureElement resultantNatureElement = null;
-
-            switch (natureElement)
+            INatureElement resultantNatureElement = natureElement switch
             {
-                case Water:
-                    resultantNatureElement = new Smoke();
-                    break;
-            }
+                Water => new Smoke(),
+                _ => null
+            };
 
             return resultantNatureElement;
         }

@@ -62,25 +62,24 @@ namespace Magix.Controller.Match.Board
 
         public async Task CastNatureElementAsync(IWizard wizard, INatureElement natureElement, List<ITile> tiles)
         {
-            IApplyNatureElementResult applyNatureElementResult =
-                _matchService.Board.ApplyNatureElement(wizard, natureElement, tiles);
-
-            if (applyNatureElementResult.Success)
-            {
-                WizardController wizardController = _getWizardController(wizard);
-
-                await wizardController.CastAsync();
-
-                foreach (ITile tile in applyNatureElementResult.Tiles)
-                {
-                    TileController tileController = _getTileController(tile);
-                    tileController.Tile = tile;
-
-                    tileController.UpdateNatureElement();
-                }
-            }
-            else
-                throw new InvalidOperationException($"\"{applyNatureElementResult.ErrorId}\".");
+            // IMixResult mixResult = _matchService.Board.CastNatureElement(wizard, natureElement, tiles);
+            //
+            // if (mixResult.Success)
+            // {
+            //     WizardController wizardController = _getWizardController(wizard);
+            //
+            //     await wizardController.CastAsync();
+            //
+            //     foreach (ITile tile in mixResult.AffectedTile)
+            //     {
+            //         TileController tileController = _getTileController(tile);
+            //         tileController.Tile = tile;
+            //
+            //         tileController.UpdateNatureElement();
+            //     }
+            // }
+            // else
+            //     throw new InvalidOperationException($"\"{mixResult.ErrorId}\".");
         }
 
         public void EnableActionSelectionButtons(bool enable)

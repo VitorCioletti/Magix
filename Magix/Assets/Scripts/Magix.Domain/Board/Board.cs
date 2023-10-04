@@ -31,25 +31,24 @@
             _setNextPlayerToPlay();
         }
 
-        public IApplyNatureElementResult ApplyNatureElement(
-            IWizard wizard,
-            INatureElement natureElement,
-            List<ITile> tiles)
+        public ICastResult CastNatureElement(IWizard wizard, INatureElement natureElement, List<ITile> tiles)
         {
             _verifyWizardBelongsCurrentPlayer(wizard);
 
+            var allResults = new List<IMixResult>();
+
             foreach (ITile tile in tiles)
-                tile.CastNatureElement(natureElement);
+            {
+                List<IMixResult> mixResults = tile.Mix(natureElement);
+
+                allResults.AddRange(mixResults);
+            }
 
             wizard.RemoveRemainingActions(tiles.Count);
 
             _tryChangeCurrentPlayer();
 
-            return new ApplyNatureElementResult(
-                tiles,
-                wizard,
-                true,
-                string.Empty);
+            return new CastResult(allResults);
         }
 
         public IMovementResult Move(IWizard wizard, List<ITile> tiles)
@@ -57,7 +56,14 @@
             _verifyWizardBelongsCurrentPlayer(wizard);
 
             foreach (ITile tile in tiles)
-                tile.NatureElement.ApplyEffect(wizard);
+            {
+                foreach (INatureElement natureElement in tile.Elements)
+                {
+                    // TODO: Add validation if can go through element.
+                    // TODO: Create IStepResult to put apply effect results.
+                    natureElement.ApplyElementEffect(wizard);
+                }
+            }
 
             wizard.RemoveRemainingActions(tiles.Count);
 
@@ -65,21 +71,12 @@
 
             _tryChangeCurrentPlayer();
 
-            return new MovementResult(
-                tiles,
-                wizard,
-                true,
-                string.Empty);
+            return new MovementResult(tiles, true, string.Empty);
         }
 
         public List<INatureElement> GetNatureElementsToCast()
         {
-            return new List<INatureElement>
-            {
-                new Fire(),
-                new Water(),
-                new Wind(),
-            };
+            return new List<INatureElement> {new Fire(), new Water(), new Wind(),};
         }
 
         public List<ITile> GetAreaToMove(IWizard wizard)
@@ -200,6 +197,52 @@
                     Tiles[line, column] = new Tile(position);
                 }
             }
+
+            _configurateAllTilesAdjacents();
+        }
+
+        private void _configurateAllTilesAdjacents()
+        {
+            foreach (ITile tile in Tiles)
+            {
+                List<ITile> adjacents = _getAdjacentTiles(tile);
+
+                tile.SetAdjacents(adjacents);
+            }
+        }
+
+        private List<ITile> _getAdjacentTiles(ITile tile)
+        {
+            var adjacentTiles = new List<ITile>();
+
+            List<(int, int)> adjacentIndexes = _calculateAdjacentIndexes(tile.Position);
+
+            foreach ((int line, int column) in adjacentIndexes)
+                adjacentTiles.Add(Tiles[line, column]);
+
+            return adjacentTiles;
+        }
+
+        private List<(int, int)> _calculateAdjacentIndexes(IPosition position)
+        {
+            var adjacentIndexes = new List<(int, int)>();
+
+            int line = position.X;
+            int column = position.Y;
+
+            if (line + 1 < _size)
+                adjacentIndexes.Add((line + 1, column));
+
+            if (line - 1 >= 0)
+                adjacentIndexes.Add((line - 1, column));
+
+            if (column + 1 < _size)
+                adjacentIndexes.Add((line, column + 1));
+
+            if (column - 1 >= 0)
+                adjacentIndexes.Add((line, column - 1));
+
+            return adjacentIndexes;
         }
 
         private void _tryChangeCurrentPlayer()

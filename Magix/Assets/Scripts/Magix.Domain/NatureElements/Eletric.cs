@@ -6,14 +6,14 @@
     {
         public override NatureElementEffect Effect => NatureElementEffect.Shocked;
 
-        public override INatureElement CastNatureElement(INatureElement natureElement)
+        public override INatureElement GetMixedElement(INatureElement natureElement)
         {
             INatureElement resultantNatureElement = null;
 
             switch (natureElement)
             {
                 case Natural:
-                    resultantNatureElement = natureElement;
+                    resultantNatureElement = new Natural();
                     break;
             }
 

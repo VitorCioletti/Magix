@@ -4,8 +4,7 @@
 
     public interface IMovementResult : IResult
     {
-        IWizard Wizard { get; }
-
+        // TODO: Create IStepResult to put apply effect results.
         List<ITile> Moves { get; }
     }
 }

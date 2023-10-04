@@ -8,6 +8,9 @@ namespace Magix.View.Match.Board
         private SpriteRenderer _spriteRenderer { get; set; }
 
         [field: SerializeField]
+        private Canvas _canvas { get; set; }
+
+        [field: SerializeField]
         private Animator _animator { get; set; }
 
         public void Initialize()

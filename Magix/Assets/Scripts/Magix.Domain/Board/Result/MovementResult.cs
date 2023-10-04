@@ -11,10 +11,9 @@
 
         public MovementResult(
             List<ITile> moves,
-            IWizard wizard,
             bool success,
             string errorId)
-            : base(wizard, success, errorId)
+            : base(success, errorId)
         {
             Moves = moves;
         }

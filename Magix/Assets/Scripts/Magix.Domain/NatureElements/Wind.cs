@@ -6,6 +6,9 @@
     {
         public override NatureElementEffect Effect => NatureElementEffect.Dry;
 
-        public override INatureElement CastNatureElement(INatureElement _) => new Natural();
+        public override INatureElement GetMixedElement(INatureElement natureElement)
+        {
+            return natureElement.Blocking ? natureElement : new Natural();
+        }
     }
 }

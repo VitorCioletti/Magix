@@ -1,5 +1,8 @@
 ﻿namespace Magix.Domain.Interface.NatureElements
 {
+    using System;
+
+    [Flags]
     public enum NatureElementEffect
     {
         None,

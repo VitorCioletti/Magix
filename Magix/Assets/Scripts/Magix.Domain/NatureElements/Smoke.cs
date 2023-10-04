@@ -6,13 +6,13 @@
     {
         public override NatureElementEffect Effect => NatureElementEffect.Blind;
 
-        public override INatureElement CastNatureElement(INatureElement natureElement)
+        public override INatureElement GetMixedElement(INatureElement natureElement)
         {
             INatureElement resultantNatureElement = null;
 
             switch (natureElement)
             {
-                case Wind:
+                case Natural:
                     resultantNatureElement = new Natural();
                     break;
             }

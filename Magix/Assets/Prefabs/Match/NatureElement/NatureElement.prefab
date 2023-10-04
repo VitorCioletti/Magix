@@ -96,12 +96,12 @@ SpriteRenderer:
   m_SortingLayerID: 1170997455
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 81bd79a80df53c0409adff94afc6a8a8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a33833072bf90f34c856623b67d0e897, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.40625, y: 0.71875}
+  m_Size: {x: 0.16, y: 0.16}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -119,8 +119,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d229ac636364425a381c519c43a2c54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <_placeHolderNatureElementName>k__BackingField: {fileID: 0}
   <_fireRuntimeAnimator>k__BackingField: {fileID: 9100000, guid: 4f91f93be8a63df428c4a34aa42a3b55, type: 2}
-  <_waterRuntimeAnimator>k__BackingField: {fileID: 9100000, guid: e4529f0ea13b53b42b30aae7b3a29f73, type: 2}
   <_view>k__BackingField: {fileID: 4868480148559181802}
 --- !u!114 &4868480148559181802
 MonoBehaviour:
@@ -135,4 +135,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <_spriteRenderer>k__BackingField: {fileID: 4676949674200721221}
+  <_canvas>k__BackingField: {fileID: 0}
   <_animator>k__BackingField: {fileID: 4263909566829216089}
