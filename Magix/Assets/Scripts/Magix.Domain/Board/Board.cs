@@ -7,6 +7,7 @@
     using Interface.Board;
     using Interface.Board.Result;
     using Interface.NatureElements;
+    using Interface.NatureElements.Result;
     using NatureElements;
     using Result;
 
@@ -55,13 +56,22 @@
         {
             _verifyWizardBelongsCurrentPlayer(wizard);
 
+            var steps = new List<IStepResult>();
+
             foreach (ITile tile in tiles)
             {
                 foreach (INatureElement natureElement in tile.Elements)
                 {
-                    // TODO: Add validation if can go through element.
-                    // TODO: Create IStepResult to put apply effect results.
-                    natureElement.ApplyElementEffect(wizard);
+                    if (natureElement.Blocking)
+                    {
+                        return new MovementResult(null, false, "cant-go-through-blocking-element");
+                    }
+
+                    IEffectResult effectResult = natureElement.ApplyElementEffect(wizard);
+
+                    var step = new StepResult(tile, effectResult);
+
+                    steps.Add(step);
                 }
             }
 
@@ -71,7 +81,7 @@
 
             _tryChangeCurrentPlayer();
 
-            return new MovementResult(tiles, true, string.Empty);
+            return new MovementResult(steps, true, string.Empty);
         }
 
         public List<INatureElement> GetNatureElementsToCast()

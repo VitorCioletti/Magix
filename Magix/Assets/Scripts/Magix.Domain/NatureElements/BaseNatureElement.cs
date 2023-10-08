@@ -1,7 +1,9 @@
 ﻿namespace Magix.Domain.NatureElements
 {
     using Interface;
+    using Interface.Board;
     using Interface.NatureElements;
+    using Interface.NatureElements.Result;
 
     public abstract class BaseNatureElement : INatureElement
     {
@@ -9,11 +11,17 @@
 
         public virtual bool CanSpread => false;
 
-        public abstract NatureElementEffect Effect { get; }
+        public abstract IEffectResult ApplyElementEffect(IWizard wizard);
 
-        public void ApplyElementEffect(IWizard wizard) => wizard.ChangeNatureElementEffect(Effect);
+        public virtual INatureElement GetMixedElement(INatureElement natureElement)
+        {
+            return null;
+        }
 
-        public abstract INatureElement GetMixedElement(INatureElement natureElement);
+        public virtual void OnCast(ITile tile)
+        {
+
+        }
 
         public bool CanReact(INatureElement natureElement)
         {

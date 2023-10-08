@@ -1,10 +1,18 @@
 ﻿namespace Magix.Domain.NatureElements
 {
+    using Interface;
     using Interface.NatureElements;
+    using Interface.NatureElements.Result;
+    using Result;
 
     public class Eletric : BaseNatureElement, IEletric
     {
-        public override NatureElementEffect Effect => NatureElementEffect.Shocked;
+        public override bool CanSpread => true;
+
+        public override IEffectResult ApplyElementEffect(IWizard wizard)
+        {
+            return wizard.Stun();
+        }
 
         public override INatureElement GetMixedElement(INatureElement natureElement)
         {
@@ -14,6 +22,7 @@
             {
                 case Natural:
                     resultantNatureElement = new Natural();
+
                     break;
             }
 

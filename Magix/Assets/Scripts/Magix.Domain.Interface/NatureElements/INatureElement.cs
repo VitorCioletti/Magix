@@ -1,16 +1,14 @@
 ﻿namespace Magix.Domain.Interface.NatureElements
 {
-    using Board.Result;
+    using Result;
 
     public interface INatureElement
     {
-        NatureElementEffect Effect { get; }
-
         bool Blocking { get; }
 
         bool CanSpread { get; }
 
-        void ApplyElementEffect(IWizard wizard);
+        IEffectResult ApplyElementEffect(IWizard wizard);
 
         INatureElement GetMixedElement(INatureElement natureElement);
 

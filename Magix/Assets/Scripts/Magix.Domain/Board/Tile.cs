@@ -42,7 +42,6 @@
             return Elements.Any(a => a.CanReact(natureElement));
         }
 
-
         public void SetAdjacents(List<ITile> adjacents)
         {
             _adjacents = adjacents;

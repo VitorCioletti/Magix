@@ -1,14 +1,13 @@
 namespace Magix.Domain.NatureElements
 {
-    using Interface.NatureElements;
+    using Interface;
+    using Interface.NatureElements.Result;
 
     public class Rock : BaseNatureElement
     {
         public override bool Blocking => true;
 
-        public override NatureElementEffect Effect => NatureElementEffect.None;
-
-        public override INatureElement GetMixedElement(INatureElement natureElement)
+        public override IEffectResult ApplyElementEffect(IWizard wizard)
         {
             return null;
         }
