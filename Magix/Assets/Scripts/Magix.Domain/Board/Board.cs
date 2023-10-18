@@ -13,6 +13,7 @@
 
     public class Board : IBoard
     {
+        // TODO: Tiles should not be visible.
         public ITile[,] Tiles { get; private set; }
 
         public List<IPlayer> Players { get; private set; }
@@ -32,6 +33,7 @@
             _setNextPlayerToPlay();
         }
 
+        // TODO: Pass positions instead of tiles.
         public ICastResult CastNatureElement(IWizard wizard, INatureElement natureElement, List<ITile> tiles)
         {
             _verifyWizardBelongsCurrentPlayer(wizard);
@@ -52,6 +54,7 @@
             return new CastResult(allResults);
         }
 
+        // TODO: Pass positions instead of tiles.
         public IMovementResult Move(IWizard wizard, List<ITile> tiles)
         {
             _verifyWizardBelongsCurrentPlayer(wizard);
@@ -158,6 +161,7 @@
             return moves;
         }
 
+        // TODO: Pass position instead of tile.
         public bool HasWizard(ITile tile)
         {
             IWizard wizard = GetWizard(tile);
@@ -165,6 +169,7 @@
             return wizard != null;
         }
 
+        // TODO: Pass position instead of tile.
         public IWizard GetWizard(ITile tile)
         {
             IWizard wizardInTile = null;

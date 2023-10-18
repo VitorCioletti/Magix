@@ -18,7 +18,7 @@
 
         private List<ITile> _adjacents;
 
-        public Tile(Position position)
+        public Tile(IPosition position)
         {
             Elements = new List<INatureElement> {new Natural()};
             Position = position;
