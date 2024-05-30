@@ -5,7 +5,7 @@
     using Interface.NatureElements.Result;
     using Result;
 
-    public class Eletric : BaseNatureElement, IEletric
+    public class Thunder : BaseNatureElement, IEletric
     {
         public override bool CanSpread => true;
 

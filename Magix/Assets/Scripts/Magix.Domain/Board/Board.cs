@@ -222,7 +222,7 @@
             {
                 List<ITile> adjacents = _getAdjacentTiles(tile);
 
-                tile.SetAdjacents(adjacents);
+                tile.SetAdjacent(adjacents);
             }
         }
 

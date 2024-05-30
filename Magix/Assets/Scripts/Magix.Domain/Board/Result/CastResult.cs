@@ -14,6 +14,8 @@ namespace Magix.Domain.Board.Result
 
         public CastResult(List<IMixResult> resultedMixes) : base(true, string.Empty)
         {
+            Success = resultedMixes.Exists(r => r.Success);
+
             ResultedMixes = resultedMixes;
         }
     }

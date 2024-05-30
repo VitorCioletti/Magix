@@ -4,7 +4,7 @@
 
     public abstract class BaseResult : IResult
     {
-        public bool Success { get; private set; }
+        public bool Success { get; protected set; }
 
         public string ErrorId { get; private set; }
 

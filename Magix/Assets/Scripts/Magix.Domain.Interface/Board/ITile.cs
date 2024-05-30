@@ -19,6 +19,6 @@
 
         bool CanReactOnSelf(INatureElement natureElement);
 
-        void SetAdjacents(List<ITile> adjacents);
+        void SetAdjacent(List<ITile> adjacent);
     }
 }

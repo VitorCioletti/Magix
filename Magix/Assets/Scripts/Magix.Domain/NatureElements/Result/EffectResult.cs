@@ -1,16 +1,17 @@
 namespace Magix.Domain.NatureElements.Result
 {
+    using System;
     using Interface.NatureElements.Result;
 
     public class EffectResult : IEffectResult
     {
-        public bool Blinded { get; private set; }
+        public bool Blinded { get; }
 
-        public bool TookDamage { get; private set; }
+        public bool TookDamage { get; }
 
-        public bool Stunned { get; private set; }
+        public bool Stunned { get; }
 
-        public int DamageTaken { get; private set; }
+        public int DamageTaken { get; }
 
         public EffectResult(
             bool blinded,
@@ -24,5 +25,20 @@ namespace Magix.Domain.NatureElements.Result
             DamageTaken = damageTaken;
 
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is not IEffectResult effectResult)
+                return false;
+
+            return Blinded == effectResult.Blinded && TookDamage == effectResult.TookDamage &&
+                   Stunned == effectResult.Stunned && DamageTaken == effectResult.DamageTaken;
+        }
+
+        public override int GetHashCode() => HashCode.Combine(
+            Blinded,
+            TookDamage,
+            Stunned,
+            DamageTaken);
     }
 }

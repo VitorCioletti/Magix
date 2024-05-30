@@ -7,7 +7,7 @@
 
     public class Fire : BaseNatureElement, IFire
     {
-        private const int _damage = 1;
+        public const int Damage = 1;
 
         public override void OnCast(ITile tile)
         {
@@ -16,7 +16,7 @@
 
         public override IEffectResult ApplyElementEffect(IWizard wizard)
         {
-            return wizard.TakeDamage(_damage);
+            return wizard.TakeDamage(Damage);
         }
 
         public override INatureElement GetMixedElement(INatureElement natureElement)
