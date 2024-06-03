@@ -10,10 +10,7 @@
 
         List<INatureElement> Elements { get; }
 
-        List<IMixResult> Mix(
-            INatureElement natureElement,
-            List<ITile> alreadyMixedTiles = null,
-            int depth = int.MaxValue);
+        List<IMixResult> Mix(INatureElement natureElement, List<ITile> alreadyMixedTiles = null);
 
         bool HasElement<T>() where T : INatureElement;
 

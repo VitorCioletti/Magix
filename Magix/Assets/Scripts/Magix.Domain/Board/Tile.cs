@@ -47,16 +47,8 @@
             _adjacentTiles = adjacent;
         }
 
-        public List<IMixResult> Mix(
-            INatureElement natureElement,
-            List<ITile> alreadyMixedTiles = null,
-            int depth = int.MaxValue)
+        public List<IMixResult> Mix(INatureElement natureElement, List<ITile> alreadyMixedTiles = null)
         {
-            if (depth == 0)
-                return null;
-
-            depth--;
-
             alreadyMixedTiles ??= new List<ITile>();
 
             if (alreadyMixedTiles.Contains(this))
@@ -66,10 +58,8 @@
 
             List<IMixResult> mixResults = _mixOnSelf(natureElement);
 
-            if (mixResults.Exists(m => m.Success))
-            {
+            if (mixResults.Exists(m => m.Success) && !natureElement.CanStack)
                 Elements.Clear();
-            }
 
             foreach (IMixResult mixResult in mixResults)
             {
@@ -81,7 +71,7 @@
 
             if (natureElement.CanSpread)
             {
-                List<IMixResult> adjacentAffectedTiles = _tryMixOnAdjacent(natureElement, alreadyMixedTiles, depth);
+                List<IMixResult> adjacentAffectedTiles = _tryMixOnAdjacent(natureElement, alreadyMixedTiles);
 
                 mixResults.AddRange(adjacentAffectedTiles);
             }
@@ -126,8 +116,7 @@
 
         private List<IMixResult> _tryMixOnAdjacent(
             INatureElement natureElement,
-            List<ITile> alreadyMixedTiles,
-            int depth)
+            List<ITile> alreadyMixedTiles)
         {
             var allResults = new List<IMixResult>();
 
@@ -136,14 +125,12 @@
                 if (alreadyMixedTiles.Contains(tile))
                     continue;
 
-                if (!tile.CanReactOnSelf(natureElement))
-                    continue;
+                List<IMixResult> mixResults = tile.Mix(natureElement, alreadyMixedTiles);
+
+                if (mixResults != null)
+                    allResults.AddRange(mixResults);
 
                 alreadyMixedTiles.Add(tile);
-
-                List<IMixResult> mixResults = tile.Mix(natureElement, alreadyMixedTiles, depth);
-
-                allResults.AddRange(mixResults);
             }
 
             return allResults;

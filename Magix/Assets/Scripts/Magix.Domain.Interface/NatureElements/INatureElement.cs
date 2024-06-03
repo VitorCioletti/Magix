@@ -8,6 +8,8 @@
 
         bool CanSpread { get; }
 
+        bool CanStack { get; }
+
         IEffectResult ApplyElementEffect(IWizard wizard);
 
         INatureElement GetMixedElement(INatureElement natureElement);

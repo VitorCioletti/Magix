@@ -3,11 +3,11 @@
     using Interface;
     using Interface.NatureElements;
     using Interface.NatureElements.Result;
-    using Result;
 
     public class Thunder : BaseNatureElement, IEletric
     {
         public override bool CanSpread => true;
+        public override bool CanStack => true;
 
         public override IEffectResult ApplyElementEffect(IWizard wizard)
         {

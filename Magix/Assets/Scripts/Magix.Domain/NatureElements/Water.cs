@@ -16,7 +16,7 @@
             INatureElement resultantNatureElement = natureElement switch
             {
                 Fire => new Smoke(),
-                Thunder => natureElement,
+                Thunder thunder => thunder,
                 _ => null
             };
 

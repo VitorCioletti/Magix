@@ -34,16 +34,31 @@
         }
 
         [Test]
-        public void ThunderMustSpreadInAdjacentWater()
+        public void ThunderMustStackWithWater()
         {
             var thunder = new Thunder();
             var water = new Water();
 
             var tile = new Tile(new Position());
-            var adjacentTile1 = new Tile(new Position());
-            var adjacentTile2 = new Tile(new Position());
-            var adjacentTile3 = new Tile(new Position());
-            var adjacentTile4 = new Tile(new Position());
+
+            tile.Mix(water);
+            tile.Mix(thunder);
+
+            Assert.IsTrue(tile.Elements.Contains(thunder));
+            Assert.IsTrue(tile.Elements.Contains(water));
+        }
+
+        [Test]
+        public void ThunderMustSpreadInAdjacentWater()
+        {
+            var thunder = new Thunder();
+            var water = new Water();
+
+            var tile = new Tile(new Position(0, 1));
+            var adjacentTile1 = new Tile(new Position(0, 2));
+            var adjacentTile2 = new Tile(new Position(0, 3));
+            var adjacentTile3 = new Tile(new Position(0, 4));
+            var adjacentTile4 = new Tile(new Position(0, 5));
 
             tile.Mix(water);
 
@@ -61,34 +76,46 @@
                 water,
                 thunder);
 
-            var mixResultAdjacentTileWithWater = new MixResult(
-                tile,
+            var mixResultAdjacent1TileWithWater = new MixResult(
+                adjacentTile1,
+                thunder,
+                water,
+                thunder);
+
+            var mixResultAdjacent2TileWithWater = new MixResult(
+                adjacentTile2,
+                thunder,
+                water,
+                thunder);
+
+            var mixResultAdjacent3TileWithWater = new MixResult(
+                adjacentTile3,
                 thunder,
                 water,
                 thunder);
 
             var mixResultAdjacentTileWithoutWater = new MixResult(
-                tile,
+                adjacentTile4,
                 thunder,
                 adjacentTile4.Elements[0],
-                adjacentTile4.Elements[0],
-                false);
+                null,
+                false,
+                "cant-mix");
 
             var expectedMixResults = new List<IMixResult>
             {
                 mixResultTile,
-                mixResultAdjacentTileWithWater,
-                mixResultAdjacentTileWithWater,
-                mixResultAdjacentTileWithWater,
+                mixResultAdjacent1TileWithWater,
+                mixResultAdjacent2TileWithWater,
+                mixResultAdjacent3TileWithWater,
                 mixResultAdjacentTileWithoutWater
             };
 
-            tile.Mix(water);
-
             List<IMixResult> mixResults = tile.Mix(thunder);
 
-            for (int i = 0; i < mixResults.Count; i++)
+            for (int i = 0; i < expectedMixResults.Count; i++)
             {
+                Assert.AreEqual(expectedMixResults[i].Success, mixResults[i].Success);
                 Assert.AreEqual(expectedMixResults[i].AffectedTile, mixResults[i].AffectedTile);
                 Assert.AreEqual(expectedMixResults[i].NewElement, mixResults[i].NewElement);
                 Assert.AreEqual(expectedMixResults[i].OriginallyOnTile, mixResults[i].OriginallyOnTile);

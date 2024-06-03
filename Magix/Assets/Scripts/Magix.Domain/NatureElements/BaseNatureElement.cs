@@ -11,6 +11,8 @@
 
         public virtual bool CanSpread => false;
 
+        public virtual bool CanStack => false;
+
         public abstract IEffectResult ApplyElementEffect(IWizard wizard);
 
         public virtual INatureElement GetMixedElement(INatureElement natureElement)
