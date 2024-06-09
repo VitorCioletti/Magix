@@ -16,7 +16,6 @@ namespace Magix.Controller.Match.Board
     using TMPro;
     using UnityEngine;
     using Wizard;
-    using Random = UnityEngine.Random;
 
     public class BoardController : MonoBehaviour
     {
@@ -62,24 +61,27 @@ namespace Magix.Controller.Match.Board
 
         public async Task CastNatureElementAsync(IWizard wizard, INatureElement natureElement, List<ITile> tiles)
         {
-            // IMixResult mixResult = _matchService.Board.CastNatureElement(wizard, natureElement, tiles);
-            //
-            // if (mixResult.Success)
-            // {
-            //     WizardController wizardController = _getWizardController(wizard);
-            //
-            //     await wizardController.CastAsync();
-            //
-            //     foreach (ITile tile in mixResult.AffectedTile)
-            //     {
-            //         TileController tileController = _getTileController(tile);
-            //         tileController.Tile = tile;
-            //
-            //         tileController.UpdateNatureElement();
-            //     }
-            // }
-            // else
-            //     throw new InvalidOperationException($"\"{mixResult.ErrorId}\".");
+            ICastResult castResult = _matchService.Board.CastNatureElement(wizard, natureElement, tiles);
+
+            if (castResult.Success)
+            {
+                WizardController wizardController = _getWizardController(wizard);
+
+                await wizardController.CastAsync();
+
+                foreach (IMixResult mixResult in castResult.ResultedMixes)
+                {
+                    ITile affectedTile = mixResult.AffectedTile;
+
+                    TileController tileController = _getTileController(affectedTile);
+                    tileController.Tile = affectedTile;
+
+                    tileController.UpdateNatureElement();
+                }
+
+            }
+            else
+                throw new InvalidOperationException($"\"{castResult.ErrorId}\".");
         }
 
         public void EnableActionSelectionButtons(bool enable)
@@ -96,7 +98,6 @@ namespace Magix.Controller.Match.Board
         {
             _natureElementsMenuBarController.gameObject.SetActive(enable);
         }
-
 
         private void Start()
         {

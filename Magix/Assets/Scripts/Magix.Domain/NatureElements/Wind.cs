@@ -9,7 +9,7 @@
     {
         public override void OnCast(ITile tile)
         {
-            tile.Elements.RemoveAll(e => !e.Blocking);
+            tile.NatureElements.RemoveAll(e => !e.Blocking);
         }
 
         public override IEffectResult ApplyElementEffect(IWizard wizard)

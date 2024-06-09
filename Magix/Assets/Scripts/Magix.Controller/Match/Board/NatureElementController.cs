@@ -1,6 +1,6 @@
 namespace Magix.Controller.Match.Board
 {
-    using System;
+    using System.Collections.Generic;
     using Domain.Interface.Board;
     using Domain.Interface.NatureElements;
     using TMPro;
@@ -9,10 +9,10 @@ namespace Magix.Controller.Match.Board
 
     public class NatureElementController : MonoBehaviour
     {
-        public INatureElement NatureElement { get; private set; }
+        private IList<INatureElement> NatureElements { get; set; }
 
         [field: SerializeField]
-        private TextMeshProUGUI _placeHolderNatureElementName { get; set; }
+        private TextMeshPro _placeHolderNatureElementName { get; set; }
 
         [field: SerializeField]
         private RuntimeAnimatorController _fireRuntimeAnimator { get; set; }
@@ -20,46 +20,28 @@ namespace Magix.Controller.Match.Board
         [field: SerializeField]
         private NatureElementView _view { get; set; }
 
-        public void Initialize(INatureElement natureElement)
+        public void Initialize(IList<INatureElement> elements)
         {
-            NatureElement = natureElement;
+            NatureElements = elements;
 
-            _view.Initialize();
+            // _view.Initialize();
         }
 
-        public void UpdateNatureElement(ITile tile)
+        public void UpdateNatureElements(ITile tile)
         {
-            // NatureElement = tile.NatureElement;
+            NatureElements = tile.NatureElements;
 
-            switch (NatureElement)
+            _placeHolderNatureElementName.text = string.Empty;
+
+            foreach (INatureElement natureElement in NatureElements)
             {
-                case IEletric:
-                    _placeHolderNatureElementName.text = "Eletric";
-                    break;
-
-                case IFire:
-                    _view.UpdateNatureElement(_fireRuntimeAnimator);
-                    break;
-
-                case INatural:
-                    _placeHolderNatureElementName.text = string.Empty;
-                    break;
-
-                case ISmoke:
-                    _placeHolderNatureElementName.text = "Smoke";
-                    break;
-
-                case IWater:
-                    _placeHolderNatureElementName.text = "Water";
-                    break;
-
-                case IWind:
-                    _placeHolderNatureElementName.text = "Wind";
-                    break;
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(NatureElement));
+                UpdateNatureElement(natureElement);
             }
+        }
+
+        private void UpdateNatureElement(INatureElement natureElement)
+        {
+            _placeHolderNatureElementName.text += $" {natureElement.GetType().Name}";
         }
     }
 }

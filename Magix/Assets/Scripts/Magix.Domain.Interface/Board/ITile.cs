@@ -8,7 +8,7 @@
     {
         IPosition Position { get; }
 
-        List<INatureElement> Elements { get; }
+        List<INatureElement> NatureElements { get; }
 
         List<IMixResult> Mix(INatureElement natureElement, List<ITile> alreadyMixedTiles = null);
 

@@ -13,7 +13,7 @@
 
         public override INatureElement GetMixedElement(INatureElement natureElement)
         {
-            if (natureElement is IEletric)
+            if (natureElement is IElectric)
                 return null;
 
             return natureElement;

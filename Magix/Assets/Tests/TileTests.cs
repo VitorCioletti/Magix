@@ -19,7 +19,7 @@
 
             tile.Mix(element);
 
-            Assert.IsTrue(tile.Elements.Contains(element));
+            Assert.IsTrue(tile.NatureElements.Contains(element));
         }
 
         [Test]
@@ -97,11 +97,11 @@
 
             tile.Mix(elementToSpread);
 
-            Assert.IsTrue(tile1.Elements.Contains(elementToSpread));
-            Assert.IsTrue(tile2.Elements.Contains(elementToSpread));
-            Assert.IsTrue(tile3.Elements.Contains(elementToSpread));
+            Assert.IsTrue(tile1.NatureElements.Contains(elementToSpread));
+            Assert.IsTrue(tile2.NatureElements.Contains(elementToSpread));
+            Assert.IsTrue(tile3.NatureElements.Contains(elementToSpread));
 
-            Assert.IsFalse(tile4.Elements.Contains(elementToSpread));
+            Assert.IsFalse(tile4.NatureElements.Contains(elementToSpread));
         }
 
         [Test]
@@ -141,13 +141,13 @@
 
             tile.Mix(newElementToMix);
 
-            Assert.IsTrue(tile.Elements.Contains(newElementToMix));
+            Assert.IsTrue(tile.NatureElements.Contains(newElementToMix));
 
-            Assert.IsFalse(tile1.Elements.Contains(newElementToMix));
-            Assert.IsFalse(tile2.Elements.Contains(newElementToMix));
-            Assert.IsFalse(tile3.Elements.Contains(newElementToMix));
+            Assert.IsFalse(tile1.NatureElements.Contains(newElementToMix));
+            Assert.IsFalse(tile2.NatureElements.Contains(newElementToMix));
+            Assert.IsFalse(tile3.NatureElements.Contains(newElementToMix));
 
-            Assert.IsFalse(tile4.Elements.Contains(newElementToMix));
+            Assert.IsFalse(tile4.NatureElements.Contains(newElementToMix));
         }
 
         [Test]
@@ -172,8 +172,8 @@
             tile.Mix(originalElement);
             tile.Mix(newElementToMix);
 
-            Assert.IsTrue(tile.Elements.Contains(originalElement));
-            Assert.IsTrue(tile.Elements.Contains(newElementToMix));
+            Assert.IsTrue(tile.NatureElements.Contains(originalElement));
+            Assert.IsTrue(tile.NatureElements.Contains(newElementToMix));
         }
 
         [Test]
@@ -198,8 +198,8 @@
             tile.Mix(originalElement);
             tile.Mix(newElementToMix);
 
-            Assert.IsFalse(tile.Elements.Contains(originalElement));
-            Assert.IsTrue(tile.Elements.Contains(newElementToMix));
+            Assert.IsFalse(tile.NatureElements.Contains(originalElement));
+            Assert.IsTrue(tile.NatureElements.Contains(newElementToMix));
         }
     }
 }

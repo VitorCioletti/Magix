@@ -14,13 +14,13 @@
 
         // TODO: Add properties to hold element on ground and air.
 
-        public List<INatureElement> Elements { get; private set; }
+        public List<INatureElement> NatureElements { get; private set; }
 
         private List<ITile> _adjacentTiles;
 
         public Tile(IPosition position)
         {
-            Elements = new List<INatureElement> {new Natural()};
+            NatureElements = new List<INatureElement> {new Natural()};
             Position = position;
 
             _adjacentTiles = new List<ITile>();
@@ -28,7 +28,7 @@
 
         public bool HasElement<T>() where T : INatureElement
         {
-            foreach (INatureElement natureElement in Elements)
+            foreach (INatureElement natureElement in NatureElements)
             {
                 if (natureElement is T)
                     return true;
@@ -39,7 +39,7 @@
 
         public bool CanReactOnSelf(INatureElement natureElement)
         {
-            return Elements.Any(a => a.CanReact(natureElement));
+            return NatureElements.Any(a => a.CanReact(natureElement));
         }
 
         public void SetAdjacent(List<ITile> adjacent)
@@ -59,13 +59,13 @@
             List<IMixResult> mixResults = _mixOnSelf(natureElement);
 
             if (mixResults.Exists(m => m.Success) && !natureElement.CanStack)
-                Elements.Clear();
+                NatureElements.Clear();
 
             foreach (IMixResult mixResult in mixResults)
             {
                 if (mixResult.Success)
                 {
-                    Elements.Add(mixResult.NewElement);
+                    NatureElements.Add(mixResult.NewElement);
                 }
             }
 
@@ -83,7 +83,7 @@
         {
             var mixResults = new List<IMixResult>();
 
-            foreach (INatureElement element in Elements)
+            foreach (INatureElement element in NatureElements)
             {
                 INatureElement mixedElement = element.GetMixedElement(elementToMix);
 

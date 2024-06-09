@@ -44,8 +44,8 @@
             tile.Mix(water);
             tile.Mix(thunder);
 
-            Assert.IsTrue(tile.Elements.Contains(thunder));
-            Assert.IsTrue(tile.Elements.Contains(water));
+            Assert.IsTrue(tile.NatureElements.Contains(thunder));
+            Assert.IsTrue(tile.NatureElements.Contains(water));
         }
 
         [Test]
@@ -97,7 +97,7 @@
             var mixResultAdjacentTileWithoutWater = new MixResult(
                 adjacentTile4,
                 thunder,
-                adjacentTile4.Elements[0],
+                adjacentTile4.NatureElements[0],
                 null,
                 false,
                 "cant-mix");

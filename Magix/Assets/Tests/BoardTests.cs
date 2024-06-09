@@ -43,7 +43,7 @@ namespace Tests
             var expectedResultedMix = new MixResult(
                 tileToCast,
                 fire,
-                tileToCast.Elements[0],
+                tileToCast.NatureElements[0],
                 fire);
 
             const int expectedMixes = 1;
@@ -63,7 +63,7 @@ namespace Tests
             Assert.AreEqual(expectedResultedMix.NewElement, resultedMix.NewElement);
             Assert.AreEqual(expectedResultedMix.OriginallyOnTile, resultedMix.OriginallyOnTile);
 
-            Assert.AreEqual(fire, tileToCast.Elements[0]);
+            Assert.AreEqual(fire, tileToCast.NatureElements[0]);
         }
 
         [Test]

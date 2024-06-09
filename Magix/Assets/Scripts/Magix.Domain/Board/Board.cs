@@ -63,7 +63,7 @@
 
             foreach (ITile tile in tiles)
             {
-                foreach (INatureElement natureElement in tile.Elements)
+                foreach (INatureElement natureElement in tile.NatureElements)
                 {
                     if (natureElement.Blocking)
                     {

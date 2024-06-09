@@ -4,7 +4,7 @@
     using Interface.NatureElements;
     using Interface.NatureElements.Result;
 
-    public class Thunder : BaseNatureElement, IEletric
+    public class Thunder : BaseNatureElement, IElectric
     {
         public override bool CanSpread => true;
         public override bool CanStack => true;

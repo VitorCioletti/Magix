@@ -9,7 +9,7 @@
     {
         public override void OnCast(ITile tile)
         {
-            tile.Elements.RemoveAll(e => e is Water);
+            tile.NatureElements.RemoveAll(e => e is Water);
         }
 
         public override IEffectResult ApplyElementEffect(IWizard wizard)
