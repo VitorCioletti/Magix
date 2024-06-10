@@ -44,11 +44,7 @@
             CanMove = true;
             CanPush = true;
 
-            var effectResult = new EffectResult(
-                false,
-                false,
-                false,
-                0);
+            var effectResult = new EffectResult(false, false, 0);
 
             return effectResult;
 
@@ -60,11 +56,7 @@
             CanMove = false;
             CanPush = false;
 
-            var effectResult = new EffectResult(
-                false,
-                false,
-                true,
-                0);
+            var effectResult = new EffectResult(false, true, 0);
 
             return effectResult;
         }
@@ -74,11 +66,7 @@
             CanAttack = false;
             CanPush = false;
 
-            var effectResult = new EffectResult(
-                true,
-                false,
-                false,
-                0);
+            var effectResult = new EffectResult(true, false, 0);
 
             return effectResult;
         }
@@ -122,11 +110,7 @@
         {
             LifePoints -= damage;
 
-            var effectResult = new EffectResult(
-                false,
-                true,
-                false,
-                damage);
+            var effectResult = new EffectResult(false, false, damage);
 
             return effectResult;
         }

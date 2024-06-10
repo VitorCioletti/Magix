@@ -1,15 +1,16 @@
 namespace Tests
 {
+    using System.Collections.Generic;
     using Magix.Domain;
     using Magix.Domain.Board;
-    using Magix.Domain.Interface;
-    using NUnit.Framework;
-    using System.Collections.Generic;
     using Magix.Domain.Board.Result;
+    using Magix.Domain.Interface;
     using Magix.Domain.Interface.Board;
     using Magix.Domain.Interface.Board.Result;
+    using Magix.Domain.Interface.NatureElements;
     using Magix.Domain.NatureElements;
-    using Magix.Domain.NatureElements.Result;
+    using NSubstitute;
+    using NUnit.Framework;
 
     public class BoardTests
     {
@@ -38,13 +39,14 @@ namespace Tests
 
             ITile tileToCast = _board.Tiles[wizardPosition.X + 1, wizardPosition.Y];
 
-            var fire = new Fire();
+            var fire = Substitute.For<IFire>();
 
-            var expectedResultedMix = new MixResult(
-                tileToCast,
-                fire,
-                tileToCast.NatureElements[0],
-                fire);
+            var expectedResultedMix = Substitute.For<IMixResult>();
+
+            expectedResultedMix.AffectedTile.Returns(tileToCast);
+            expectedResultedMix.TriedToMix.Returns(fire);
+            expectedResultedMix.OriginallyOnTile.Returns(tileToCast.NatureElements[0]);
+            expectedResultedMix.NewElement.Returns(fire);
 
             const int expectedMixes = 1;
 
@@ -103,52 +105,68 @@ namespace Tests
         }
 
         [Test]
-        public void WizardCanWalkOverFire()
+        public void WizardCantWalkOverBlockingElement()
         {
             IPlayer currentPlayer = _board.CurrentPlayer;
             IWizard wizard = currentPlayer.Wizards[0];
 
             IPosition wizardPosition = wizard.Position;
 
-            var firePosition = new Position(wizardPosition.X + 1, wizardPosition.Y);
+            var elementPosition = new Position(wizardPosition.X + 1, wizardPosition.Y);
 
-            ITile firstTile = _board.Tiles[firePosition.X, firePosition.Y];
-            ITile nextTile = _board.Tiles[firePosition.X + 1, firePosition.Y];
+            ITile firstTile = _board.Tiles[elementPosition.X, elementPosition.Y];
+            ITile nextTile = _board.Tiles[elementPosition.X + 1, elementPosition.Y];
 
-            var fire = new Fire();
+            var blockingElement = Substitute.For<INatureElement>();
+            blockingElement.Blocking.Returns(true);
 
             var tilesToCast = new List<ITile> {firstTile};
             var tilesToMove = new List<ITile> {firstTile, nextTile};
 
-            var firstStepEffect = new EffectResult(
-                false,
-                true,
-                false,
-                Fire.Damage);
+            _board.CastNatureElement(wizard, blockingElement, tilesToCast);
 
-            var firstStep = new StepResult(firstTile, firstStepEffect);
+            var expectedMovementResult = Substitute.For<IMovementResult>();
 
-            var secondStepEffect = new EffectResult(
-                false,
-                false,
-                false,
-                0);
+            expectedMovementResult.Steps.Returns(new List<IStepResult>());
+            expectedMovementResult.Success.Returns(false);
+            expectedMovementResult.ErrorId.Returns(MovementResult.CantGoThroughBlockingElement);
 
-            var secondStep = new StepResult(nextTile, secondStepEffect);
+            IMovementResult movementResult = _board.Move(wizard, tilesToMove);
 
-            var allSteps = new List<IStepResult> {firstStep, secondStep};
+            Assert.AreEqual(expectedMovementResult.Steps, movementResult.Steps);
+            Assert.AreEqual(expectedMovementResult.Success, movementResult.Success);
+            Assert.AreEqual(expectedMovementResult.ErrorId, movementResult.ErrorId);
+        }
 
-            var expectedMovementResult = new MovementResult(allSteps, true, string.Empty);
+        [Test]
+        public void WizardCanWalkOverNonBlockingElement()
+        {
+            IPlayer currentPlayer = _board.CurrentPlayer;
+            IWizard wizard = currentPlayer.Wizards[0];
 
-            _board.CastNatureElement(wizard, fire, tilesToCast);
+            IPosition wizardPosition = wizard.Position;
 
-            var movementResult = _board.Move(wizard, tilesToMove);
+            var elementPosition = new Position(wizardPosition.X + 1, wizardPosition.Y);
 
-            Assert.AreEqual(expectedMovementResult.Steps[0].Effect, movementResult.Steps[0].Effect);
-            Assert.AreEqual(expectedMovementResult.Steps[0].Tile, movementResult.Steps[0].Tile);
+            ITile firstTile = _board.Tiles[elementPosition.X, elementPosition.Y];
+            ITile secondTile = _board.Tiles[elementPosition.X + 1, elementPosition.Y];
 
-            Assert.AreEqual(expectedMovementResult.Steps[1].Effect, movementResult.Steps[1].Effect);
-            Assert.AreEqual(expectedMovementResult.Steps[1].Tile, movementResult.Steps[1].Tile);
+            var nonBlockingElement = Substitute.For<INatureElement>();
+
+            var tilesToCast = new List<ITile> {firstTile};
+            var tilesToMove = new List<ITile> {firstTile, secondTile};
+
+            _board.CastNatureElement(wizard, nonBlockingElement, tilesToCast);
+
+            var expectedMovementResult = Substitute.For<IMovementResult>();
+
+            expectedMovementResult.Success.Returns(true);
+            expectedMovementResult.ErrorId.Returns(string.Empty);
+
+            IMovementResult movementResult = _board.Move(wizard, tilesToMove);
+
+            Assert.AreEqual(expectedMovementResult.Success, movementResult.Success);
+            Assert.AreEqual(expectedMovementResult.ErrorId, movementResult.ErrorId);
         }
     }
 }

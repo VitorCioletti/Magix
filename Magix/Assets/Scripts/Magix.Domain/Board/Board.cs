@@ -67,7 +67,10 @@
                 {
                     if (natureElement.Blocking)
                     {
-                        return new MovementResult(null, false, "cant-go-through-blocking-element");
+                        return new MovementResult(
+                            new List<IStepResult>(),
+                            false,
+                            MovementResult.CantGoThroughBlockingElement);
                     }
 
                     IEffectResult effectResult = natureElement.ApplyElementEffect(wizard);

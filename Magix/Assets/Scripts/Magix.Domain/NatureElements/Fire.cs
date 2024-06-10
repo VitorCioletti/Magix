@@ -1,7 +1,6 @@
 ﻿namespace Magix.Domain.NatureElements
 {
     using Interface;
-    using Interface.Board;
     using Interface.NatureElements;
     using Interface.NatureElements.Result;
 
@@ -9,21 +8,17 @@
     {
         public const int Damage = 1;
 
-        public override void OnCast(ITile tile)
-        {
-            tile.NatureElements.RemoveAll(e => e is Water);
-        }
-
         public override IEffectResult ApplyElementEffect(IWizard wizard)
         {
             return wizard.TakeDamage(Damage);
         }
 
-        public override INatureElement GetMixedElement(INatureElement natureElement)
+        public override INatureElement GetMixedElement(INatureElement newElementToMix)
         {
-            INatureElement resultantNatureElement = natureElement switch
+            INatureElement resultantNatureElement = newElementToMix switch
             {
                 Water => new Smoke(),
+                Wind => new Natural(),
                 _ => null
             };
 

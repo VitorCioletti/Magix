@@ -7,6 +7,7 @@
     public class Thunder : BaseNatureElement, IElectric
     {
         public override bool CanSpread => true;
+
         public override bool CanStack => true;
 
         public override IEffectResult ApplyElementEffect(IWizard wizard)
@@ -14,13 +15,13 @@
             return wizard.Stun();
         }
 
-        public override INatureElement GetMixedElement(INatureElement natureElement)
+        public override INatureElement GetMixedElement(INatureElement newElementToMix)
         {
             INatureElement resultantNatureElement = null;
 
-            switch (natureElement)
+            switch (newElementToMix)
             {
-                case Natural:
+                case Wind:
                     resultantNatureElement = new Natural();
 
                     break;

@@ -50,11 +50,7 @@
 
             var fire = new Fire();
 
-            var expectedEffectResult = new EffectResult(
-                false,
-                true,
-                false,
-                Fire.Damage);
+            var expectedEffectResult = new EffectResult(false, false, Fire.Damage);
 
             var expectedLifeAfterDamage = wizard.LifePoints - Fire.Damage;
 

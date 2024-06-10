@@ -11,12 +11,12 @@
             return wizard.ClearDebuffs();
         }
 
-        public override INatureElement GetMixedElement(INatureElement natureElement)
+        public override INatureElement GetMixedElement(INatureElement newElementToMix)
         {
-            if (natureElement is IElectric)
+            if (newElementToMix is IElectric)
                 return null;
 
-            return natureElement;
+            return newElementToMix;
         }
     }
 }

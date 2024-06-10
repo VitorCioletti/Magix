@@ -12,7 +12,7 @@
 
         IEffectResult ApplyElementEffect(IWizard wizard);
 
-        INatureElement GetMixedElement(INatureElement natureElement);
+        INatureElement GetMixedElement(INatureElement newElementToMix);
 
         bool CanReact(INatureElement natureElement);
     }

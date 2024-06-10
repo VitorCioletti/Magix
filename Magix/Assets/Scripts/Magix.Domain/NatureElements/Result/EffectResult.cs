@@ -7,20 +7,18 @@ namespace Magix.Domain.NatureElements.Result
     {
         public bool Blinded { get; }
 
-        public bool TookDamage { get; }
-
         public bool Stunned { get; }
 
         public int DamageTaken { get; }
 
+        public bool TookDamage => DamageTaken > 0;
+
         public EffectResult(
             bool blinded,
-            bool tookDamage,
             bool stunned,
             int damageTaken)
         {
             Blinded = blinded;
-            TookDamage = tookDamage;
             Stunned = stunned;
             DamageTaken = damageTaken;
 

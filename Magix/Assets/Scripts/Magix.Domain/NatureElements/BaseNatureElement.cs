@@ -15,14 +15,9 @@
 
         public abstract IEffectResult ApplyElementEffect(IWizard wizard);
 
-        public virtual INatureElement GetMixedElement(INatureElement natureElement)
+        public virtual INatureElement GetMixedElement(INatureElement newElementToMix)
         {
             return null;
-        }
-
-        public virtual void OnCast(ITile tile)
-        {
-
         }
 
         public bool CanReact(INatureElement natureElement)

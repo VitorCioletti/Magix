@@ -11,12 +11,13 @@
             return null;
         }
 
-        public override INatureElement GetMixedElement(INatureElement natureElement)
+        public override INatureElement GetMixedElement(INatureElement newElementToMix)
         {
-            INatureElement resultantNatureElement = natureElement switch
+            INatureElement resultantNatureElement = newElementToMix switch
             {
                 Fire => new Smoke(),
                 Thunder thunder => thunder,
+                Wind => new Natural(),
                 _ => null
             };
 

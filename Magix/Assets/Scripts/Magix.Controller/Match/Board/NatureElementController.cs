@@ -35,6 +35,9 @@ namespace Magix.Controller.Match.Board
 
             foreach (INatureElement natureElement in NatureElements)
             {
+                if (natureElement is INatural)
+                    return;
+
                 UpdateNatureElement(natureElement);
             }
         }

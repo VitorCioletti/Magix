@@ -12,6 +12,7 @@
         int LifePoints { get; }
 
         bool CanAttack { get; }
+        bool CanPush { get; }
 
         bool CanMove { get; }
 

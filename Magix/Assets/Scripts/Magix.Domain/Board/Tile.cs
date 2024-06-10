@@ -83,9 +83,9 @@
         {
             var mixResults = new List<IMixResult>();
 
-            foreach (INatureElement element in NatureElements)
+            foreach (INatureElement elementOnTile in NatureElements)
             {
-                INatureElement mixedElement = element.GetMixedElement(elementToMix);
+                INatureElement mixedElement = elementOnTile.GetMixedElement(elementToMix);
 
                 IMixResult result;
 
@@ -94,7 +94,7 @@
                     result = new MixResult(
                         this,
                         elementToMix,
-                        element,
+                        elementOnTile,
                         mixedElement);
                 }
                 else
@@ -102,7 +102,7 @@
                     result = new MixResult(
                         this,
                         elementToMix,
-                        element,
+                        elementOnTile,
                         null,
                         false,
                         "cant-mix");

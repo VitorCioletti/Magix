@@ -2,8 +2,11 @@
 {
     using System.Collections.Generic;
     using Magix.Domain.Board;
+    using Magix.Domain.Interface;
     using Magix.Domain.Interface.Board;
+    using Magix.Domain.Interface.Board.Result;
     using Magix.Domain.Interface.NatureElements;
+    using Magix.Domain.Interface.NatureElements.Result;
     using Magix.Domain.NatureElements;
     using NSubstitute;
     using NUnit.Framework;
