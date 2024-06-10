@@ -41,6 +41,11 @@
         {
         }
 
+        public void OnClickCancel()
+        {
+            Pop();
+        }
+
         public virtual void OnClickActionApplyNatureElement()
         {
         }

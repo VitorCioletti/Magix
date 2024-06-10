@@ -218,6 +218,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CastNatureElementButton
       objectReference: {fileID: 0}
+    - target: {fileID: 1308408942690717768, guid: d8ab1f24a2eaee149b03255266641a0a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1974593960601778143, guid: d8ab1f24a2eaee149b03255266641a0a, type: 3}
       propertyPath: m_text
       value: 

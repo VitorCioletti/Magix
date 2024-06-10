@@ -15,6 +15,7 @@ namespace Magix.Controller.Match.Board
     using StateMachine.States;
     using TMPro;
     using UnityEngine;
+    using UnityEngine.UI;
     using Wizard;
 
     public class BoardController : MonoBehaviour
@@ -36,6 +37,9 @@ namespace Magix.Controller.Match.Board
 
         [field: SerializeField]
         private CastNatureElementButtonController _castNatureElementButtonController { get; set; }
+
+        [field: SerializeField]
+        private Button _cancelButton { get; set; }
 
         private List<WizardController> _wizards;
 
@@ -87,16 +91,19 @@ namespace Magix.Controller.Match.Board
         public void EnableActionSelectionButtons(bool enable)
         {
             _wizardActionsMenuBarMenuBar.gameObject.SetActive(enable);
+            _cancelButton.gameObject.SetActive(enable);
         }
 
         public void EnableCastNatureElementButton(bool enable)
         {
             _castNatureElementButtonController.gameObject.SetActive(enable);
+            _cancelButton.gameObject.SetActive(enable);
         }
 
         public void EnableNatureElementsMenuBar(bool enable)
         {
             _natureElementsMenuBarController.gameObject.SetActive(enable);
+            _cancelButton.gameObject.SetActive(enable);
         }
 
         private void Start()
@@ -141,6 +148,13 @@ namespace Magix.Controller.Match.Board
             EnableNatureElementsMenuBar(false);
 
             _fixPosition();
+
+            _cancelButton.onClick.AddListener(_onClickCancel);
+        }
+
+        private void _onClickCancel()
+        {
+            _stateMachine.GetCurrentState().OnClickCancel();
         }
 
         private void _initializeStateMachine()
