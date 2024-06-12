@@ -34,7 +34,7 @@
         }
 
         // TODO: Pass positions instead of tiles.
-        public ICastResult CastNatureElement(IWizard wizard, INatureElement natureElement, List<ITile> tiles)
+        public ICastResult CastNatureElement(IWizard wizard, INatureElement natureElement, IList<ITile> tiles)
         {
             _verifyWizardBelongsCurrentPlayer(wizard);
 
@@ -54,8 +54,26 @@
             return new CastResult(allResults);
         }
 
+        public IAttackResult Attack(IWizard wizard, IPosition position)
+        {
+            IEnumerable<IWizard> allWizards = Players.SelectMany(p => p.Wizards);
+
+            IWizard wizardInPosition = allWizards.FirstOrDefault(w => w.Position == position);
+
+            var attackResult = new AttackResult(false, null, IAttackResult.NoWizardInPosition);
+
+            if (wizardInPosition is not null)
+            {
+                IEffectResult effectResult = wizardInPosition.TakeDamage(IWizard.AttackDamage);
+
+                attackResult = new AttackResult(true, effectResult);
+            }
+
+            return attackResult;
+        }
+
         // TODO: Pass positions instead of tiles.
-        public IMovementResult Move(IWizard wizard, List<ITile> tiles)
+        public IMovementResult Move(IWizard wizard, IList<ITile> tiles)
         {
             _verifyWizardBelongsCurrentPlayer(wizard);
 
@@ -216,16 +234,16 @@
                 }
             }
 
-            _configurateAllTilesAdjacents();
+            _configureAllAdjacentTiles();
         }
 
-        private void _configurateAllTilesAdjacents()
+        private void _configureAllAdjacentTiles()
         {
             foreach (ITile tile in Tiles)
             {
-                List<ITile> adjacents = _getAdjacentTiles(tile);
+                List<ITile> adjacent = _getAdjacentTiles(tile);
 
-                tile.SetAdjacent(adjacents);
+                tile.SetAdjacent(adjacent);
             }
         }
 

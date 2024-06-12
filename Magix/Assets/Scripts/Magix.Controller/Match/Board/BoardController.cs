@@ -47,7 +47,7 @@ namespace Magix.Controller.Match.Board
 
         private IMatchService _matchService;
 
-        public async Task MoveAsync(IWizard wizard, List<ITile> tiles)
+        public async Task MoveAsync(IWizard wizard, IList<ITile> tiles)
         {
             IMovementResult movementResult = _matchService.Board.Move(wizard, tiles);
 
@@ -63,7 +63,7 @@ namespace Magix.Controller.Match.Board
                 throw new InvalidOperationException($"\"{movementResult.ErrorId}\".");
         }
 
-        public async Task CastNatureElementAsync(IWizard wizard, INatureElement natureElement, List<ITile> tiles)
+        public async Task CastNatureElementAsync(IWizard wizard, INatureElement natureElement, IList<ITile> tiles)
         {
             ICastResult castResult = _matchService.Board.CastNatureElement(wizard, natureElement, tiles);
 
@@ -139,7 +139,11 @@ namespace Magix.Controller.Match.Board
 
             List<INatureElement> natureElementsToCast = _matchService.Board.GetNatureElementsToCast();
 
-            _wizardActionsMenuBarMenuBar.Initialize(_onClickMoveAction, _onClickApplyNatureElementAction);
+            _wizardActionsMenuBarMenuBar.Initialize(
+                _onClickMoveAction,
+                _onClickAttackAction,
+                _onClickApplyNatureElementAction);
+
             _castNatureElementButtonController.Initialize(_onClickCastNatureElement);
             _natureElementsMenuBarController.Initialize(natureElementsToCast, _onClickNatureElementButton);
 
@@ -218,22 +222,32 @@ namespace Magix.Controller.Match.Board
 
         private void _onClickMoveAction()
         {
-            _stateMachine.GetCurrentState().OnClickActionMove();
+            _stateMachine.GetCurrentState().OnClickWizardAction(WizardAction.Move);
+        }
+
+        private void _onClickAttackAction()
+        {
+            _stateMachine.GetCurrentState().OnClickWizardAction(WizardAction.Attack);
         }
 
         private void _onClickApplyNatureElementAction()
         {
-            _stateMachine.GetCurrentState().OnClickActionApplyNatureElement();
+            _stateMachine.GetCurrentState().OnClickWizardAction(WizardAction.CastNatureElement);
         }
 
         private void _onClickCastNatureElement()
         {
-            _stateMachine.GetCurrentState().OnClickCastNatureElement();
+            _stateMachine.GetCurrentState().OnClickExecute();
         }
 
         private void _onClickNatureElementButton(NatureElementButtonController natureElementButtonController)
         {
-            _stateMachine.GetCurrentState().OnClickNatureElementButton(natureElementButtonController);
+            _stateMachine.GetCurrentState().OnClickNatureElement(natureElementButtonController);
+        }
+
+        public async Task AttackAsync(IWizard wizard, IList<ITile> tiles)
+        {
+            await Task.CompletedTask;
         }
     }
 }

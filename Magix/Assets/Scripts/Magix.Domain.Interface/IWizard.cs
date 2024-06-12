@@ -7,11 +7,14 @@
 
     public interface IWizard
     {
+        static int AttackDamage => 1;
+
         Guid Id { get; }
 
         int LifePoints { get; }
 
         bool CanAttack { get; }
+
         bool CanPush { get; }
 
         bool CanMove { get; }

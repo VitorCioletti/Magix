@@ -1,6 +1,8 @@
 ﻿namespace Magix.Controller.Match.Board.StateMachine.States
 {
+    using System;
     using Domain.Interface;
+    using Result;
     using Service.Interface;
 
     public class SelectingActionToWizardPerformState : BaseState
@@ -22,16 +24,32 @@
             BoardController.EnableActionSelectionButtons(true);
         }
 
-        public override void Cleanup() => BoardController.EnableActionSelectionButtons(false);
-
-        public override void OnClickActionMove()
+        public override BaseStateResult Cleanup()
         {
-            StateMachineManager.Swap(new SelectingTargetToMoveWizardState(_wizard));
+            BoardController.EnableActionSelectionButtons(false);
+
+            return null;
         }
 
-        public override void OnClickActionApplyNatureElement()
+        public override void OnClickWizardAction(WizardAction action)
         {
-            StateMachineManager.Swap(new SelectingNatureElementToCastState(_wizard));
+            switch (action)
+            {
+                case WizardAction.Attack:
+                    StateMachineManager.Swap(new SelectingTilesToAttackState(_wizard));
+
+                    break;
+                case WizardAction.Move:
+                    StateMachineManager.Swap(new SelectingTilesToMoveState(_wizard));
+
+                    break;
+                case WizardAction.CastNatureElement:
+                    StateMachineManager.Swap(new SelectingNatureElementToCastState(_wizard));
+
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(action), action, null);
+            }
         }
     }
 }

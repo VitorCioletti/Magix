@@ -5,13 +5,13 @@
     using Domain.Interface.Board;
     using Service.Interface;
 
-    public class MovingWizardToTargetState : BaseState
+    public class AttackingTargetState : BaseState
     {
         private readonly IWizard _wizard;
 
         private readonly IList<ITile> _tiles;
 
-        public MovingWizardToTargetState(IWizard wizard, IList<ITile> tiles)
+        public AttackingTargetState(IWizard wizard, IList<ITile> tiles)
         {
             _wizard = wizard;
             _tiles = tiles;
@@ -24,7 +24,7 @@
         {
             base.Initialize(stateMachineManager, boardController, matchService);
 
-            await BoardController.MoveAsync(_wizard, _tiles);
+            await BoardController.AttackAsync(_wizard, _tiles);
 
             Pop();
         }

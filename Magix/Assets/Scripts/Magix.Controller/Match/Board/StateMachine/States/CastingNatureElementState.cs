@@ -10,11 +10,11 @@
     {
         private readonly IWizard _wizard;
 
-        private readonly List<ITile> _tiles;
+        private readonly IList<ITile> _tiles;
 
         private readonly INatureElement _natureElement;
 
-        public CastingNatureElementState(IWizard wizard, INatureElement natureElement, List<ITile> tiles)
+        public CastingNatureElementState(IWizard wizard, INatureElement natureElement, IList<ITile> tiles)
         {
             _natureElement = natureElement;
             _wizard = wizard;

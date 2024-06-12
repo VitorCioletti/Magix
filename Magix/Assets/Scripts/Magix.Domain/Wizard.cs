@@ -50,6 +50,15 @@
 
         }
 
+        public IEffectResult TakeDamage(int damage)
+        {
+            LifePoints -= damage;
+
+            var effectResult = new EffectResult(false, false, damage);
+
+            return effectResult;
+        }
+
         public IEffectResult Stun()
         {
             CanAttack = false;
@@ -104,15 +113,6 @@
             }
 
             NatureElementEffect = natureElementEffect;
-        }
-
-        public IEffectResult TakeDamage(int damage)
-        {
-            LifePoints -= damage;
-
-            var effectResult = new EffectResult(false, false, damage);
-
-            return effectResult;
         }
     }
 }

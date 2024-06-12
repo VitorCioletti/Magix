@@ -14,9 +14,9 @@
 
         List<INatureElement> GetNatureElementsToCast();
 
-        IMovementResult Move(IWizard wizard, List<ITile> tiles);
+        IMovementResult Move(IWizard wizard, IList<ITile> tiles);
 
-        ICastResult CastNatureElement(IWizard wizard, INatureElement natureElement, List<ITile> tiles);
+        ICastResult CastNatureElement(IWizard wizard, INatureElement natureElement, IList<ITile> tiles);
 
         bool HasWizard(ITile tile);
 

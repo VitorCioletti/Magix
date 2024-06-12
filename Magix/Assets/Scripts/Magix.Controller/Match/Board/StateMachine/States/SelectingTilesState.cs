@@ -4,15 +4,15 @@
     using System.Linq;
     using Domain.Interface;
     using Domain.Interface.Board;
+    using Result;
     using Service.Interface;
 
-    public class SelectingTargetToMoveWizardState : BaseState
+    public class SelectingTilesState : BaseState
     {
         private readonly IWizard _wizard;
+        private List<ITile> _selectedTiles;
 
-        private List<ITile> _previewTilesMoves;
-
-        public SelectingTargetToMoveWizardState(IWizard wizard)
+        public SelectingTilesState(IWizard wizard)
         {
             _wizard = wizard;
         }
@@ -30,26 +30,24 @@
             _selectTiles(positionsToMove);
         }
 
-        public override void Cleanup() => _deselectAllTiles();
-
-        public override void OnClickTile(TileController tileController)
+        public override BaseStateResult Cleanup()
         {
-            ITile tile = tileController.Tile;
+            return new SelectedTilesResult(_selectedTiles);
+        }
 
-            if (MatchService.Board.HasWizard(tile))
-                return;
-
-            StateMachineManager.Swap(new MovingWizardToTargetState(_wizard, _previewTilesMoves));
+        public override void OnClickExecute()
+        {
+            Pop();
         }
 
         public override void OnEnterMouse(TileController tileController)
         {
             _deselectAllTiles();
 
-            _previewTilesMoves =
+            _selectedTiles =
                 MatchService.Board.GetPreviewPositionMoves(_wizard, tileController.Tile);
 
-            List<IPosition> previewPositionMoves = _previewTilesMoves.Select(t => t.Position).ToList();
+            List<IPosition> previewPositionMoves = _selectedTiles.Select(t => t.Position).ToList();
 
             _selectTiles(previewPositionMoves);
         }

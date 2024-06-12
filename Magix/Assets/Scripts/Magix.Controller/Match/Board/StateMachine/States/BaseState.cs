@@ -1,6 +1,7 @@
 ﻿namespace Magix.Controller.Match.Board.StateMachine.States
 {
     using NatureElements;
+    using Result;
     using Service.Interface;
 
     public abstract class BaseState
@@ -21,8 +22,14 @@
             MatchService = matchService;
         }
 
-        public virtual void Cleanup()
+        public virtual void OnGotBackOnTop(BaseStateResult stateResult)
         {
+
+        }
+
+        public virtual BaseStateResult Cleanup()
+        {
+            return null;
         }
 
         public virtual void OnClickTile(TileController tileController)
@@ -37,25 +44,24 @@
         {
         }
 
-        public virtual void OnClickActionMove()
+        public virtual void OnClickWizardAction(WizardAction action)
         {
+
+        }
+
+        public virtual void OnClickNatureElement(NatureElementButtonController natureElementController)
+        {
+
+        }
+
+        public virtual void OnClickExecute()
+        {
+
         }
 
         public void OnClickCancel()
         {
             Pop();
-        }
-
-        public virtual void OnClickActionApplyNatureElement()
-        {
-        }
-
-        public virtual void OnClickCastNatureElement()
-        {
-        }
-
-        public virtual void OnClickNatureElementButton(NatureElementButtonController natureElementButtonController)
-        {
         }
 
         protected void Pop()
