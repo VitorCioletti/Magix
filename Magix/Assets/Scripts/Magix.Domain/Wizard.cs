@@ -114,5 +114,36 @@
 
             NatureElementEffect = natureElementEffect;
         }
+
+        public int GetDistance(WizardActionType actionType)
+        {
+            int distance = 0;
+
+            switch (actionType)
+            {
+
+                case WizardActionType.Move:
+                    distance = RemainingActions;
+
+                    break;
+                case WizardActionType.Attack:
+                    distance = IWizard.AttackDistance;
+
+                    break;
+                case WizardActionType.CastNatureElement:
+                {
+                    if (RemainingActions > IWizard.CastNatureElementDistance)
+                        distance = IWizard.CastNatureElementDistance;
+                    else
+                        distance = RemainingActions - IWizard.CastNatureElementDistance;
+
+                    break;
+                }
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(actionType), actionType, null);
+            }
+
+            return distance;
+        }
     }
 }

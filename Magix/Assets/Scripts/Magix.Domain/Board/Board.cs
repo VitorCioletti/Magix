@@ -32,7 +32,11 @@
             _setNextPlayerToPlay();
         }
 
-        // TODO: Pass positions instead of tiles.
+        public bool CanAttack(IWizard wizard)
+        {
+            return true;
+        }
+
         public ICastResult CastNatureElement(IWizard wizard, INatureElement natureElement, IList<ITile> tiles)
         {
             _verifyWizardBelongsCurrentPlayer(wizard);
@@ -57,15 +61,19 @@
         {
             IEnumerable<IWizard> allWizards = Players.SelectMany(p => p.Wizards);
 
-            IWizard wizardInPosition = allWizards.FirstOrDefault(w => w.Position == position);
+            IWizard wizardInPosition = allWizards.FirstOrDefault(w => w.Position.Equals(position));
 
-            var attackResult = new AttackResult(false, null, IAttackResult.NoWizardInPosition);
+            var attackResult = new AttackResult(
+                false,
+                null,
+                null,
+                IAttackResult.NoWizardInPosition);
 
             if (wizardInPosition is not null)
             {
                 IEffectResult effectResult = wizardInPosition.TakeDamage(IWizard.AttackDamage);
 
-                attackResult = new AttackResult(true, effectResult);
+                attackResult = new AttackResult(true, effectResult, wizardInPosition);
             }
 
             return attackResult;
@@ -143,11 +151,13 @@
             return wizards.Contains(wizard);
         }
 
-        public IList<ITile> GetPreviewArea(IWizard wizard)
+        public IList<ITile> GetPreviewArea(IWizard wizard, WizardActionType actionType)
         {
             ITile tile = Tiles[wizard.Position.X, wizard.Position.Y];
 
-            return _grid.GetPreviewArea(tile, wizard.RemainingActions);
+            int distance = wizard.GetDistance(actionType);
+
+            return _grid.GetPreviewArea(tile, distance);
         }
 
         public IList<ITile> GetPreviewPathTo(IWizard wizard, ITile objectiveTile)

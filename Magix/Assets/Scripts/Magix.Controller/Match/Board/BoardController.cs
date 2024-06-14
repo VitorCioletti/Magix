@@ -5,6 +5,7 @@ namespace Magix.Controller.Match.Board
     using System.Linq;
     using System.Threading.Tasks;
     using DependencyInjection;
+    using Domain;
     using Domain.Interface;
     using Domain.Interface.Board;
     using Domain.Interface.Board.Result;
@@ -63,6 +64,27 @@ namespace Magix.Controller.Match.Board
                 throw new InvalidOperationException($"\"{movementResult.ErrorId}\".");
         }
 
+        public async Task AttackAsync(IWizard wizard, IList<ITile> tiles)
+        {
+            foreach (ITile tile in tiles)
+            {
+                IAttackResult attackResult = _matchService.Board.Attack(wizard, tile.Position);
+
+                if (attackResult.Success)
+                {
+                    WizardController attacker = _getWizardController(wizard);
+                    WizardController attacked = _getWizardController(attackResult.Target);
+
+                    Task attackTask = attacker.AttackAsync(tile);
+                    Task receivingAttackTask = attacked.TakeDamageAsync(attackResult.EffectResult.DamageTaken);
+
+                    await Task.WhenAll(attackTask, receivingAttackTask);
+                }
+                else
+                    throw new InvalidOperationException($"\"{attackResult.ErrorId}\".");
+            }
+        }
+
         public async Task CastNatureElementAsync(IWizard wizard, INatureElement natureElement, IList<ITile> tiles)
         {
             ICastResult castResult = _matchService.Board.CastNatureElement(wizard, natureElement, tiles);
@@ -88,22 +110,24 @@ namespace Magix.Controller.Match.Board
                 throw new InvalidOperationException($"\"{castResult.ErrorId}\".");
         }
 
+        public void EnableCancelButton(bool enable)
+        {
+            _cancelButton.gameObject.SetActive(enable);
+        }
+
         public void EnableActionSelectionButtons(bool enable)
         {
             _wizardActionsMenuBarMenuBar.gameObject.SetActive(enable);
-            _cancelButton.gameObject.SetActive(enable);
         }
 
         public void EnableCastNatureElementButton(bool enable)
         {
             _castNatureElementButtonController.gameObject.SetActive(enable);
-            _cancelButton.gameObject.SetActive(enable);
         }
 
         public void EnableNatureElementsMenuBar(bool enable)
         {
             _natureElementsMenuBarController.gameObject.SetActive(enable);
-            _cancelButton.gameObject.SetActive(enable);
         }
 
         private void Start()
@@ -226,17 +250,17 @@ namespace Magix.Controller.Match.Board
 
         private void _onClickMoveAction()
         {
-            _stateMachine.GetCurrentState().OnClickWizardAction(WizardAction.Move);
+            _stateMachine.GetCurrentState().OnClickWizardAction(WizardActionType.Move);
         }
 
         private void _onClickAttackAction()
         {
-            _stateMachine.GetCurrentState().OnClickWizardAction(WizardAction.Attack);
+            _stateMachine.GetCurrentState().OnClickWizardAction(WizardActionType.Attack);
         }
 
         private void _onClickApplyNatureElementAction()
         {
-            _stateMachine.GetCurrentState().OnClickWizardAction(WizardAction.CastNatureElement);
+            _stateMachine.GetCurrentState().OnClickWizardAction(WizardActionType.CastNatureElement);
         }
 
         private void _onClickCastNatureElement()
@@ -247,11 +271,6 @@ namespace Magix.Controller.Match.Board
         private void _onClickNatureElementButton(NatureElementButtonController natureElementButtonController)
         {
             _stateMachine.GetCurrentState().OnClickNatureElement(natureElementButtonController);
-        }
-
-        public async Task AttackAsync(IWizard wizard, IList<ITile> tiles)
-        {
-            await Task.CompletedTask;
         }
     }
 }

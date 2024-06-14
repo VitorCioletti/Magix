@@ -24,6 +24,8 @@
         {
             base.Initialize(stateMachineManager, boardController, matchService);
 
+            BoardController.EnableCancelButton(false);
+
             await BoardController.MoveAsync(_wizard, _tiles);
 
             Pop();

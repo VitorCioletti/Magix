@@ -5,6 +5,7 @@ namespace Magix.Controller.Match.Wizard
     using System.Threading.Tasks;
     using Board;
     using Domain.Interface;
+    using Domain.Interface.Board;
     using UnityEngine;
     using View.Match.Wizard;
 
@@ -33,6 +34,16 @@ namespace Magix.Controller.Match.Wizard
         public async Task CastAsync()
         {
             await _view.AnimateCastAsync();
+        }
+
+        public async Task AttackAsync(ITile tile)
+        {
+            await _view.AnimateAttackAsync();
+        }
+
+        public async Task TakeDamageAsync(int effectResultDamageTaken)
+        {
+            await _view.AnimateTakeDamageAsync(effectResultDamageTaken);
         }
     }
 }

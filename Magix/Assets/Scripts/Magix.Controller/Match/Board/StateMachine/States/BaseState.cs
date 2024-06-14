@@ -1,5 +1,6 @@
 ﻿namespace Magix.Controller.Match.Board.StateMachine.States
 {
+    using Domain;
     using NatureElements;
     using Result;
     using Service.Interface;
@@ -20,6 +21,8 @@
             BoardController = boardController;
             StateMachineManager = stateMachineManager;
             MatchService = matchService;
+
+            BoardController.EnableCancelButton(true);
         }
 
         public virtual void OnGotBackOnTop(BaseStateResult stateResult)
@@ -44,7 +47,7 @@
         {
         }
 
-        public virtual void OnClickWizardAction(WizardAction action)
+        public virtual void OnClickWizardAction(WizardActionType actionType)
         {
 
         }

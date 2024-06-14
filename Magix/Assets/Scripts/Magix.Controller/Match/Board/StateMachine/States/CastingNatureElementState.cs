@@ -28,6 +28,8 @@
         {
             base.Initialize(stateMachineManager, boardController, matchService);
 
+            BoardController.EnableCancelButton(false);
+
             await BoardController.CastNatureElementAsync(_wizard, _natureElement, _tiles);
 
             Pop();

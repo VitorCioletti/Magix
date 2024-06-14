@@ -1,6 +1,7 @@
 ﻿namespace Magix.Controller.Match.Board.StateMachine.States
 {
     using System;
+    using Domain;
     using Domain.Interface;
     using Result;
     using Service.Interface;
@@ -31,24 +32,24 @@
             return null;
         }
 
-        public override void OnClickWizardAction(WizardAction action)
+        public override void OnClickWizardAction(WizardActionType actionType)
         {
-            switch (action)
+            switch (actionType)
             {
-                case WizardAction.Attack:
-                    StateMachineManager.Swap(new SelectingTilesToAttackState(_wizard));
+                case WizardActionType.Attack:
+                    StateMachineManager.Swap(new SelectingTilesIndividuallyState(_wizard, actionType));
 
                     break;
-                case WizardAction.Move:
+                case WizardActionType.Move:
                     StateMachineManager.Swap(new SelectingTilesToMoveState(_wizard));
 
                     break;
-                case WizardAction.CastNatureElement:
+                case WizardActionType.CastNatureElement:
                     StateMachineManager.Swap(new SelectingNatureElementToCastState(_wizard));
 
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(action), action, null);
+                    throw new ArgumentOutOfRangeException(nameof(actionType), actionType, null);
             }
         }
     }

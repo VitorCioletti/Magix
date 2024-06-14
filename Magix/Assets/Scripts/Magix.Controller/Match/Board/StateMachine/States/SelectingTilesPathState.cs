@@ -2,19 +2,20 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Domain;
     using Domain.Interface;
     using Domain.Interface.Board;
     using Result;
     using Service.Interface;
 
-    public class SelectingPathTilesState : BaseState
+    public class SelectingTilesPathState : BaseState
     {
         private readonly IWizard _wizard;
 
         private IList<ITile> _selectedTiles = new List<ITile>();
         private IList<ITile> _previewTiles = new List<ITile>();
 
-        public SelectingPathTilesState(IWizard wizard)
+        public SelectingTilesPathState(IWizard wizard)
         {
             _wizard = wizard;
         }
@@ -27,7 +28,7 @@
 
             base.Initialize(stateMachineManager, boardController, matchService);
 
-            _previewTiles = MatchService.Board.GetPreviewArea(_wizard);
+            _previewTiles = MatchService.Board.GetPreviewArea(_wizard, WizardActionType.Move);
 
             _setTilesToPreview(_previewTiles);
         }

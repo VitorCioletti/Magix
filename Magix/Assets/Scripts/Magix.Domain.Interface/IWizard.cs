@@ -8,6 +8,8 @@
     public interface IWizard
     {
         static int AttackDamage => 1;
+        static int AttackDistance => 1;
+        static int CastNatureElementDistance => 5;
 
         Guid Id { get; }
 
@@ -40,5 +42,7 @@
         bool HasRemainingActions();
 
         void ChangeNatureElementEffect(NatureElementEffect natureElementEffect);
+
+        int GetDistance(WizardActionType actionType);
     }
 }

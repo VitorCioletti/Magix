@@ -65,11 +65,11 @@
                 Vector3 transformToMovePosition = transformToMove.position;
 
                 sequence.AppendCallback(() => CalculateFlip(transformToMove));
-                // TODO: Fix move when movimentation is downwards
+
                 sequence.Append(transform.DOMove(transformToMovePosition + _positionOffset, moveSpeed));
             }
 
-            sequence.OnStart(OnSequeceStart);
+            sequence.OnStart(OnSequenceStart);
             sequence.OnComplete(AnimateIdle);
 
             await sequence.Play().AsyncWaitForCompletion();
@@ -82,17 +82,27 @@
                 _spriteRenderer.flipX = targetPosition.x < wizardPosition.x;
             }
 
-            void OnSequeceStart()
+            void OnSequenceStart()
             {
                 _animator.Play("Running");
             }
         }
 
-        private float _getAnimationTime(string animation)
+        private float _getAnimationTime(string animationId)
         {
             AnimationClip[] animations = _animator.runtimeAnimatorController.animationClips;
 
-            return animations.First(a => a.name == animation).length;
+            return animations.First(a => a.name == animationId).length;
+        }
+
+        public async Task AnimateAttackAsync()
+        {
+            await Task.CompletedTask;
+        }
+
+        public async Task AnimateTakeDamageAsync(int effectResultDamageTaken)
+        {
+            await Task.CompletedTask;
         }
     }
 }
