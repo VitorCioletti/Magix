@@ -33,7 +33,6 @@
                 if (distance == 0)
                     continue;
 
-                // +1 to disconsider the referenced position
                 if (steps >= distance)
                     previewArea.Add(tile);
             }
@@ -139,7 +138,6 @@
 
                 if (distance == 1)
                     adjacentTiles.Add(tile);
-
             }
 
             return adjacentTiles;

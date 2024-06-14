@@ -159,7 +159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <_tileSpriteRenderer>k__BackingField: {fileID: 5914570540961214843}
-  <_previewColor>k__BackingField: {r: 1, g: 1, b: 1, a: 0.22745098}
+  <_previewColor>k__BackingField: {r: 1, g: 1, b: 1, a: 0.45490196}
   <_selectedColor>k__BackingField: {r: 0.15450066, g: 0.8018868, b: 0.13995194, a: 1}
   <_normalColor>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
   <_tileSprites>k__BackingField:

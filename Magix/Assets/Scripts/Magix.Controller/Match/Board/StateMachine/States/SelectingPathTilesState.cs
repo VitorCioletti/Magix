@@ -10,7 +10,9 @@
     public class SelectingPathTilesState : BaseState
     {
         private readonly IWizard _wizard;
-        private IList<ITile> _selectedTiles;
+
+        private IList<ITile> _selectedTiles = new List<ITile>();
+        private IList<ITile> _previewTiles = new List<ITile>();
 
         public SelectingPathTilesState(IWizard wizard)
         {
@@ -22,17 +24,18 @@
             BoardController boardController,
             IMatchService matchService)
         {
+
             base.Initialize(stateMachineManager, boardController, matchService);
 
-            IList<ITile> tilesToMove = MatchService.Board.GetPreviewArea(_wizard);
-            IList<IPosition> positionsToMove = tilesToMove.Select(t => t.Position).ToList();
+            _previewTiles = MatchService.Board.GetPreviewArea(_wizard);
 
-            _previewTiles(positionsToMove);
+            _setTilesToPreview(_previewTiles);
         }
 
         public override BaseStateResult Cleanup()
         {
-            _setAllTilesToNormal();
+            _setTilesToNormal(_selectedTiles);
+            _setTilesToNormal(_previewTiles);
 
             return new SelectedTilesResult(_selectedTiles);
         }
@@ -49,7 +52,7 @@
 
         public override void OnEnterMouse(TileController tileController)
         {
-            _setAllTilesToNormal();
+            _setTilesToPreview(_previewTiles);
 
             _selectedTiles = MatchService.Board.GetPreviewPathTo(_wizard, tileController.Tile);
 
@@ -66,18 +69,24 @@
             }
         }
 
-        private void _previewTiles(IList<IPosition> previewTiles)
+        private void _setTilesToPreview(IList<ITile> previewTiles)
         {
-            foreach (IPosition position in previewTiles)
+            foreach (ITile tile in previewTiles)
             {
+                IPosition position = tile.Position;
+
                 BoardController.GridController.Tiles[position.X, position.Y].SetToPreview();
             }
         }
 
-        private void _setAllTilesToNormal()
+        private void _setTilesToNormal(IList<ITile> tiles)
         {
-            foreach (TileController tileController in BoardController.GridController.Tiles)
+            foreach (ITile selectedTile in tiles)
             {
+                IPosition position = selectedTile.Position;
+
+                TileController tileController = BoardController.GridController.Tiles[position.X, position.Y];
+
                 tileController.SetToNormal();
             }
         }
