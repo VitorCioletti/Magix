@@ -26,10 +26,18 @@
 
         public override void OnGotBackOnTop(BaseStateResult stateResult)
         {
+            if (stateResult is null)
+            {
+                Pop();
+
+                return;
+            }
+
             switch (stateResult)
             {
                 case SelectedTilesResult selectedTilesResult:
                     StateMachineManager.Swap(new AttackingTargetState(_wizard, selectedTilesResult.Tiles));
+
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(stateResult));

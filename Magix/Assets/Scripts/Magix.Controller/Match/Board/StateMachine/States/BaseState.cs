@@ -62,7 +62,7 @@
 
         }
 
-        public void OnClickCancel()
+        public virtual void OnClickCancel()
         {
             Pop();
         }

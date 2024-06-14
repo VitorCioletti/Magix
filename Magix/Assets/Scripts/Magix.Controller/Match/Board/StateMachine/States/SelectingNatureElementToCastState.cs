@@ -29,6 +29,13 @@
 
         public override void OnGotBackOnTop(BaseStateResult stateResult)
         {
+            if (stateResult is null)
+            {
+                Pop();
+
+                return;
+            }
+
             switch (stateResult)
             {
                 case SelectedTilesResult selectedTilesResult:

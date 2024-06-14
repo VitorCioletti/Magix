@@ -14,6 +14,7 @@
 
         private IList<ITile> _selectedTiles = new List<ITile>();
         private IList<ITile> _previewTiles = new List<ITile>();
+        private bool _cancelled;
 
         public SelectingTilesPathState(IWizard wizard)
         {
@@ -38,16 +39,16 @@
             _setTilesToNormal(_selectedTiles);
             _setTilesToNormal(_previewTiles);
 
+            if (_cancelled)
+                return null;
+
             return new SelectedTilesResult(_selectedTiles);
         }
 
-        public override void OnClickExecute()
+        public override void OnClickCancel()
         {
-            Pop();
-        }
+            _cancelled = true;
 
-        public override void OnClickTile(TileController tileController)
-        {
             Pop();
         }
 

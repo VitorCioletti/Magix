@@ -1,7 +1,6 @@
 ﻿namespace Magix.Controller.Match.Board.StateMachine.States
 {
     using System.Collections.Generic;
-    using System.Linq;
     using Domain;
     using Domain.Interface;
     using Domain.Interface.Board;
@@ -12,9 +11,10 @@
     {
         private readonly IWizard _wizard;
 
-        private IList<ITile> _selectedTiles = new List<ITile>();
         private IList<ITile> _previewTiles = new List<ITile>();
+        private readonly IList<ITile> _selectedTiles = new List<ITile>();
         private readonly WizardActionType _wizardAction;
+        private bool _cancelled;
 
         public SelectingTilesIndividuallyState(IWizard wizard, WizardActionType wizardAction)
         {
@@ -39,7 +39,17 @@
             _setTilesToNormal(_selectedTiles);
             _setTilesToNormal(_previewTiles);
 
+            if (_cancelled)
+                return null;
+
             return new SelectedTilesResult(_selectedTiles);
+        }
+
+        public override void OnClickCancel()
+        {
+            _cancelled = true;
+
+            Pop();
         }
 
         public override void OnClickExecute()
