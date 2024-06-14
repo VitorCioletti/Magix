@@ -13,24 +13,18 @@
 
         public IPosition Position { get; set; }
 
-        public bool CanAttack { get; private set; }
-
-        public bool CanPush { get; private set; }
-
-        public bool CanMove { get; private set; }
-
         public int LifePoints { get; private set; }
 
         public int RemainingActions { get; private set; }
 
-        public NatureElementEffect NatureElementEffect { get; private set; }
+        public ElementEffect ElementEffect { get; private set; }
 
         private const int _totalActionsPerTurn = 4;
 
         public Wizard(IPosition position)
         {
             Id = Guid.NewGuid();
-            NatureElementEffect = NatureElementEffect.None;
+            ElementEffect = ElementEffect.None;
             LifePoints = 5;
             RemainingActions = _totalActionsPerTurn;
             Position = position;
@@ -40,14 +34,9 @@
 
         public IEffectResult ClearDebuffs()
         {
-            CanAttack = true;
-            CanMove = true;
-            CanPush = true;
-
             var effectResult = new EffectResult(false, false, 0);
 
             return effectResult;
-
         }
 
         public IEffectResult TakeDamage(int damage)
@@ -61,10 +50,6 @@
 
         public IEffectResult Stun()
         {
-            CanAttack = false;
-            CanMove = false;
-            CanPush = false;
-
             var effectResult = new EffectResult(false, true, 0);
 
             return effectResult;
@@ -72,9 +57,6 @@
 
         public IEffectResult SetBlind()
         {
-            CanAttack = false;
-            CanPush = false;
-
             var effectResult = new EffectResult(true, false, 0);
 
             return effectResult;
@@ -92,36 +74,43 @@
 
         public bool HasRemainingActions() => RemainingActions > 0;
 
-        public void ChangeNatureElementEffect(NatureElementEffect natureElementEffect)
+        public void ApplyElementEffect(ElementEffect elementEffect)
         {
-            switch (natureElementEffect)
+            switch (elementEffect)
             {
-                case NatureElementEffect.OnFire:
+                case ElementEffect.OnFire:
                     TakeDamage(1);
 
                     break;
 
-                case NatureElementEffect.Blind:
+                case ElementEffect.Blind:
                     RemoveRemainingActions(1);
 
                     break;
 
-                case NatureElementEffect.Shocked:
+                case ElementEffect.Shocked:
                     RemoveRemainingActions(1);
 
                     break;
+                case ElementEffect.Wet:
+                    break;
+
+                case ElementEffect.Dry:
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(elementEffect), elementEffect, null);
             }
 
-            NatureElementEffect = natureElementEffect;
+            ElementEffect = elementEffect;
         }
 
         public int GetDistance(WizardActionType actionType)
         {
-            int distance = 0;
+            int distance;
 
             switch (actionType)
             {
-
                 case WizardActionType.Move:
                     distance = RemainingActions;
 

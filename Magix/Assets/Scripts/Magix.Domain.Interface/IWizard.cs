@@ -15,17 +15,11 @@
 
         int LifePoints { get; }
 
-        bool CanAttack { get; }
-
-        bool CanPush { get; }
-
-        bool CanMove { get; }
-
         IPosition Position { get; set; }
 
         int RemainingActions { get; }
 
-        NatureElementEffect NatureElementEffect { get; }
+        ElementEffect ElementEffect { get; }
 
         IEffectResult ClearDebuffs();
 
@@ -41,7 +35,7 @@
 
         bool HasRemainingActions();
 
-        void ChangeNatureElementEffect(NatureElementEffect natureElementEffect);
+        void ApplyElementEffect(ElementEffect elementEffect);
 
         int GetDistance(WizardActionType actionType);
     }

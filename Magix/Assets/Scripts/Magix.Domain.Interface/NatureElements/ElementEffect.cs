@@ -3,7 +3,7 @@
     using System;
 
     [Flags]
-    public enum NatureElementEffect
+    public enum ElementEffect
     {
         None,
         OnFire,
