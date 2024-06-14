@@ -159,6 +159,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <_tileSpriteRenderer>k__BackingField: {fileID: 5914570540961214843}
+  <_previewColor>k__BackingField: {r: 1, g: 1, b: 1, a: 0.22745098}
+  <_selectedColor>k__BackingField: {r: 0.15450066, g: 0.8018868, b: 0.13995194, a: 1}
+  <_normalColor>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
   <_tileSprites>k__BackingField:
   - {fileID: 21300000, guid: 890bb07be2d5d0f428e1f1bf81a5d71d, type: 3}
   - {fileID: 21300000, guid: 8792a65593bee7d4ba76a4f7f2880ac4, type: 3}
@@ -166,7 +169,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 1d39c206d06a3c441a2c2ff8b9d680e3, type: 3}
   - {fileID: 21300000, guid: 2f025cf93d913cc478e53f68344e37ee, type: 3}
   - {fileID: 21300000, guid: 0f59a95e5f8f6554397362f1698c3c2c, type: 3}
-  <_highlightAlpha>k__BackingField: 0.5
 --- !u!1001 &8139040114375928828
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using Service.Interface;
     using States;
+    using States.Result;
 
     public class StateMachineManager
     {
@@ -36,9 +37,9 @@
         {
             _stateStack.Push(state);
 
-            state.Initialize(this, _boardController, _matchService);
-
             _onChangeState?.Invoke(state);
+
+            state.Initialize(this, _boardController, _matchService);
         }
 
         public void Swap(BaseState state)
@@ -57,11 +58,13 @@
                     $"Current state \"{currentState}\" is different than state popping \"{state}\".");
             }
 
-            currentState.Cleanup();
+            BaseStateResult stateResult = currentState.Cleanup();
 
             _stateStack.Pop();
 
             _onChangeState?.Invoke(GetCurrentState());
+
+            _stateStack.Peek().OnGotBackOnTop(stateResult);
         }
     }
 }

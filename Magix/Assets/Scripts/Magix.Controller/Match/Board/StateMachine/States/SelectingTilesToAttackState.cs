@@ -21,7 +21,7 @@
         {
             base.Initialize(stateMachineManager, boardController, matchService);
 
-            StateMachineManager.Push(new SelectingTilesState(_wizard));
+            StateMachineManager.Push(new SelectingPathTilesState(_wizard));
         }
 
         public override void OnGotBackOnTop(BaseStateResult stateResult)

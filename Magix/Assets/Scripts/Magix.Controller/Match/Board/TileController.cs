@@ -44,14 +44,19 @@
             _natureElementController.Initialize(Tile.NatureElements);
         }
 
-        public void Select()
+        public void SetToSelected()
         {
-            _view.Select();
+            _view.SetToSelected();
         }
 
-        public void Deselect()
+        public void SetToPreview()
         {
-            _view.Deselect();
+            _view.SetToPreview();
+        }
+
+        public void SetToNormal()
+        {
+            _view.SetToNormal();
         }
 
         public void UpdateNatureElement()

@@ -22,12 +22,12 @@
 
         public override void OnEnterMouse(TileController tileController)
         {
-            tileController.Select();
+            tileController.SetToPreview();
         }
 
         public override void OnExitMouse(TileController tileController)
         {
-            tileController.Deselect();
+            tileController.SetToNormal();
         }
     }
 }

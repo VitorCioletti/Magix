@@ -202,7 +202,11 @@ namespace Magix.Controller.Match.Board
 
         private void _onChangeState(BaseState currentState)
         {
-            _currentStateText.text = currentState?.GetType().Name;
+            string stateName = currentState?.GetType().Name;
+
+            Debug.Log($"Changed state to \"{stateName}\".");
+
+            _currentStateText.text = stateName;
         }
 
         private void _onTileClicked(TileController tileController)

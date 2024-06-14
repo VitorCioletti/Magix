@@ -22,9 +22,9 @@
 
         bool BelongsToCurrentPlayer(IWizard wizard);
 
-        List<ITile> GetAreaToMove(IWizard wizard);
+        IList<ITile> GetPreviewPathTo(IWizard wizard, ITile objectiveTile);
 
-        List<ITile> GetPreviewPositionMoves(IWizard wizard, ITile objectiveTile);
+        IList<ITile> GetPreviewArea(IWizard wizard);
 
         IWizard GetWizard(ITile tile);
     }

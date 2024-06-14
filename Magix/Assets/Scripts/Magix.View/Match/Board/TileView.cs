@@ -9,10 +9,16 @@ namespace Magix.View.Match.Board
         private SpriteRenderer _tileSpriteRenderer { get; set; }
 
         [field: SerializeField]
-        private List<Sprite> _tileSprites { get; set; }
+        private Color _previewColor { get; set; }
 
         [field: SerializeField]
-        private float _highlightAlpha { get; set; }
+        private Color _selectedColor { get; set; }
+
+        [field: SerializeField]
+        private Color _normalColor { get; set; }
+
+        [field: SerializeField]
+        private List<Sprite> _tileSprites { get; set; }
 
         public void Initialize()
         {
@@ -23,26 +29,20 @@ namespace Magix.View.Match.Board
             _tileSpriteRenderer.sprite = sprite;
         }
 
-        public void Select()
+        public void SetToSelected()
         {
-            Color color = _tileSpriteRenderer.color;
+            _tileSpriteRenderer.color = _selectedColor;
 
-            _tileSpriteRenderer.color = new Color(
-                color.r,
-                color.g,
-                color.b,
-                _highlightAlpha);
         }
 
-        public void Deselect()
+        public void SetToPreview()
         {
-            Color color = _tileSpriteRenderer.color;
+            _tileSpriteRenderer.color = _previewColor;
+        }
 
-            _tileSpriteRenderer.color = new Color(
-                color.r,
-                color.g,
-                color.b,
-                1);
+        public void SetToNormal()
+        {
+            _tileSpriteRenderer.color = _normalColor;
         }
     }
 }

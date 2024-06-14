@@ -13,23 +13,22 @@
 
     public class Board : IBoard
     {
-        // TODO: Tiles should not be visible.
-        public ITile[,] Tiles { get; private set; }
+        public ITile[,] Tiles => _grid.Tiles;
 
         public List<IPlayer> Players { get; private set; }
 
         public IPlayer CurrentPlayer { get; private set; }
 
-        private readonly Queue<IPlayer> _orderToPlay;
+        private readonly Grid _grid;
 
-        private const int _size = 10;
+        private readonly Queue<IPlayer> _orderToPlay;
 
         public Board(List<IPlayer> players)
         {
             Players = players;
+            _grid = new Grid();
             _orderToPlay = new Queue<IPlayer>(players);
 
-            _createTiles();
             _setNextPlayerToPlay();
         }
 
@@ -113,75 +112,6 @@
             return new List<INatureElement> {new Fire(), new Water(), new Wind(),};
         }
 
-        public List<ITile> GetAreaToMove(IWizard wizard)
-        {
-            return new List<ITile>();
-        }
-
-        // TODO: Review this algorithm.
-        public List<ITile> GetPreviewPositionMoves(IWizard wizard, ITile objectiveTile)
-        {
-            var moves = new List<ITile>();
-
-            IPosition wizardPosition = wizard.Position;
-
-            int wizardPositionX = wizardPosition.X;
-            int wizardPositionY = wizardPosition.Y;
-
-            int objectivePositionX = objectiveTile.Position.X;
-            int objectivePositionY = objectiveTile.Position.Y;
-
-            if (wizardPositionX > objectivePositionX)
-            {
-                while (wizardPositionX > objectivePositionX)
-                {
-                    wizardPositionX--;
-
-                    ITile nextTile = Tiles[wizardPositionX, wizardPositionY];
-
-                    moves.Add(nextTile);
-                }
-            }
-            else
-            {
-                while (wizardPositionX < objectivePositionX)
-                {
-                    wizardPositionX++;
-
-                    ITile nextTile = Tiles[wizardPositionX, wizardPositionY];
-
-                    moves.Add(nextTile);
-                }
-            }
-
-            if (wizardPositionY > objectivePositionY)
-            {
-                while (wizardPositionY > objectivePositionY)
-                {
-                    wizardPositionY--;
-
-                    ITile nextTile = Tiles[wizardPositionX, wizardPositionY];
-
-                    moves.Add(nextTile);
-                }
-            }
-            else
-            {
-                while (wizardPositionY < objectivePositionY)
-                {
-                    wizardPositionY++;
-
-                    ITile nextTile = Tiles[wizardPositionX, wizardPositionY];
-
-                    moves.Add(nextTile);
-                }
-            }
-
-            moves = moves.Take(wizard.RemainingActions).ToList();
-
-            return moves;
-        }
-
         // TODO: Pass position instead of tile.
         public bool HasWizard(ITile tile)
         {
@@ -190,7 +120,6 @@
             return wizard != null;
         }
 
-        // TODO: Pass position instead of tile.
         public IWizard GetWizard(ITile tile)
         {
             IWizard wizardInTile = null;
@@ -214,71 +143,24 @@
             return wizards.Contains(wizard);
         }
 
+        public IList<ITile> GetPreviewArea(IWizard wizard)
+        {
+            ITile tile = Tiles[wizard.Position.X, wizard.Position.Y];
+
+            return _grid.GetPreviewArea(tile, wizard.RemainingActions);
+        }
+
+        public IList<ITile> GetPreviewPathTo(IWizard wizard, ITile objectiveTile)
+        {
+            ITile tile = Tiles[wizard.Position.X, wizard.Position.Y];
+
+            return _grid.GetPreviewPathTo(tile, wizard.RemainingActions, objectiveTile);
+        }
+
         private void _verifyWizardBelongsCurrentPlayer(IWizard wizard)
         {
             if (!BelongsToCurrentPlayer(wizard))
                 throw new InvalidOperationException("Wizard does not belong to current player.");
-        }
-
-        private void _createTiles()
-        {
-            Tiles = new ITile[_size, _size];
-
-            for (int line = 0; line < _size; line++)
-            {
-                for (int column = 0; column < _size; column++)
-                {
-                    var position = new Position(line, column);
-
-                    Tiles[line, column] = new Tile(position);
-                }
-            }
-
-            _configureAllAdjacentTiles();
-        }
-
-        private void _configureAllAdjacentTiles()
-        {
-            foreach (ITile tile in Tiles)
-            {
-                List<ITile> adjacent = _getAdjacentTiles(tile);
-
-                tile.SetAdjacent(adjacent);
-            }
-        }
-
-        private List<ITile> _getAdjacentTiles(ITile tile)
-        {
-            var adjacentTiles = new List<ITile>();
-
-            List<(int, int)> adjacentIndexes = _calculateAdjacentIndexes(tile.Position);
-
-            foreach ((int line, int column) in adjacentIndexes)
-                adjacentTiles.Add(Tiles[line, column]);
-
-            return adjacentTiles;
-        }
-
-        private List<(int, int)> _calculateAdjacentIndexes(IPosition position)
-        {
-            var adjacentIndexes = new List<(int, int)>();
-
-            int line = position.X;
-            int column = position.Y;
-
-            if (line + 1 < _size)
-                adjacentIndexes.Add((line + 1, column));
-
-            if (line - 1 >= 0)
-                adjacentIndexes.Add((line - 1, column));
-
-            if (column + 1 < _size)
-                adjacentIndexes.Add((line, column + 1));
-
-            if (column - 1 >= 0)
-                adjacentIndexes.Add((line, column - 1));
-
-            return adjacentIndexes;
         }
 
         private void _tryChangeCurrentPlayer()

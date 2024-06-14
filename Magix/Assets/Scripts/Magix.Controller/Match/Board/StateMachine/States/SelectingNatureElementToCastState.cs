@@ -53,7 +53,7 @@
         {
             _selectedNatureElement = natureElementButtonController.NatureElement;
 
-            StateMachineManager.Push(new SelectingTilesState(_wizard));
+            StateMachineManager.Push(new SelectingPathTilesState(_wizard));
         }
     }
 }

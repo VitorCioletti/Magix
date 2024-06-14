@@ -17,17 +17,17 @@
 
         public void Initialize(
             UnityAction onClickMoveAction,
-            UnityAction onClickMoveButton,
+            UnityAction onClickAttackAction,
             UnityAction onClickApplyNatureElementButton)
         {
             _moveButton.onClick.RemoveAllListeners();
-            _moveButton.onClick.AddListener(onClickMoveButton);
+            _moveButton.onClick.AddListener(onClickMoveAction);
 
             _applyNatureElementButton.onClick.RemoveAllListeners();
             _applyNatureElementButton.onClick.AddListener(onClickApplyNatureElementButton);
 
             _attackButton.onClick.RemoveAllListeners();
-            _attackButton.onClick.AddListener(onClickApplyNatureElementButton);
+            _attackButton.onClick.AddListener(onClickAttackAction);
         }
     }
 }
