@@ -1,6 +1,7 @@
 ﻿namespace Magix.Controller.Match.Board.StateMachine.States
 {
     using System;
+    using Domain;
     using Domain.Interface;
     using Domain.Interface.NatureElements;
     using NatureElements;
@@ -29,16 +30,16 @@
 
         public override void OnGotBackOnTop(BaseStateResult stateResult)
         {
-            if (stateResult is null)
-            {
-                Pop();
-
-                return;
-            }
-
             switch (stateResult)
             {
                 case SelectedTilesResult selectedTilesResult:
+                    if (selectedTilesResult.Cancelled)
+                    {
+                        BoardController.EnableNatureElementsMenuBar(true);
+
+                        return;
+                    }
+
                     StateMachineManager.Swap(
                         new CastingNatureElementState(_wizard, _selectedNatureElement, selectedTilesResult.Tiles));
 
@@ -60,7 +61,9 @@
         {
             _selectedNatureElement = natureElementButtonController.NatureElement;
 
-            StateMachineManager.Push(new SelectingTilesPathState(_wizard));
+            StateMachineManager.Push(new SelectingTilesIndividuallyState(_wizard, WizardActionType.CastNatureElement));
+
+            BoardController.EnableNatureElementsMenuBar(false);
         }
     }
 }

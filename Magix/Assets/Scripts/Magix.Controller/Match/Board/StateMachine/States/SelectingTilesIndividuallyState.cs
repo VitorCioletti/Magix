@@ -31,18 +31,19 @@
 
             _previewTiles = MatchService.Board.GetPreviewArea(_wizard, _wizardAction);
 
+            BoardController.EnableExecuteButton(true);
+
             _setTilesToPreview(_previewTiles);
         }
 
         public override BaseStateResult Cleanup()
         {
+            BoardController.EnableExecuteButton(false);
+
             _setTilesToNormal(_selectedTiles);
             _setTilesToNormal(_previewTiles);
 
-            if (_cancelled)
-                return null;
-
-            return new SelectedTilesResult(_selectedTiles);
+            return new SelectedTilesResult(_selectedTiles, _cancelled);
         }
 
         public override void OnClickCancel()
@@ -59,6 +60,9 @@
 
         public override void OnClickTile(TileController tileController)
         {
+            if (!_previewTiles.Contains(tileController.Tile))
+                return;
+
             if (_selectedTiles.Contains(tileController.Tile))
             {
                 tileController.SetToPreview();

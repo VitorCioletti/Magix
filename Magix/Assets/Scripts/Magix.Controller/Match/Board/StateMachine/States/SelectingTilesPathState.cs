@@ -39,16 +39,18 @@
             _setTilesToNormal(_selectedTiles);
             _setTilesToNormal(_previewTiles);
 
-            if (_cancelled)
-                return null;
-
-            return new SelectedTilesResult(_selectedTiles);
+            return new SelectedTilesResult(_selectedTiles, _cancelled);
         }
 
         public override void OnClickCancel()
         {
             _cancelled = true;
 
+            Pop();
+        }
+
+        public override void OnClickTile(TileController tileController)
+        {
             Pop();
         }
 

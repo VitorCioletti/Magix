@@ -129,7 +129,7 @@ namespace Tests
 
             expectedMovementResult.Steps.Returns(new List<IStepResult>());
             expectedMovementResult.Success.Returns(false);
-            expectedMovementResult.ErrorId.Returns(MovementResult.CantGoThroughBlockingElement);
+            expectedMovementResult.ErrorId.Returns(IMovementResult.CantGoThroughBlockingElement);
 
             IMovementResult movementResult = _board.Move(wizard, tilesToMove);
 

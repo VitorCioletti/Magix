@@ -22,7 +22,7 @@
         {
             base.Initialize(stateMachineManager, boardController, matchService);
 
-            BoardController.EnableActionSelectionButtons(true);
+            BoardController.EnableActionSelectionButtons(_wizard, true);
         }
 
         public override BaseStateResult Cleanup()

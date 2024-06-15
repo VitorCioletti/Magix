@@ -29,5 +29,10 @@
             _attackButton.onClick.RemoveAllListeners();
             _attackButton.onClick.AddListener(onClickAttackAction);
         }
+
+        public void EnableAttackButton(bool enable)
+        {
+            _attackButton.interactable = enable;
+        }
     }
 }

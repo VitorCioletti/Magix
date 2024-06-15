@@ -26,16 +26,16 @@
 
         public override void OnGotBackOnTop(BaseStateResult stateResult)
         {
-            if (stateResult is null)
-            {
-                Pop();
-
-                return;
-            }
-
             switch (stateResult)
             {
                 case SelectedTilesResult selectedTilesResult:
+                    if (selectedTilesResult.Cancelled)
+                    {
+                        Pop();
+
+                        return;
+                    }
+
                     StateMachineManager.Swap(new MovingWizardToTargetState(_wizard, selectedTilesResult.Tiles));
 
                     break;

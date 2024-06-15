@@ -34,7 +34,23 @@
 
         public bool CanAttack(IWizard wizard)
         {
-            return true;
+            IList<ITile> previewArea = GetPreviewArea(wizard, WizardActionType.Attack);
+
+            bool canAttack = false;
+
+            foreach (ITile tile in previewArea)
+            {
+                foreach (IPlayer player in Players)
+                {
+                    foreach (IWizard playerWizard in player.Wizards)
+                    {
+                        if (playerWizard.Position.Equals(tile.Position))
+                            canAttack = true;
+                    }
+                }
+            }
+
+            return canAttack;
         }
 
         public ICastResult CastNatureElement(IWizard wizard, INatureElement natureElement, IList<ITile> tiles)
@@ -88,6 +104,14 @@
 
             foreach (ITile tile in tiles)
             {
+                if (tile.Position.Equals(wizard.Position))
+                {
+                    return new MovementResult(
+                        new List<IStepResult>(),
+                        false,
+                        IMovementResult.CantGoThroughBlockingElement);
+                }
+
                 foreach (INatureElement natureElement in tile.NatureElements)
                 {
                     if (natureElement.Blocking)
@@ -95,7 +119,7 @@
                         return new MovementResult(
                             new List<IStepResult>(),
                             false,
-                            MovementResult.CantGoThroughBlockingElement);
+                            IMovementResult.CantGoThroughBlockingElement);
                     }
 
                     IEffectResult effectResult = natureElement.ApplyElementEffect(wizard);

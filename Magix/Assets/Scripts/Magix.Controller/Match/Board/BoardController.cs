@@ -37,10 +37,10 @@ namespace Magix.Controller.Match.Board
         private NatureElementsMenuBarController _natureElementsMenuBarController { get; set; }
 
         [field: SerializeField]
-        private CastNatureElementButtonController _castNatureElementButtonController { get; set; }
+        private Button _cancelButton { get; set; }
 
         [field: SerializeField]
-        private Button _cancelButton { get; set; }
+        private Button _executeButton { get; set; }
 
         private List<WizardController> _wizards;
 
@@ -115,19 +115,28 @@ namespace Magix.Controller.Match.Board
             _cancelButton.gameObject.SetActive(enable);
         }
 
+        public void EnableActionSelectionButtons(IWizard wizard, bool enable)
+        {
+            EnableActionSelectionButtons(enable);
+
+            bool canAttack = _matchService.Board.CanAttack(wizard);
+
+            _wizardActionsMenuBarMenuBar.EnableAttackButton(canAttack);
+        }
+
         public void EnableActionSelectionButtons(bool enable)
         {
             _wizardActionsMenuBarMenuBar.gameObject.SetActive(enable);
         }
 
-        public void EnableCastNatureElementButton(bool enable)
-        {
-            _castNatureElementButtonController.gameObject.SetActive(enable);
-        }
-
         public void EnableNatureElementsMenuBar(bool enable)
         {
             _natureElementsMenuBarController.gameObject.SetActive(enable);
+        }
+
+        public void EnableExecuteButton(bool enable)
+        {
+            _executeButton.gameObject.SetActive(enable);
         }
 
         private void Start()
@@ -168,21 +177,16 @@ namespace Magix.Controller.Match.Board
                 _onClickAttackAction,
                 _onClickApplyNatureElementAction);
 
-            _castNatureElementButtonController.Initialize(_onClickCastNatureElement);
             _natureElementsMenuBarController.Initialize(natureElementsToCast, _onClickNatureElementButton);
 
             EnableActionSelectionButtons(false);
-            EnableCastNatureElementButton(false);
             EnableNatureElementsMenuBar(false);
+            EnableExecuteButton(false);
 
             _fixPosition();
 
             _cancelButton.onClick.AddListener(_onClickCancel);
-        }
-
-        private void _onClickCancel()
-        {
-            _stateMachine.GetCurrentState().OnClickCancel();
+            _executeButton.onClick.AddListener(_onClickExecute);
         }
 
         private void _initializeStateMachine()
@@ -233,6 +237,16 @@ namespace Magix.Controller.Match.Board
             _currentStateText.text = stateName;
         }
 
+        private void _onClickCancel()
+        {
+            _stateMachine.GetCurrentState().OnClickCancel();
+        }
+
+        private void _onClickExecute()
+        {
+            _stateMachine.GetCurrentState().OnClickExecute();
+        }
+
         private void _onTileClicked(TileController tileController)
         {
             _stateMachine.GetCurrentState().OnClickTile(tileController);
@@ -261,11 +275,6 @@ namespace Magix.Controller.Match.Board
         private void _onClickApplyNatureElementAction()
         {
             _stateMachine.GetCurrentState().OnClickWizardAction(WizardActionType.CastNatureElement);
-        }
-
-        private void _onClickCastNatureElement()
-        {
-            _stateMachine.GetCurrentState().OnClickExecute();
         }
 
         private void _onClickNatureElementButton(NatureElementButtonController natureElementButtonController)

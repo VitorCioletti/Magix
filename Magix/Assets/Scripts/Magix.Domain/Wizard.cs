@@ -107,30 +107,14 @@
 
         public int GetDistance(WizardActionType actionType)
         {
-            int distance;
 
-            switch (actionType)
+            int distance = actionType switch
             {
-                case WizardActionType.Move:
-                    distance = RemainingActions;
-
-                    break;
-                case WizardActionType.Attack:
-                    distance = IWizard.AttackDistance;
-
-                    break;
-                case WizardActionType.CastNatureElement:
-                {
-                    if (RemainingActions > IWizard.CastNatureElementDistance)
-                        distance = IWizard.CastNatureElementDistance;
-                    else
-                        distance = RemainingActions - IWizard.CastNatureElementDistance;
-
-                    break;
-                }
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(actionType), actionType, null);
-            }
+                WizardActionType.Move => RemainingActions,
+                WizardActionType.Attack => IWizard.AttackDistance,
+                WizardActionType.CastNatureElement => IWizard.CastNatureElementDistance,
+                _ => throw new ArgumentOutOfRangeException(nameof(actionType), actionType, null)
+            };
 
             return distance;
         }

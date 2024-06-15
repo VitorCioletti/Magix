@@ -5,7 +5,6 @@
 
     public class MovementResult : BaseResult, IMovementResult
     {
-        public static readonly string CantGoThroughBlockingElement = "cant-go-through-blocking-element";
 
         public List<IStepResult> Steps { get; private set; }
 

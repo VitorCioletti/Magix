@@ -5,11 +5,14 @@
 
     public class SelectedTilesResult : BaseStateResult
     {
+        public bool Cancelled { get; private set; }
+
         public IList<ITile> Tiles { get; private set; }
 
-        public SelectedTilesResult(IList<ITile> tiles)
+        public SelectedTilesResult(IList<ITile> tiles, bool cancelled)
         {
             Tiles = tiles;
+            Cancelled = cancelled;
         }
     }
 }
