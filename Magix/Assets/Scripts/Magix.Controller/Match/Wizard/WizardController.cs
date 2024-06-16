@@ -12,16 +12,26 @@ namespace Magix.Controller.Match.Wizard
     public class WizardController : MonoBehaviour
     {
         [field: SerializeField]
+        private LifeBarController _lifeBarController { get; set; }
+
+        [field: SerializeField]
         private WizardView _view { get; set; }
 
         public IWizard Wizard { get; private set; }
 
         public void Initialize(IWizard wizard, TileController tileToSpawnWizard, int player)
         {
+            _lifeBarController.Initialize(wizard.LifePoints);
+
             Wizard = wizard;
 
             _view.Initialize(tileToSpawnWizard.transform, player);
             _view.AnimateIdle();
+        }
+
+        public void UpdateLifePoints()
+        {
+            _lifeBarController.UpdateLife(Wizard.LifePoints);
         }
 
         public async Task MoveAsync(List<TileController> tilesController)
