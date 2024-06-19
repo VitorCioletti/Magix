@@ -6,9 +6,9 @@
     using Interface;
     using Interface.Board;
     using Interface.Board.Result;
-    using Interface.NatureElements;
-    using Interface.NatureElements.Result;
-    using NatureElements;
+    using Interface.Element;
+    using Interface.Element.Result;
+    using Element;
     using Result;
 
     public class Board : IBoard
@@ -53,7 +53,7 @@
             return canAttack;
         }
 
-        public ICastResult CastNatureElement(IWizard wizard, INatureElement natureElement, IList<ITile> tiles)
+        public ICastResult CastElement(IWizard wizard, IElement element, IList<ITile> tiles)
         {
             _verifyWizardBelongsCurrentPlayer(wizard);
 
@@ -61,7 +61,7 @@
 
             foreach (ITile tile in tiles)
             {
-                List<IMixResult> mixResults = tile.Mix(natureElement);
+                List<IMixResult> mixResults = tile.Mix(element);
 
                 allResults.AddRange(mixResults);
             }
@@ -112,7 +112,7 @@
                         IMovementResult.CantGoThroughBlockingElement);
                 }
 
-                foreach (INatureElement natureElement in tile.NatureElements)
+                foreach (IElement natureElement in tile.Element)
                 {
                     if (natureElement.Blocking)
                     {
@@ -139,9 +139,9 @@
             return new MovementResult(steps, true, string.Empty);
         }
 
-        public List<INatureElement> GetNatureElementsToCast()
+        public List<IElement> GetElementToCast()
         {
-            return new List<INatureElement> {new Fire(), new Water(), new Wind(),};
+            return new List<IElement> {new Fire(), new Water(), new Wind(),};
         }
 
         // TODO: Pass position instead of tile.

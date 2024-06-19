@@ -1,7 +1,7 @@
 ﻿namespace Magix.Domain.Interface.Board
 {
     using System.Collections.Generic;
-    using NatureElements;
+    using Element;
     using Result;
 
     public interface IBoard
@@ -12,14 +12,14 @@
 
         IPlayer CurrentPlayer { get; }
 
-        List<INatureElement> GetNatureElementsToCast();
+        List<IElement> GetElementToCast();
 
         IMovementResult Move(IWizard wizard, IList<ITile> tiles);
 
         IAttackResult Attack(IWizard wizard, IPosition position);
         bool CanAttack(IWizard wizard);
 
-        ICastResult CastNatureElement(IWizard wizard, INatureElement natureElement, IList<ITile> tiles);
+        ICastResult CastElement(IWizard wizard, IElement element, IList<ITile> tiles);
 
         bool HasWizard(ITile tile);
 

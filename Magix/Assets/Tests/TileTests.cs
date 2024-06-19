@@ -3,8 +3,8 @@
     using System.Collections.Generic;
     using Magix.Domain.Board;
     using Magix.Domain.Interface.Board;
-    using Magix.Domain.Interface.NatureElements;
-    using Magix.Domain.NatureElements;
+    using Magix.Domain.Interface.Element;
+    using Magix.Domain.Element;
     using NSubstitute;
     using NUnit.Framework;
 
@@ -15,11 +15,11 @@
         {
             var position = new Position(0, 0);
             var tile = new Tile(position);
-            var element = Substitute.For<INatureElement>();
+            var element = Substitute.For<IElement>();
 
             tile.Mix(element);
 
-            Assert.IsTrue(tile.NatureElements.Contains(element));
+            Assert.IsTrue(tile.Element.Contains(element));
         }
 
         [Test]
@@ -37,8 +37,8 @@
             var position = new Position(0, 0);
             var tile = new Tile(position);
 
-            var originalElementOnTile = Substitute.For<INatureElement>();
-            var elementToMix = Substitute.For<INatureElement>();
+            var originalElementOnTile = Substitute.For<IElement>();
+            var elementToMix = Substitute.For<IElement>();
 
             originalElementOnTile.CanReact(elementToMix).Returns(true);
 
@@ -52,7 +52,7 @@
         {
             var position = new Position(0, 0);
             var tile = new Tile(position);
-            var element = Substitute.For<INatureElement>();
+            var element = Substitute.For<IElement>();
 
             tile.Mix(element);
 
@@ -60,20 +60,20 @@
         }
 
         [Test]
-        public void MustSpreadNatureElementOnAdjacentTilesIfCanReact()
+        public void MustSpreadElementOnAdjacentTilesIfCanReact()
         {
             var position = new Position(0, 0);
 
-            var elementToSpread = Substitute.For<INatureElement>();
+            var elementToSpread = Substitute.For<IElement>();
             elementToSpread.CanSpread.Returns(true);
 
-            var mixableOriginalElement = Substitute.For<INatureElement>();
+            var mixableOriginalElement = Substitute.For<IElement>();
 
             mixableOriginalElement.CanStack.Returns(true);
             mixableOriginalElement.CanReact(elementToSpread).Returns(true);
             mixableOriginalElement.GetMixedElement(elementToSpread).Returns(elementToSpread);
 
-            var unMixableElement = Substitute.For<INatureElement>();
+            var unMixableElement = Substitute.For<IElement>();
 
             mixableOriginalElement.CanStack.Returns(false);
             mixableOriginalElement.CanReact(elementToSpread).Returns(false);
@@ -97,27 +97,27 @@
 
             tile.Mix(elementToSpread);
 
-            Assert.IsTrue(tile1.NatureElements.Contains(elementToSpread));
-            Assert.IsTrue(tile2.NatureElements.Contains(elementToSpread));
-            Assert.IsTrue(tile3.NatureElements.Contains(elementToSpread));
+            Assert.IsTrue(tile1.Element.Contains(elementToSpread));
+            Assert.IsTrue(tile2.Element.Contains(elementToSpread));
+            Assert.IsTrue(tile3.Element.Contains(elementToSpread));
 
-            Assert.IsFalse(tile4.NatureElements.Contains(elementToSpread));
+            Assert.IsFalse(tile4.Element.Contains(elementToSpread));
         }
 
         [Test]
-        public void MustNotSpreadNatureElementOnAdjacentTiles()
+        public void MustNotSpreadElementOnAdjacentTiles()
         {
             var position = new Position(0, 0);
 
-            var newElementToMix = Substitute.For<INatureElement>();
+            var newElementToMix = Substitute.For<IElement>();
             newElementToMix.CanSpread.Returns(false);
 
-            var mixableOriginalElement = Substitute.For<INatureElement>();
+            var mixableOriginalElement = Substitute.For<IElement>();
 
             mixableOriginalElement.CanReact(newElementToMix).Returns(true);
             mixableOriginalElement.GetMixedElement(newElementToMix).Returns(newElementToMix);
 
-            var unMixableElement = Substitute.For<INatureElement>();
+            var unMixableElement = Substitute.For<IElement>();
 
             mixableOriginalElement.CanStack.Returns(false);
             mixableOriginalElement.CanReact(newElementToMix).Returns(false);
@@ -141,26 +141,26 @@
 
             tile.Mix(newElementToMix);
 
-            Assert.IsTrue(tile.NatureElements.Contains(newElementToMix));
+            Assert.IsTrue(tile.Element.Contains(newElementToMix));
 
-            Assert.IsFalse(tile1.NatureElements.Contains(newElementToMix));
-            Assert.IsFalse(tile2.NatureElements.Contains(newElementToMix));
-            Assert.IsFalse(tile3.NatureElements.Contains(newElementToMix));
+            Assert.IsFalse(tile1.Element.Contains(newElementToMix));
+            Assert.IsFalse(tile2.Element.Contains(newElementToMix));
+            Assert.IsFalse(tile3.Element.Contains(newElementToMix));
 
-            Assert.IsFalse(tile4.NatureElements.Contains(newElementToMix));
+            Assert.IsFalse(tile4.Element.Contains(newElementToMix));
         }
 
         [Test]
-        public void MustStackNatureElement()
+        public void MustStackElement()
         {
             var position = new Position(0, 0);
 
-            var newElementToMix = Substitute.For<INatureElement>();
+            var newElementToMix = Substitute.For<IElement>();
 
             newElementToMix.CanStack.Returns(true);
             newElementToMix.CanSpread.Returns(false);
 
-            var originalElement = Substitute.For<INatureElement>();
+            var originalElement = Substitute.For<IElement>();
 
             originalElement.CanReact(newElementToMix).Returns(true);
             originalElement.GetMixedElement(newElementToMix).Returns(newElementToMix);
@@ -172,21 +172,21 @@
             tile.Mix(originalElement);
             tile.Mix(newElementToMix);
 
-            Assert.IsTrue(tile.NatureElements.Contains(originalElement));
-            Assert.IsTrue(tile.NatureElements.Contains(newElementToMix));
+            Assert.IsTrue(tile.Element.Contains(originalElement));
+            Assert.IsTrue(tile.Element.Contains(newElementToMix));
         }
 
         [Test]
-        public void MustNotStackNatureElement()
+        public void MustNotStackElement()
         {
             var position = new Position(0, 0);
 
-            var newElementToMix = Substitute.For<INatureElement>();
+            var newElementToMix = Substitute.For<IElement>();
 
             newElementToMix.CanStack.Returns(false);
             newElementToMix.CanSpread.Returns(false);
 
-            var originalElement = Substitute.For<INatureElement>();
+            var originalElement = Substitute.For<IElement>();
 
             originalElement.CanReact(newElementToMix).Returns(true);
             originalElement.GetMixedElement(newElementToMix).Returns(newElementToMix);
@@ -198,8 +198,8 @@
             tile.Mix(originalElement);
             tile.Mix(newElementToMix);
 
-            Assert.IsFalse(tile.NatureElements.Contains(originalElement));
-            Assert.IsTrue(tile.NatureElements.Contains(newElementToMix));
+            Assert.IsFalse(tile.Element.Contains(originalElement));
+            Assert.IsTrue(tile.Element.Contains(newElementToMix));
         }
     }
 }

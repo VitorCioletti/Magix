@@ -47,7 +47,7 @@ TagManager:
   - name: Wizard
     uniqueID: 55737929
     locked: 0
-  - name: NatureElement
+  - name: Element
     uniqueID: 1170997455
     locked: 0
   - name: UI

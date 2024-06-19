@@ -4,6 +4,6 @@
     {
         Move,
         Attack,
-        CastNatureElement
+        CastElement
     }
 }

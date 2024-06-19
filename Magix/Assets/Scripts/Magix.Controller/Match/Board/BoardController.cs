@@ -9,8 +9,8 @@ namespace Magix.Controller.Match.Board
     using Domain.Interface;
     using Domain.Interface.Board;
     using Domain.Interface.Board.Result;
-    using Domain.Interface.NatureElements;
-    using NatureElements;
+    using Domain.Interface.Element;
+    using Element;
     using Service.Interface;
     using StateMachine;
     using StateMachine.States;
@@ -34,7 +34,7 @@ namespace Magix.Controller.Match.Board
         private WizardActionsMenuBarController _wizardActionsMenuBarMenuBar { get; set; }
 
         [field: SerializeField]
-        private NatureElementsMenuBarController _natureElementsMenuBarController { get; set; }
+        private ElementMenuBarController _elementMenuBarController { get; set; }
 
         [field: SerializeField]
         private Button _cancelButton { get; set; }
@@ -85,9 +85,9 @@ namespace Magix.Controller.Match.Board
             }
         }
 
-        public async Task CastNatureElementAsync(IWizard wizard, INatureElement natureElement, IList<ITile> tiles)
+        public async Task CastElementAsync(IWizard wizard, IElement element, IList<ITile> tiles)
         {
-            ICastResult castResult = _matchService.Board.CastNatureElement(wizard, natureElement, tiles);
+            ICastResult castResult = _matchService.Board.CastElement(wizard, element, tiles);
 
             if (castResult.Success)
             {
@@ -129,9 +129,9 @@ namespace Magix.Controller.Match.Board
             _wizardActionsMenuBarMenuBar.gameObject.SetActive(enable);
         }
 
-        public void EnableNatureElementsMenuBar(bool enable)
+        public void EnableElementMenuBar(bool enable)
         {
-            _natureElementsMenuBarController.gameObject.SetActive(enable);
+            _elementMenuBarController.gameObject.SetActive(enable);
         }
 
         public void EnableExecuteButton(bool enable)
@@ -170,17 +170,17 @@ namespace Magix.Controller.Match.Board
 
             _initializeStateMachine();
 
-            List<INatureElement> natureElementsToCast = _matchService.Board.GetNatureElementsToCast();
+            List<IElement> natureElementsToCast = _matchService.Board.GetElementToCast();
 
             _wizardActionsMenuBarMenuBar.Initialize(
                 _onClickMoveAction,
                 _onClickAttackAction,
-                _onClickApplyNatureElementAction);
+                _onClickApplyElementAction);
 
-            _natureElementsMenuBarController.Initialize(natureElementsToCast, _onClickNatureElementButton);
+            _elementMenuBarController.Initialize(natureElementsToCast, _onClickElementButton);
 
             EnableActionSelectionButtons(false);
-            EnableNatureElementsMenuBar(false);
+            EnableElementMenuBar(false);
             EnableExecuteButton(false);
 
             _fixPosition();
@@ -272,14 +272,14 @@ namespace Magix.Controller.Match.Board
             _stateMachine.GetCurrentState().OnClickWizardAction(WizardActionType.Attack);
         }
 
-        private void _onClickApplyNatureElementAction()
+        private void _onClickApplyElementAction()
         {
-            _stateMachine.GetCurrentState().OnClickWizardAction(WizardActionType.CastNatureElement);
+            _stateMachine.GetCurrentState().OnClickWizardAction(WizardActionType.CastElement);
         }
 
-        private void _onClickNatureElementButton(NatureElementButtonController natureElementButtonController)
+        private void _onClickElementButton(ElementButtonController elementButtonController)
         {
-            _stateMachine.GetCurrentState().OnClickNatureElement(natureElementButtonController);
+            _stateMachine.GetCurrentState().OnClickElement(elementButtonController);
         }
     }
 }

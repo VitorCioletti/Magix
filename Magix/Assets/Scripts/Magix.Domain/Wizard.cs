@@ -3,9 +3,9 @@
     using System;
     using Interface;
     using Interface.Board;
-    using Interface.NatureElements;
-    using Interface.NatureElements.Result;
-    using NatureElements.Result;
+    using Interface.Element;
+    using Interface.Element.Result;
+    using Element.Result;
 
     public class Wizard : IWizard
     {
@@ -112,7 +112,7 @@
             {
                 WizardActionType.Move => RemainingActions,
                 WizardActionType.Attack => IWizard.AttackDistance,
-                WizardActionType.CastNatureElement => IWizard.CastNatureElementDistance,
+                WizardActionType.CastElement => IWizard.CastElementDistance,
                 _ => throw new ArgumentOutOfRangeException(nameof(actionType), actionType, null)
             };
 

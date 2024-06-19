@@ -2,14 +2,14 @@
 {
     using System;
     using Board;
-    using NatureElements;
-    using NatureElements.Result;
+    using Element;
+    using Element.Result;
 
     public interface IWizard
     {
         static int AttackDamage => 1;
         static int AttackDistance => 1;
-        static int CastNatureElementDistance => 5;
+        static int CastElementDistance => 5;
 
         Guid Id { get; }
 

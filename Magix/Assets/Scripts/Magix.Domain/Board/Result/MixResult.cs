@@ -2,23 +2,23 @@
 {
     using Interface.Board;
     using Interface.Board.Result;
-    using Interface.NatureElements;
+    using Interface.Element;
 
     public class MixResult : BaseResult, IMixResult
     {
         public ITile AffectedTile { get; private set; }
 
-        public INatureElement NewElement { get; private set; }
+        public IElement NewElement { get; private set; }
 
-        public INatureElement TriedToMix { get; private set; }
+        public IElement TriedToMix { get; private set; }
 
-        public INatureElement OriginallyOnTile { get; private set; }
+        public IElement OriginallyOnTile { get; private set; }
 
         public MixResult(
             ITile affectedTile,
-            INatureElement triedToMix,
-            INatureElement originallyOnTile,
-            INatureElement newElement,
+            IElement triedToMix,
+            IElement originallyOnTile,
+            IElement newElement,
             bool success = true,
             string errorId = "")
             : base(success, errorId)

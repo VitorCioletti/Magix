@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2162103253378713614}
   - component: {fileID: 3172573518870803550}
   m_Layer: 5
-  m_Name: ApplyNatureElementButton
+  m_Name: ApplyElementButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -446,7 +446,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <_moveButton>k__BackingField: {fileID: 8210738344764439600}
-  <_applyNatureElementButton>k__BackingField: {fileID: 3172573518870803550}
+  <_applyElementButton>k__BackingField: {fileID: 3172573518870803550}
   <_attackButton>k__BackingField: {fileID: 5590911313703992540}
 --- !u!114 &2770219619816909992
 MonoBehaviour:
@@ -662,7 +662,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Apply Nature Element
+  m_text: Apply  Element
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dd7f72a2e2d390542a17f4bf446ae948, type: 2}
   m_sharedMaterial: {fileID: 1928340774536795251, guid: dd7f72a2e2d390542a17f4bf446ae948, type: 2}

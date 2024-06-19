@@ -3,17 +3,17 @@
     using System;
     using Domain;
     using Domain.Interface;
-    using Domain.Interface.NatureElements;
-    using NatureElements;
+    using Domain.Interface.Element;
+    using Element;
     using Result;
     using Service.Interface;
 
-    public class SelectingNatureElementToCastState : BaseState
+    public class SelectingElementToCastState : BaseState
     {
         private readonly IWizard _wizard;
-        private INatureElement _selectedNatureElement;
+        private IElement _selectedElement;
 
-        public SelectingNatureElementToCastState(IWizard wizard)
+        public SelectingElementToCastState(IWizard wizard)
         {
             _wizard = wizard;
         }
@@ -25,7 +25,7 @@
         {
             base.Initialize(stateMachineManager, boardController, matchService);
 
-            BoardController.EnableNatureElementsMenuBar(true);
+            BoardController.EnableElementMenuBar(true);
         }
 
         public override void OnGotBackOnTop(BaseStateResult stateResult)
@@ -35,13 +35,13 @@
                 case SelectedTilesResult selectedTilesResult:
                     if (selectedTilesResult.Cancelled)
                     {
-                        BoardController.EnableNatureElementsMenuBar(true);
+                        BoardController.EnableElementMenuBar(true);
 
                         return;
                     }
 
                     StateMachineManager.Swap(
-                        new CastingNatureElementState(_wizard, _selectedNatureElement, selectedTilesResult.Tiles));
+                        new CastingElementState(_wizard, _selectedElement, selectedTilesResult.Tiles));
 
                     break;
                 default:
@@ -52,18 +52,18 @@
 
         public override BaseStateResult Cleanup()
         {
-            BoardController.EnableNatureElementsMenuBar(false);
+            BoardController.EnableElementMenuBar(false);
 
             return null;
         }
 
-        public override void OnClickNatureElement(NatureElementButtonController natureElementButtonController)
+        public override void OnClickElement(ElementButtonController elementButtonController)
         {
-            _selectedNatureElement = natureElementButtonController.NatureElement;
+            _selectedElement = elementButtonController.Element;
 
-            StateMachineManager.Push(new SelectingTilesIndividuallyState(_wizard, WizardActionType.CastNatureElement));
+            StateMachineManager.Push(new SelectingTilesIndividuallyState(_wizard, WizardActionType.CastElement));
 
-            BoardController.EnableNatureElementsMenuBar(false);
+            BoardController.EnableElementMenuBar(false);
         }
     }
 }

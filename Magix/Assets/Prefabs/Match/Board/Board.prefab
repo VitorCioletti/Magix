@@ -173,7 +173,7 @@ MonoBehaviour:
   <_wizardPrefab>k__BackingField: {fileID: 2301370875976950893, guid: 0a86cc5c05159ae4b96ab46be30993f4, type: 3}
   <_currentStateText>k__BackingField: {fileID: 1974593960601778143}
   <_wizardActionsMenuBarMenuBar>k__BackingField: {fileID: 4696443155665931400}
-  <_natureElementsMenuBarController>k__BackingField: {fileID: 311885370556905336}
+  <_elementMenuBarController>k__BackingField: {fileID: 311885370556905336}
   <_cancelButton>k__BackingField: {fileID: 8556813376889226281}
   <_executeButton>k__BackingField: {fileID: 1499943559316771309}
 --- !u!1 &4895859513457163818
@@ -1159,7 +1159,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8119346339622122138, guid: 9ffc6df29955fdb4e8fba1b4ad5e5bea, type: 3}
       propertyPath: m_Name
-      value: NatureElementsMenuBar
+      value: ElementMenuBar
       objectReference: {fileID: 0}
     - target: {fileID: 8119346339622122138, guid: 9ffc6df29955fdb4e8fba1b4ad5e5bea, type: 3}
       propertyPath: m_IsActive

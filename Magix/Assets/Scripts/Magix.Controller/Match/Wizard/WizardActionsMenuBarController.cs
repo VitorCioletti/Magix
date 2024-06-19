@@ -10,7 +10,7 @@
         private Button _moveButton { get; set; }
 
         [field: SerializeField]
-        private Button _applyNatureElementButton { get; set; }
+        private Button _applyElementButton { get; set; }
 
         [field: SerializeField]
         private Button _attackButton { get; set; }
@@ -18,13 +18,13 @@
         public void Initialize(
             UnityAction onClickMoveAction,
             UnityAction onClickAttackAction,
-            UnityAction onClickApplyNatureElementButton)
+            UnityAction onClickApplyElementButton)
         {
             _moveButton.onClick.RemoveAllListeners();
             _moveButton.onClick.AddListener(onClickMoveAction);
 
-            _applyNatureElementButton.onClick.RemoveAllListeners();
-            _applyNatureElementButton.onClick.AddListener(onClickApplyNatureElementButton);
+            _applyElementButton.onClick.RemoveAllListeners();
+            _applyElementButton.onClick.AddListener(onClickApplyElementButton);
 
             _attackButton.onClick.RemoveAllListeners();
             _attackButton.onClick.AddListener(onClickAttackAction);

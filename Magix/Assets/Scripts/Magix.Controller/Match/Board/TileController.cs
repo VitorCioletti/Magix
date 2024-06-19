@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using Domain.Interface.Board;
-    using Domain.Interface.NatureElements;
+    using Domain.Interface.Element;
     using UnityEngine;
     using View;
     using View.Match.Board;
@@ -16,13 +16,13 @@
         private Collider2D _collider2D { get; set; }
 
         [field: SerializeField]
-        private NatureElementController _elementPrefab { get; set; }
+        private ElementController _elementPrefab { get; set; }
 
         [field: SerializeField]
         private WorldHorizontalLayoutGroup _worldHorizontalLayoutGroup { get; set; }
 
         [field: SerializeField]
-        private List<NatureElementController> _elements { get; set; }
+        private List<ElementController> _elements { get; set; }
 
         [field: SerializeField]
         private TileView _view { get; set; }
@@ -44,7 +44,7 @@
             Tile = tile;
 
             _mainCamera = Camera.main;
-            _elements = new List<NatureElementController>();
+            _elements = new List<ElementController>();
 
             _onTileClicked = onTileClicked;
             _onMouseEntered = onMouseEntered;
@@ -72,18 +72,18 @@
 
         public void UpdateElements()
         {
-            foreach (NatureElementController elementController in _elements)
+            foreach (ElementController elementController in _elements)
             {
                 Destroy(elementController.gameObject);
             }
 
             _elements.Clear();
 
-            List<INatureElement> elements = Tile.NatureElements;
+            List<IElement> elements = Tile.Element;
 
-            foreach (INatureElement element in elements)
+            foreach (IElement element in elements)
             {
-                NatureElementController newElement = Instantiate(_elementPrefab, _worldHorizontalLayoutGroup.transform);
+                ElementController newElement = Instantiate(_elementPrefab, _worldHorizontalLayoutGroup.transform);
 
                 newElement.UpdateElement(element);
 

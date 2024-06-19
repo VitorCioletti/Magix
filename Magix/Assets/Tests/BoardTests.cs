@@ -7,8 +7,8 @@ namespace Tests
     using Magix.Domain.Interface;
     using Magix.Domain.Interface.Board;
     using Magix.Domain.Interface.Board.Result;
-    using Magix.Domain.Interface.NatureElements;
-    using Magix.Domain.NatureElements;
+    using Magix.Domain.Interface.Element;
+    using Magix.Domain.Element;
     using NSubstitute;
     using NUnit.Framework;
 
@@ -45,14 +45,14 @@ namespace Tests
 
             expectedResultedMix.AffectedTile.Returns(tileToCast);
             expectedResultedMix.TriedToMix.Returns(fire);
-            expectedResultedMix.OriginallyOnTile.Returns(tileToCast.NatureElements[0]);
+            expectedResultedMix.OriginallyOnTile.Returns(tileToCast.Element[0]);
             expectedResultedMix.NewElement.Returns(fire);
 
             const int expectedMixes = 1;
 
             var tilesToCast = new List<ITile> {tileToCast};
 
-            ICastResult castResult = _board.CastNatureElement(wizard, fire, tilesToCast);
+            ICastResult castResult = _board.CastElement(wizard, fire, tilesToCast);
 
             Assert.IsTrue(castResult.Success);
 
@@ -65,7 +65,7 @@ namespace Tests
             Assert.AreEqual(expectedResultedMix.NewElement, resultedMix.NewElement);
             Assert.AreEqual(expectedResultedMix.OriginallyOnTile, resultedMix.OriginallyOnTile);
 
-            Assert.AreEqual(fire, tileToCast.NatureElements[0]);
+            Assert.AreEqual(fire, tileToCast.Element[0]);
         }
 
         [Test]
@@ -90,9 +90,9 @@ namespace Tests
 
             var tilesToCast = new List<ITile> {tileToCast};
 
-            _board.CastNatureElement(wizard, fire, tilesToCast);
+            _board.CastElement(wizard, fire, tilesToCast);
 
-            ICastResult castResult = _board.CastNatureElement(wizard, fire, tilesToCast);
+            ICastResult castResult = _board.CastElement(wizard, fire, tilesToCast);
 
             Assert.IsFalse(castResult.Success);
 
@@ -117,13 +117,13 @@ namespace Tests
             ITile firstTile = _board.Tiles[elementPosition.X, elementPosition.Y];
             ITile nextTile = _board.Tiles[elementPosition.X + 1, elementPosition.Y];
 
-            var blockingElement = Substitute.For<INatureElement>();
+            var blockingElement = Substitute.For<IElement>();
             blockingElement.Blocking.Returns(true);
 
             var tilesToCast = new List<ITile> {firstTile};
             var tilesToMove = new List<ITile> {firstTile, nextTile};
 
-            _board.CastNatureElement(wizard, blockingElement, tilesToCast);
+            _board.CastElement(wizard, blockingElement, tilesToCast);
 
             var expectedMovementResult = Substitute.For<IMovementResult>();
 
@@ -151,12 +151,12 @@ namespace Tests
             ITile firstTile = _board.Tiles[elementPosition.X, elementPosition.Y];
             ITile secondTile = _board.Tiles[elementPosition.X + 1, elementPosition.Y];
 
-            var nonBlockingElement = Substitute.For<INatureElement>();
+            var nonBlockingElement = Substitute.For<IElement>();
 
             var tilesToCast = new List<ITile> {firstTile};
             var tilesToMove = new List<ITile> {firstTile, secondTile};
 
-            _board.CastNatureElement(wizard, nonBlockingElement, tilesToCast);
+            _board.CastElement(wizard, nonBlockingElement, tilesToCast);
 
             var expectedMovementResult = Substitute.For<IMovementResult>();
 

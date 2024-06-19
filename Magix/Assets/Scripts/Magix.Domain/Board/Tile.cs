@@ -4,8 +4,8 @@
     using System.Linq;
     using Interface.Board;
     using Interface.Board.Result;
-    using Interface.NatureElements;
-    using NatureElements;
+    using Interface.Element;
+    using Element;
     using Result;
 
     public class Tile : ITile
@@ -14,21 +14,21 @@
 
         // TODO: Add properties to hold element on ground and air.
 
-        public List<INatureElement> NatureElements { get; private set; }
+        public List<IElement> Element { get; private set; }
 
         private List<ITile> _adjacentTiles;
 
         public Tile(IPosition position)
         {
-            NatureElements = new List<INatureElement> {new Natural()};
+            Element = new List<IElement> {new Natural()};
             Position = position;
 
             _adjacentTiles = new List<ITile>();
         }
 
-        public bool HasElement<T>() where T : INatureElement
+        public bool HasElement<T>() where T : IElement
         {
-            foreach (INatureElement natureElement in NatureElements)
+            foreach (IElement natureElement in Element)
             {
                 if (natureElement is T)
                     return true;
@@ -37,9 +37,9 @@
             return false;
         }
 
-        public bool CanReactOnSelf(INatureElement natureElement)
+        public bool CanReactOnSelf(IElement element)
         {
-            return NatureElements.Any(a => a.CanReact(natureElement));
+            return Element.Any(a => a.CanReact(element));
         }
 
         public void SetAdjacent(List<ITile> adjacent)
@@ -47,7 +47,7 @@
             _adjacentTiles = adjacent;
         }
 
-        public List<IMixResult> Mix(INatureElement natureElement, List<ITile> alreadyMixedTiles = null)
+        public List<IMixResult> Mix(IElement element, List<ITile> alreadyMixedTiles = null)
         {
             alreadyMixedTiles ??= new List<ITile>();
 
@@ -56,22 +56,22 @@
 
             alreadyMixedTiles.Add(this);
 
-            List<IMixResult> mixResults = _mixOnSelf(natureElement);
+            List<IMixResult> mixResults = _mixOnSelf(element);
 
-            if (mixResults.Exists(m => m.Success) && !natureElement.CanStack)
-                NatureElements.Clear();
+            if (mixResults.Exists(m => m.Success) && !element.CanStack)
+                Element.Clear();
 
             foreach (IMixResult mixResult in mixResults)
             {
                 if (mixResult.Success)
                 {
-                    NatureElements.Add(mixResult.NewElement);
+                    Element.Add(mixResult.NewElement);
                 }
             }
 
-            if (natureElement.CanSpread)
+            if (element.CanSpread)
             {
-                List<IMixResult> adjacentAffectedTiles = _tryMixOnAdjacent(natureElement, alreadyMixedTiles);
+                List<IMixResult> adjacentAffectedTiles = _tryMixOnAdjacent(element, alreadyMixedTiles);
 
                 mixResults.AddRange(adjacentAffectedTiles);
             }
@@ -79,13 +79,13 @@
             return mixResults;
         }
 
-        private List<IMixResult> _mixOnSelf(INatureElement elementToMix)
+        private List<IMixResult> _mixOnSelf(IElement elementToMix)
         {
             var mixResults = new List<IMixResult>();
 
-            foreach (INatureElement elementOnTile in NatureElements)
+            foreach (IElement elementOnTile in Element)
             {
-                INatureElement mixedElement = elementOnTile.GetMixedElement(elementToMix);
+                IElement mixedElement = elementOnTile.GetMixedElement(elementToMix);
 
                 IMixResult result;
 
@@ -115,7 +115,7 @@
         }
 
         private List<IMixResult> _tryMixOnAdjacent(
-            INatureElement natureElement,
+            IElement element,
             List<ITile> alreadyMixedTiles)
         {
             var allResults = new List<IMixResult>();
@@ -125,7 +125,7 @@
                 if (alreadyMixedTiles.Contains(tile))
                     continue;
 
-                List<IMixResult> mixResults = tile.Mix(natureElement, alreadyMixedTiles);
+                List<IMixResult> mixResults = tile.Mix(element, alreadyMixedTiles);
 
                 if (mixResults != null)
                     allResults.AddRange(mixResults);

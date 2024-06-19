@@ -1,16 +1,16 @@
 ﻿namespace Magix.Domain.Interface.Board.Result
 {
-    using NatureElements;
+    using Element;
 
     public interface IMixResult : IResult
     {
         // TODO: Tiles should not be visible, only positions.
         ITile AffectedTile { get; }
 
-        INatureElement TriedToMix { get; }
+        IElement TriedToMix { get; }
 
-        INatureElement OriginallyOnTile { get; }
+        IElement OriginallyOnTile { get; }
 
-        INatureElement NewElement { get; }
+        IElement NewElement { get; }
     }
 }

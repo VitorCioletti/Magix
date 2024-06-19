@@ -2,7 +2,7 @@
 {
     using Interface;
     using Interface.Board.Result;
-    using Interface.NatureElements.Result;
+    using Interface.Element.Result;
 
     public class AttackResult : BaseResult, IAttackResult
     {

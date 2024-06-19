@@ -1,6 +1,6 @@
 namespace Magix.Domain.Interface.Board.Result
 {
-    using NatureElements.Result;
+    using Element.Result;
 
     public interface IStepResult
     {

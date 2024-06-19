@@ -1,7 +1,7 @@
 ﻿namespace Magix.Controller.Match.Board.StateMachine.States
 {
     using Domain;
-    using NatureElements;
+    using Element;
     using Result;
     using Service.Interface;
 
@@ -52,7 +52,7 @@
 
         }
 
-        public virtual void OnClickNatureElement(NatureElementButtonController natureElementController)
+        public virtual void OnClickElement(ElementButtonController elementController)
         {
 
         }

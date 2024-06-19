@@ -44,8 +44,8 @@
                     StateMachineManager.Swap(new SelectingTilesToMoveState(_wizard));
 
                     break;
-                case WizardActionType.CastNatureElement:
-                    StateMachineManager.Swap(new SelectingNatureElementToCastState(_wizard));
+                case WizardActionType.CastElement:
+                    StateMachineManager.Swap(new SelectingElementToCastState(_wizard));
 
                     break;
                 default:

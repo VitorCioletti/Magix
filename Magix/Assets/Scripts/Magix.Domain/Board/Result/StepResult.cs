@@ -2,7 +2,7 @@ namespace Magix.Domain.Board.Result
 {
     using Interface.Board;
     using Interface.Board.Result;
-    using Interface.NatureElements.Result;
+    using Interface.Element.Result;
 
     public class StepResult : IStepResult
     {
