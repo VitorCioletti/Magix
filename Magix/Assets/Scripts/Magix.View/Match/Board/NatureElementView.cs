@@ -1,5 +1,7 @@
 namespace Magix.View.Match.Board
 {
+    using System;
+    using Domain.Interface.NatureElements;
     using UnityEngine;
 
     public class NatureElementView : MonoBehaviour
@@ -8,21 +10,31 @@ namespace Magix.View.Match.Board
         private SpriteRenderer _spriteRenderer { get; set; }
 
         [field: SerializeField]
-        private Canvas _canvas { get; set; }
+        private Sprite _electric { get; set; }
 
         [field: SerializeField]
-        private Animator _animator { get; set; }
+        private Sprite _fire { get; set; }
 
-        public void Initialize()
-        {
-            _spriteRenderer.gameObject.SetActive(false);
-            _animator.runtimeAnimatorController = null;
-        }
+        [field: SerializeField]
+        private Sprite _smoke { get; set; }
 
-        public void UpdateNatureElement(RuntimeAnimatorController runtimeAnimator)
+        [field: SerializeField]
+        private Sprite _water { get; set; }
+
+        public void UpdateElement(INatureElement element)
         {
-            _spriteRenderer.gameObject.SetActive(runtimeAnimator != null);
-            _animator.runtimeAnimatorController = runtimeAnimator;
+            Sprite sprite = element switch
+            {
+                IElectric => _electric,
+                IFire => _fire,
+                INatural => null,
+                ISmoke => _smoke,
+                IWater => _water,
+                IWind => null,
+                _ => throw new ArgumentOutOfRangeException(nameof(element))
+            };
+
+            _spriteRenderer.sprite = sprite;
         }
     }
 }

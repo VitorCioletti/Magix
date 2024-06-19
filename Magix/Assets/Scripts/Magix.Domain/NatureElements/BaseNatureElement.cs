@@ -17,7 +17,7 @@
 
         public virtual INatureElement GetMixedElement(INatureElement newElementToMix)
         {
-            return null;
+            return new Natural();
         }
 
         public bool CanReact(INatureElement natureElement)

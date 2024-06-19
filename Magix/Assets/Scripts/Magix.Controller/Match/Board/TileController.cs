@@ -1,8 +1,11 @@
 ﻿namespace Magix.Controller.Match.Board
 {
     using System;
+    using System.Collections.Generic;
     using Domain.Interface.Board;
+    using Domain.Interface.NatureElements;
     using UnityEngine;
+    using View;
     using View.Match.Board;
 
     public class TileController : MonoBehaviour
@@ -13,7 +16,13 @@
         private Collider2D _collider2D { get; set; }
 
         [field: SerializeField]
-        private NatureElementController _natureElementController { get; set; }
+        private NatureElementController _elementPrefab { get; set; }
+
+        [field: SerializeField]
+        private WorldHorizontalLayoutGroup _worldHorizontalLayoutGroup { get; set; }
+
+        [field: SerializeField]
+        private List<NatureElementController> _elements { get; set; }
 
         [field: SerializeField]
         private TileView _view { get; set; }
@@ -35,13 +44,15 @@
             Tile = tile;
 
             _mainCamera = Camera.main;
+            _elements = new List<NatureElementController>();
 
             _onTileClicked = onTileClicked;
             _onMouseEntered = onMouseEntered;
             _onMouseExited = onMouseExited;
 
             _view.Initialize();
-            _natureElementController.Initialize(Tile.NatureElements);
+
+            UpdateElements();
         }
 
         public void SetToSelected()
@@ -59,9 +70,25 @@
             _view.SetToNormal();
         }
 
-        public void UpdateNatureElement()
+        public void UpdateElements()
         {
-            _natureElementController.UpdateNatureElements(Tile);
+            foreach (NatureElementController elementController in _elements)
+            {
+                Destroy(elementController.gameObject);
+            }
+
+            _elements.Clear();
+
+            List<INatureElement> elements = Tile.NatureElements;
+
+            foreach (INatureElement element in elements)
+            {
+                NatureElementController newElement = Instantiate(_elementPrefab, _worldHorizontalLayoutGroup.transform);
+
+                newElement.UpdateElement(element);
+
+                _elements.Add(newElement);
+            }
         }
 
         private void Update()

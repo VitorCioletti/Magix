@@ -102,7 +102,7 @@ namespace Magix.Controller.Match.Board
                     TileController tileController = _getTileController(affectedTile);
                     tileController.Tile = affectedTile;
 
-                    tileController.UpdateNatureElement();
+                    tileController.UpdateElements();
                 }
 
             }
