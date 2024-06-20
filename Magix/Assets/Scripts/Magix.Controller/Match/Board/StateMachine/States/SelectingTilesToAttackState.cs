@@ -1,6 +1,7 @@
 ﻿namespace Magix.Controller.Match.Board.StateMachine.States
 {
     using System;
+    using Domain;
     using Domain.Interface;
     using Result;
     using Service.Interface;
@@ -21,7 +22,7 @@
         {
             base.Initialize(stateMachineManager, boardController, matchService);
 
-            StateMachineManager.Push(new SelectingTilesPathState(_wizard));
+            StateMachineManager.Push(new SelectingTilesIndividuallyState(_wizard, WizardActionType.Attack));
         }
 
         public override void OnGotBackOnTop(BaseStateResult stateResult)
@@ -36,6 +37,13 @@
             switch (stateResult)
             {
                 case SelectedTilesResult selectedTilesResult:
+                    if (selectedTilesResult.Cancelled)
+                    {
+                        Pop();
+
+                        return;
+                    }
+
                     StateMachineManager.Swap(new AttackingTargetState(_wizard, selectedTilesResult.Tiles));
 
                     break;

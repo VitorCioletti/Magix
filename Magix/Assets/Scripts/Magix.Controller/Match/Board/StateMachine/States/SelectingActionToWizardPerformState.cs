@@ -37,7 +37,7 @@
             switch (actionType)
             {
                 case WizardActionType.Attack:
-                    StateMachineManager.Swap(new SelectingTilesIndividuallyState(_wizard, actionType));
+                    StateMachineManager.Swap(new SelectingTilesToAttackState(_wizard));
 
                     break;
                 case WizardActionType.Move:

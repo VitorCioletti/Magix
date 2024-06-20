@@ -29,11 +29,6 @@ namespace Magix.Controller.Match.Wizard
             _view.AnimateIdle();
         }
 
-        public void UpdateLifePoints()
-        {
-            _lifeBarController.UpdateLife(Wizard.LifePoints);
-        }
-
         public async Task MoveAsync(List<TileController> tilesController)
         {
             List<Transform> tilesTransforms = tilesController.Select(t => t.transform).ToList();
@@ -54,6 +49,13 @@ namespace Magix.Controller.Match.Wizard
         public async Task TakeDamageAsync(int effectResultDamageTaken)
         {
             await _view.AnimateTakeDamageAsync(effectResultDamageTaken);
+
+            UpdateLifePoints();
+        }
+
+        private void UpdateLifePoints()
+        {
+            _lifeBarController.UpdateLife(Wizard.LifePoints);
         }
     }
 }

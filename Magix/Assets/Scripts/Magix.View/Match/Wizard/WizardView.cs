@@ -97,7 +97,7 @@
 
         public async Task AnimateAttackAsync()
         {
-            await Task.CompletedTask;
+            await AnimateCastAsync();
         }
 
         public async Task AnimateTakeDamageAsync(int effectResultDamageTaken)
