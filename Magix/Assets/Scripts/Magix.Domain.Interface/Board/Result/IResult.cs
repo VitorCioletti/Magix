@@ -5,5 +5,9 @@
         bool Success { get; }
 
         string ErrorId { get; }
+
+        IPlayer Winner { get; }
+
+        bool GameEnded { get; }
     }
 }

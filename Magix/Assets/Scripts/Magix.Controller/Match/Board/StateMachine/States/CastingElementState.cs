@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using Domain.Interface;
     using Domain.Interface.Board;
+    using Domain.Interface.Board.Result;
     using Domain.Interface.Element;
     using Service.Interface;
 
@@ -30,7 +31,14 @@
 
             BoardController.EnableCancelButton(false);
 
-            await BoardController.CastElementAsync(_wizard, _element, _tiles);
+            ICastResult result = await BoardController.CastElementAsync(_wizard, _element, _tiles);
+
+            if (result.GameEnded)
+            {
+                StateMachineManager.Swap(new EndGameState(result.Winner));
+
+                return;
+            }
 
             Pop();
         }

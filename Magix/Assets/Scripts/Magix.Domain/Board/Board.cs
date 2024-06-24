@@ -3,12 +3,12 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Element;
     using Interface;
     using Interface.Board;
     using Interface.Board.Result;
     using Interface.Element;
     using Interface.Element.Result;
-    using Element;
     using Result;
 
     public class Board : IBoard
@@ -70,7 +70,12 @@
 
             _tryChangeCurrentPlayer();
 
-            return new CastResult(allResults);
+            var castResult = new CastResult(allResults);
+
+            IPlayer winner = TryGetWinner();
+            castResult.SetWinner(winner);
+
+            return castResult;
         }
 
         public IAttackResult Attack(IWizard wizard, IPosition position)
@@ -92,6 +97,9 @@
                 attackResult = new AttackResult(true, effectResult, wizardInPosition);
             }
 
+            IPlayer winner = TryGetWinner();
+            attackResult.SetWinner(winner);
+
             return attackResult;
         }
 
@@ -102,11 +110,13 @@
 
             var steps = new List<IStepResult>();
 
+            var movementResult = new MovementResult(steps, true, string.Empty);
+
             foreach (ITile tile in tiles)
             {
                 if (tile.Position.Equals(wizard.Position))
                 {
-                    return new MovementResult(
+                    movementResult = new MovementResult(
                         new List<IStepResult>(),
                         false,
                         IMovementResult.CantGoThroughBlockingElement);
@@ -116,7 +126,7 @@
                 {
                     if (natureElement.Blocking)
                     {
-                        return new MovementResult(
+                        movementResult = new MovementResult(
                             new List<IStepResult>(),
                             false,
                             IMovementResult.CantGoThroughBlockingElement);
@@ -136,7 +146,10 @@
 
             _tryChangeCurrentPlayer();
 
-            return new MovementResult(steps, true, string.Empty);
+            IPlayer winner = TryGetWinner();
+            movementResult.SetWinner(winner);
+
+            return movementResult;
         }
 
         public List<IElement> GetElementToCast()
@@ -195,6 +208,11 @@
         {
             if (!BelongsToCurrentPlayer(wizard))
                 throw new InvalidOperationException("Wizard does not belong to current player.");
+        }
+
+        private IPlayer TryGetWinner()
+        {
+            return null;
         }
 
         private void _tryChangeCurrentPlayer()

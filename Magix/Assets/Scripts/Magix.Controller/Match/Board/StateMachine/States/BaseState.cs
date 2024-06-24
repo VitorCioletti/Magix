@@ -57,6 +57,11 @@
 
         }
 
+        public virtual void OnClickRestart()
+        {
+
+        }
+
         public virtual void OnClickExecute()
         {
 

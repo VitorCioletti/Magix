@@ -5,5 +5,7 @@
     public interface IMatchService
     {
         IBoard Board { get; }
+
+        void Restart();
     }
 }

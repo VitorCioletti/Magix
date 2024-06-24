@@ -48,7 +48,7 @@ namespace Magix.Controller.Match.Board
 
         private IMatchService _matchService;
 
-        public async Task MoveAsync(IWizard wizard, IList<ITile> tiles)
+        public async Task<IMovementResult> MoveAsync(IWizard wizard, IList<ITile> tiles)
         {
             IMovementResult movementResult = _matchService.Board.Move(wizard, tiles);
 
@@ -62,10 +62,14 @@ namespace Magix.Controller.Match.Board
             }
             else
                 throw new InvalidOperationException($"\"{movementResult.ErrorId}\".");
+
+            return movementResult;
         }
 
-        public async Task AttackAsync(IWizard wizard, IList<ITile> tiles)
+        public async Task<List<IAttackResult>> AttackAsync(IWizard wizard, IList<ITile> tiles)
         {
+            var results = new List<IAttackResult>();
+
             foreach (ITile tile in tiles)
             {
                 IAttackResult attackResult = _matchService.Board.Attack(wizard, tile.Position);
@@ -78,14 +82,18 @@ namespace Magix.Controller.Match.Board
                     Task attackTask = attacker.AttackAsync(tile);
                     Task receivingAttackTask = attacked.TakeDamageAsync(attackResult.EffectResult.DamageTaken);
 
+                    results.Add(attackResult);
+
                     await Task.WhenAll(attackTask, receivingAttackTask);
                 }
                 else
                     throw new InvalidOperationException($"\"{attackResult.ErrorId}\".");
             }
+
+            return results;
         }
 
-        public async Task CastElementAsync(IWizard wizard, IElement element, IList<ITile> tiles)
+        public async Task<ICastResult> CastElementAsync(IWizard wizard, IElement element, IList<ITile> tiles)
         {
             ICastResult castResult = _matchService.Board.CastElement(wizard, element, tiles);
 
@@ -108,6 +116,8 @@ namespace Magix.Controller.Match.Board
             }
             else
                 throw new InvalidOperationException($"\"{castResult.ErrorId}\".");
+
+            return castResult;
         }
 
         public void EnableCancelButton(bool enable)
@@ -122,6 +132,16 @@ namespace Magix.Controller.Match.Board
             bool canAttack = _matchService.Board.CanAttack(wizard);
 
             _wizardActionsMenuBarMenuBar.EnableAttackButton(canAttack);
+        }
+
+        public void ShowEndGame(IPlayer winner)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Restart()
+        {
+            throw new NotImplementedException();
         }
 
         public void EnableActionSelectionButtons(bool enable)

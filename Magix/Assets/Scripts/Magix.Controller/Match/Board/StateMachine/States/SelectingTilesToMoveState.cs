@@ -36,7 +36,7 @@
                         return;
                     }
 
-                    StateMachineManager.Swap(new MovingWizardToTargetState(_wizard, selectedTilesResult.Tiles));
+                    StateMachineManager.Swap(new MovingWizardState(_wizard, selectedTilesResult.Tiles));
 
                     break;
                 default:

@@ -3,15 +3,16 @@
     using System.Collections.Generic;
     using Domain.Interface;
     using Domain.Interface.Board;
+    using Domain.Interface.Board.Result;
     using Service.Interface;
 
-    public class MovingWizardToTargetState : BaseState
+    public class MovingWizardState : BaseState
     {
         private readonly IWizard _wizard;
 
         private readonly IList<ITile> _tiles;
 
-        public MovingWizardToTargetState(IWizard wizard, IList<ITile> tiles)
+        public MovingWizardState(IWizard wizard, IList<ITile> tiles)
         {
             _wizard = wizard;
             _tiles = tiles;
@@ -26,7 +27,14 @@
 
             BoardController.EnableCancelButton(false);
 
-            await BoardController.MoveAsync(_wizard, _tiles);
+            IMovementResult result = await BoardController.MoveAsync(_wizard, _tiles);
+
+            if (result.GameEnded)
+            {
+                StateMachineManager.Swap(new EndGameState(result.Winner));
+
+                return;
+            }
 
             Pop();
         }
