@@ -72,7 +72,7 @@
 
             var castResult = new CastResult(allResults);
 
-            IPlayer winner = TryGetWinner();
+            IPlayer winner = _tryGetWinner();
             castResult.SetWinner(winner);
 
             return castResult;
@@ -97,7 +97,7 @@
                 attackResult = new AttackResult(true, effectResult, wizardInPosition);
             }
 
-            IPlayer winner = TryGetWinner();
+            IPlayer winner = _tryGetWinner();
             attackResult.SetWinner(winner);
 
             return attackResult;
@@ -146,7 +146,7 @@
 
             _tryChangeCurrentPlayer();
 
-            IPlayer winner = TryGetWinner();
+            IPlayer winner = _tryGetWinner();
             movementResult.SetWinner(winner);
 
             return movementResult;
@@ -210,9 +210,29 @@
                 throw new InvalidOperationException("Wizard does not belong to current player.");
         }
 
-        private IPlayer TryGetWinner()
+        private IPlayer _tryGetWinner()
         {
-            return null;
+            IPlayer player1 = Players[0];
+            IPlayer player2 = Players[1];
+
+            List<IWizard> wizardsPlayer1 = player1.Wizards;
+            List<IWizard> wizardsPlayer2 = player2.Wizards;
+
+            IPlayer winner = null;
+
+            bool player1Lost = wizardsPlayer1.All(w => w.IsDead);
+            bool player2Lost = wizardsPlayer2.All(w => w.IsDead);
+
+            if (player1Lost)
+            {
+                winner = player2;
+            }
+            else if (player2Lost)
+            {
+                winner = player1;
+            }
+
+            return winner;
         }
 
         private void _tryChangeCurrentPlayer()

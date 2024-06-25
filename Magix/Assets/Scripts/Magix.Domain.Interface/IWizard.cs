@@ -12,6 +12,7 @@
         static int CastElementDistance => 5;
 
         Guid Id { get; }
+        bool IsDead { get; }
 
         int LifePoints { get; }
 

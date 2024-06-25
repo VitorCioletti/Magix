@@ -11,6 +11,8 @@
     {
         public Guid Id { get; private set; }
 
+        public bool IsDead => LifePoints == 0;
+
         public IPosition Position { get; set; }
 
         public int LifePoints { get; private set; }

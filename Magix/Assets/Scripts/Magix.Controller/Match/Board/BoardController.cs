@@ -37,6 +37,9 @@ namespace Magix.Controller.Match.Board
         private ElementMenuBarController _elementMenuBarController { get; set; }
 
         [field: SerializeField]
+        private EndGameController _endGameController { get; set; }
+
+        [field: SerializeField]
         private Button _cancelButton { get; set; }
 
         [field: SerializeField]
@@ -136,12 +139,14 @@ namespace Magix.Controller.Match.Board
 
         public void ShowEndGame(IPlayer winner)
         {
-            throw new NotImplementedException();
+            _endGameController.gameObject.SetActive(true);
+
+            _endGameController.SetWinner(winner);
         }
 
         public void Restart()
         {
-            throw new NotImplementedException();
+            _endGameController.gameObject.SetActive(false);
         }
 
         public void EnableActionSelectionButtons(bool enable)
@@ -178,6 +183,8 @@ namespace Magix.Controller.Match.Board
         {
             _matchService = Resolver.GetService<IMatchService>();
             _wizards = new List<WizardController>();
+
+            _endGameController.Init(_onClickRestart);
 
             GridController.Initialize(
                 _matchService.Board.Tiles,
@@ -255,6 +262,11 @@ namespace Magix.Controller.Match.Board
             Debug.Log($"Changed state to \"{stateName}\".");
 
             _currentStateText.text = stateName;
+        }
+
+        private void _onClickRestart()
+        {
+            _stateMachine.GetCurrentState().OnClickRestart();
         }
 
         private void _onClickCancel()
