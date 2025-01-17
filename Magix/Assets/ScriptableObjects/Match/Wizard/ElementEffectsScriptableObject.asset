@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cda228c12abf4dc29cd9dafaaa45534a, type: 3}
+  m_Name: ElementEffectsScriptableObject
+  m_EditorClassIdentifier: 
+  <OnFire>k__BackingField: {fileID: -1342838758, guid: f349e952264019e40bbd50ed7cc1b658, type: 3}
+  <Wet>k__BackingField: {fileID: 1779817177, guid: f349e952264019e40bbd50ed7cc1b658, type: 3}
+  <Blind>k__BackingField: {fileID: 898413054, guid: f349e952264019e40bbd50ed7cc1b658, type: 3}
+  <Shocked>k__BackingField: {fileID: -514336285, guid: f349e952264019e40bbd50ed7cc1b658, type: 3}

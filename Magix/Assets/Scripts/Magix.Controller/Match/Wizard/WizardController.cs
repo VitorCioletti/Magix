@@ -15,6 +15,9 @@ namespace Magix.Controller.Match.Wizard
         private LifeBarController _lifeBarController { get; set; }
 
         [field: SerializeField]
+        private ElementEffectsBarController _elementEffectsBarController { get; set; }
+
+        [field: SerializeField]
         private WizardView _view { get; set; }
 
         public IWizard Wizard { get; private set; }
@@ -50,12 +53,13 @@ namespace Magix.Controller.Match.Wizard
         {
             await _view.AnimateTakeDamageAsync(effectResultDamageTaken);
 
-            UpdateLifePoints();
+            UpdateStats();
         }
 
-        private void UpdateLifePoints()
+        private void UpdateStats()
         {
             _lifeBarController.UpdateLife(Wizard.LifePoints);
+            _elementEffectsBarController.UpdateEffects(Wizard.ElementEffect);
         }
     }
 }

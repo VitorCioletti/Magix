@@ -97,9 +97,6 @@
                 case ElementEffect.Wet:
                     break;
 
-                case ElementEffect.Dry:
-                    break;
-
                 default:
                     throw new ArgumentOutOfRangeException(nameof(elementEffect), elementEffect, null);
             }

@@ -8,7 +8,6 @@
         None,
         OnFire,
         Wet,
-        Dry,
         Blind,
         Shocked,
     }

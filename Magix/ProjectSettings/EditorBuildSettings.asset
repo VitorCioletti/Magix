@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Match.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/PlayModeTests/Scenes/BoardTests.unity
+    guid: dbc1d3dc92d30cc4e81118ef60e1d2d9
   m_configObjects: {}

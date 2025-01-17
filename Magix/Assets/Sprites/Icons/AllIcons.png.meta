@@ -717,7 +717,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AllIcons16x16TickOutline_28
+      name: Blind
       rect:
         serializedVersion: 2
         x: 79
@@ -880,10 +880,10 @@ TextureImporter:
       AllIcons16x16TickOutline_8: 1809543471
       AllIcons16x16TickOutline_5: 1486072290
       AllIcons16x16TickOutline_17: -757176292
-      AllIcons16x16TickOutline_28: 898413054
       AllIcons16x16TickOutline_32: -1448764760
       Stone: 1980969729
       Water: 1779817177
+      Blind: 898413054
       Attack: 2125522142
       Push: -1407386367
       AllIcons16x16TickOutline_29: 982262737
