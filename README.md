@@ -12,6 +12,8 @@ The source code is far from perfect but I am happy with the result.
 
 ## Game description
 
+<img align="right" width="320" height="250" src="/Documents/Images/game.png">
+
 Magix is a 1v1 turn-based duel where each player controls two wizards. On your turn, you can:
 
 - Move across the battlefield.
