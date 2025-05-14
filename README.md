@@ -1,7 +1,7 @@
 # Magix
 
 <p align="center">
-    <img width="300" height="150" src="/Documents/Images/logo.png">
+    <img width="250" height="250" src="/Documents/Images/logo.png">
 </p>
 
 Magix is a 1v1 turn based game in which a player controls 2 wizards and  have to eliminate.
